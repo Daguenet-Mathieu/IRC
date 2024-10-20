@@ -1,30 +1,41 @@
-#include <iostream>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <unistd.h>
-#include <cstring>
+#include "IRC_Server.hpp"
 
-int	main(int agrc, char** agrv)
+int	check_arg_port(char* argument)
 {
-	SOCKET	sock_server = socket(AF_INET, SOCK_STREAM, 0);
-	if (sock == INVALID_SOCKET)
+	errno = 0;
+	char*	endptr;
+	long	port = strtol(argument, &endptr, 10);
+
+	if (errno == ERANGE || *endptr != '\0' || port < 1000 || port > 9999)
+		return -1 ;
+	return static_cast<int>(port);
+}
+
+int	main(int argc, char** argv)
+{
+	if (argc != 3)
 	{
-		std::cerr << "INVALID SOCKET" << std::endl;
+		std::cerr << "Invalid number of arguments" << std::endl;
 		return 0;
 	}
 
-	int					port = 4444;
-	struct sockaddrr_in	address;
+	int	port = check_arg_port(argv[1]);
 
-	address.sin_family = AF_INET;
-	address.sin_addr.s_addr = INADDR_ANY;
-	address.sin_port = htons(port);
-	if (bind(sock_server, (struct sockaddr *)&address, sizeof(address)) == -1)
+	if (port == -1)
 	{
-		std::cerr << "BIND ERROR" << std::endl;
-		close(sock_server);
+		std::cerr << "Invalid input, port range : 1000 - 9999" << std::endl;
 		return 0;
 	}
-	std::cout << "Successful socket binding, port : " << port << std::endl;<
+	try
+	{
+		std::string	password(argv[2]);
+		IRC_Server	serv(port, password);
+
+		serv.manage();
+	}
+	catch (std::exception & e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+	return 1;
 }
