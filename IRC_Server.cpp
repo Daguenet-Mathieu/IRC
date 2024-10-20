@@ -71,7 +71,7 @@ void	IRC_Server::manage()
 	fd_set	readfds;
 	int		activity;
 	char	buffer[1024];
-
+//vecteur de client quand accepte ok push nouveau client dans vecgeur de client
 	while (true)
 	{
 		memset(&buffer, 0, sizeof(buffer));
@@ -90,12 +90,15 @@ void	IRC_Server::manage()
 				throw ThrowException("ACCEPT ERROR");
 			ssize_t	bytes_received = recv(socket_client, buffer, sizeof(buffer), 0);
 			if (bytes_received > 0)
+			{
 				std::cout << buffer << std::endl;
+				send(socket_client, "coucou la socket\n", strlen("coucou la socket\n"), 0);
+			}
 			else if (bytes_received == 0)
 				std::cout << "Connexion closed" << std::endl;
 			else
 				throw ThrowException("RECV ERROR");
-			//close(socket_client);
+			// close(socket_client);
 		}
 	}
 }

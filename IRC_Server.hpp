@@ -43,10 +43,12 @@ class	IRC_Server
 
 	private :
 
-	int					_port;
-	std::string			_password;
-	int					_socket;
-	struct sockaddr_in	_server_addr;
+	int						_port;
+	std::string				_password;
+	int						_socket;
+	struct sockaddr_in		_server_addr;
+	std::map<int, IRC_Client>	_clients;
+	IRC_Channel				_channels[3];//?? si on peut en creer repasser sur vector
 };
 
 #endif
