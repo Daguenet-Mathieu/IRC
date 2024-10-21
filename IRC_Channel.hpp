@@ -9,7 +9,7 @@ class IRC_Channel{
 
     private:
         std::vector<std::string> _operators;
-        std::vector<IRC_Client> _clients;
+       // std::vector<IRC_Client> _clients;
         std::string             _password;//si vide pas de mdp
         std::string             _topic;
 };

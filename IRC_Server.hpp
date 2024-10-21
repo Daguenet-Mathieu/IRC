@@ -10,6 +10,15 @@
 #include <cstdlib>
 #include <climits>
 #include <cerrno>
+#include <map>
+#include <vector>
+#include <exception>
+#include <stdexcept>
+#include <signal.h>
+#include "IRC_Client.hpp"
+#include "IRC_Channel.hpp"
+
+class IRC_Client;
 
 class	IRC_Server
 {
@@ -21,7 +30,6 @@ class	IRC_Server
 	~IRC_Server();										//CANONICAL
 
 	IRC_Server&	operator=(IRC_Server const& rhs);		//CANONICAL
-
 	void	manage();
 
 	class	ThrowException : public std::exception
@@ -43,12 +51,12 @@ class	IRC_Server
 
 	private :
 
-	int						_port;
-	std::string				_password;
-	int						_socket;
-	struct sockaddr_in		_server_addr;
-	std::map<int, IRC_Client>	_clients;
-	IRC_Channel				_channels[3];//?? si on peut en creer repasser sur vector
+	int							_port;
+	std::string					_password;
+	int							_socket;
+	struct sockaddr_in			_server_addr;
+	std::vector<IRC_Client>		_clients;
+	// std::vector<IRC_Channel>	_channels;
 };
 
 #endif

@@ -1,6 +1,5 @@
 //connecter a irssi + rejoindre un channel avec 1 client pas de gestion d'erreur
-//envoyer un message dans le channel et analyser le format
-
+//envoyer un message dans le channel et analyser le format irssi
 
 ->gestionnaire de signaux
 ->classe serveur

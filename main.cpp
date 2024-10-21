@@ -1,5 +1,10 @@
 #include "IRC_Server.hpp"
 
+void signalHandler(int signal) {
+    std::cout << "Signal " << signal << " received.\n";
+    throw std::bad_exception();  // Lancer l'exception lorsqu'un signal est reçu
+}
+
 int	check_arg_port(char* argument)
 {
 	errno = 0;
@@ -13,6 +18,9 @@ int	check_arg_port(char* argument)
 
 int	main(int argc, char** argv)
 {
+    signal(SIGINT, signalHandler);
+    signal(SIGQUIT, signalHandler);
+
 	if (argc != 3)
 	{
 		std::cerr << "Invalid number of arguments" << std::endl;
@@ -32,6 +40,10 @@ int	main(int argc, char** argv)
 		IRC_Server	serv(port, password);
 
 		serv.manage();
+	}
+	catch (std::bad_exception &e)
+	{
+		std::cerr << e.what() << std::endl;
 	}
 	catch (std::exception & e)
 	{

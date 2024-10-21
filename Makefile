@@ -1,7 +1,8 @@
 NAME = ircserv
 
 SRCS =	main.cpp		\
-		IRC_Server.cpp
+		IRC_Server.cpp	\
+		IRC_Client.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 DEPS = $(SRCS:.cpp=.d)
