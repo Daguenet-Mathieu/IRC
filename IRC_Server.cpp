@@ -1,4 +1,7 @@
 #include "IRC_Server.hpp"
+#include <unistd.h>
+#include <stdio.h>
+#include <errno.h>
 //CONSTRUCTOR
 
 IRC_Server::IRC_Server() : _port(0)
@@ -107,82 +110,71 @@ void	IRC_Server::manage()
 {
 	char 		buffer[2048];
 	fd_set		readfds;
+	fd_set		writefds;
+	fd_set		exceptfds;
 
 	if (bind(_socket, (struct sockaddr *)&_server_addr, sizeof(_server_addr)) == -1)
 		throw ThrowException("BIND ERROR");
 	if (listen(_socket, 3) == -1)
 		throw ThrowException("LISTEN ERROR");
-	FD_ZERO(&readfds);
-	FD_SET(_socket, &readfds);
 	while (true)
 	{
+		// std::cout<<"debut de boucel server: nb client == "<< _clients.size() <<std::endl;
 		memset(&buffer, 0, sizeof(buffer));
         FD_ZERO(&readfds);
+        FD_ZERO(&writefds);
+        FD_ZERO(&exceptfds);
         FD_SET(_socket, &readfds);
+        FD_SET(_socket, &writefds);
+        FD_SET(_socket, &exceptfds);
         for (int i = 0; i < static_cast<int>(this->_clients.size()); i++)
         {
         	FD_SET(this->_clients[i].get_socket_client(), &readfds);
+        	FD_SET(this->_clients[i].get_socket_client(), &writefds);
+        	FD_SET(this->_clients[i].get_socket_client(), &exceptfds);
         }
-
-		std::cout<<"onrepassera par la"<<std::endl;
-
-
-		// struct timeval timeout;
-    	// timeout.tv_sec = 5;   // 5 secondes
-    	// timeout.tv_usec = 0;  // 0 microsecondes
-		std::cout<<"_socket == "<<_socket<<std::endl;
-		if (select(_socket + 1, &readfds, NULL, NULL, NULL) == -1)
+		int maxi_fds = _socket;
+		if (_clients.size() > 0)
+			maxi_fds = _clients[_clients.size() - 1].get_socket_client();
+		if (select(maxi_fds + 1, &readfds, &writefds, &exceptfds, NULL) == -1)
 		{
-			throw ThrowException("SELECT ERROR");
+			dprintf(2, "eroror select == %s\n", strerror(errno));
+			throw ThrowException("SELECT ERROR");//enqueter quitter ou pas? continue?
 		}
 		if (FD_ISSET(_socket, &readfds))
 		{
-			std::cout<<"cocou dan fdiset"<<std::endl;
-			IRC_Client	client(this->_port);
-
-			//socklen_t addr_len = sizeof(client.get_client_addr());
-			//struct sockaddr_in addr = client.get_client_addr();
-			client.set_socket_client(accept(this->_socket, 0, 0));
-			if (client.get_socket_client() == -1)
+			int client_fd;
+			printf("lol\n");
+			struct sockaddr_in client_address;
+    		socklen_t client_address_len = sizeof(client_address);
+			client_fd = accept(this->_socket, (struct sockaddr*)&client_address, &client_address_len);
+			if (client_fd == -1)
 				throw ThrowException("ACCEPT ERROR");
-			std::cout<<"JE MET CE FD DANS READFDS"<<client.get_socket_client()<<std::endl;
-			FD_SET(client.get_socket_client(), &readfds);
-			ssize_t	bytes_received = recv(client.get_socket_client(), buffer, sizeof(buffer), 0);
-			this->_clients.push_back(client);
-			client.set_socket_client(-1);
-			if (bytes_received > 0)
- 			{
- 				std::cout << buffer << std::endl;
- 				send(client.get_socket_client(), "coucou la socket de connection\n", strlen("coucou la socket\n"), 0);
- 			}
- 			else if (bytes_received == 0)
- 				std::cout << "Connexion closed" << std::endl;
- 			else
- 				throw ThrowException("RECV ERROR");
+			this->_clients.push_back(IRC_Client(client_fd));
 		}
-		else
+		for (int i = 0; i < static_cast<int>(this->_clients.size()); i++)
 		{
-			std::cout<<"on estp asse par ici"<<std::endl;
-			for (int i = 0; i < static_cast<int>(this->_clients.size()); i++)
+			if (FD_ISSET(this->_clients[i].get_socket_client(), &exceptfds))
+				throw std::runtime_error("error in socket client");//ne pas quitter jsute degager le client
+			if (FD_ISSET(this->_clients[i].get_socket_client(), &writefds))
 			{
-				if (FD_ISSET(this->_clients[i].get_socket_client(), &readfds))
+				send(this->_clients[i].get_socket_client(), "coucou la socket\n", strlen("coucou la socket\n"), 0);
+			}
+			if (FD_ISSET(this->_clients[i].get_socket_client(), &readfds))
+			{
+				ssize_t	bytes_received = recv(this->_clients[i].get_socket_client(), buffer, sizeof(buffer), 0);
+				if (bytes_received > 0)
 				{
-					ssize_t	bytes_received = recv(this->_clients[i].get_socket_client(), buffer, sizeof(buffer), 0);
-					if (bytes_received > 0)
- 					{
- 						std::cout << buffer << std::endl;
- 						send(this->_clients[i].get_socket_client(), "coucou la socket\n", strlen("coucou la socket\n"), 0);
-						break ;
- 					}
-					else if (bytes_received == 0)
-					{
-						FD_CLR(this->_clients[i].get_socket_client(), &readfds);
- 						std::cout << "Connexion closed" << std::endl;
-					}
- 					else
- 						throw ThrowException("RECV ERROR");
+					std::cout << buffer << std::endl;
+					send(this->_clients[i].get_socket_client(), "coucou la socket\n", strlen("coucou la socket\n"), 0);
 				}
-
+				else if (bytes_received == 0)
+				{
+					FD_CLR(this->_clients[i].get_socket_client(), &readfds);
+						std::cout << "Connexion closed" << std::endl;
+				}
+				else
+					throw ThrowException("RECV ERROR");
 			}
 		}
 	}
