@@ -9,7 +9,7 @@ DEPS = $(SRCS:.cpp=.d)
 
 CC = c++
 
-FLAGS = -Wall -Werror -Wextra -g -std=c++98
+FLAGS = -Wall -Werror -Wextra -g -std=c++98 -g
 
 $(NAME) : $(OBJS)
 		 $(CC) $(FLAGS) $(OBJS) -o $(NAME)
