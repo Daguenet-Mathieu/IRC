@@ -20,6 +20,7 @@ IRC_Server::IRC_Server(int port, std::string const& password) : _port(port), _pa
 	_socket = socket(AF_INET, SOCK_STREAM, 0);
 	if (_socket == -1)
 		throw ThrowException("ERROR SOCKET");
+	std::cout<<"socket fd = "<<_socket<<std::endl;
 	memset(&_server_addr, 0, sizeof(_server_addr));
 	_server_addr.sin_family = AF_INET;
 	_server_addr.sin_addr.s_addr = INADDR_ANY;
@@ -115,7 +116,7 @@ void	IRC_Server::manage()
 
 	if (bind(_socket, (struct sockaddr *)&_server_addr, sizeof(_server_addr)) == -1)
 		throw ThrowException("BIND ERROR");
-	if (listen(_socket, 3) == -1)
+	if (listen(_socket, 1020) == -1)
 		throw ThrowException("LISTEN ERROR");
 	while (true)
 	{
@@ -134,9 +135,14 @@ void	IRC_Server::manage()
         	FD_SET(this->_clients[i].get_socket_client(), &exceptfds);
         }
 		int maxi_fds = _socket;
-		if (_clients.size() > 0)
-			maxi_fds = _clients[_clients.size() - 1].get_socket_client();
-		if (select(maxi_fds + 1, &readfds, &writefds, &exceptfds, NULL) == -1)
+		for (int i = 0; i < static_cast<int>(this->_clients.size()); i++)
+		{
+			std::cout<<"fd client == "<<this->_clients[i].get_socket_client()<<std::endl;
+			if (this->_clients[i].get_socket_client() > maxi_fds)
+				maxi_fds = this->_clients[i].get_socket_client();
+		}
+		std::cout<<"maxi fd == "<<maxi_fds<<std::endl;
+		if (select(maxi_fds + 1, &readfds, NULL, &exceptfds, NULL) == -1)
 		{
 			dprintf(2, "eroror select == %s\n", strerror(errno));
 			throw ThrowException("SELECT ERROR");//enqueter quitter ou pas? continue?
@@ -144,16 +150,23 @@ void	IRC_Server::manage()
 		if (FD_ISSET(_socket, &readfds))
 		{
 			int client_fd;
-			printf("lol\n");
-			struct sockaddr_in client_address;
-    		socklen_t client_address_len = sizeof(client_address);
-			client_fd = accept(this->_socket, (struct sockaddr*)&client_address, &client_address_len);
+			// struct sockaddr_in client_address;
+    		// socklen_t client_address_len = sizeof(client_address);
+			client_fd = accept(this->_socket, NULL, NULL);
+			std::cout<<"accept client fd: "<<client_fd<<std::endl;
 			if (client_fd == -1)
-				throw ThrowException("ACCEPT ERROR");
-			this->_clients.push_back(IRC_Client(client_fd));
+				throw ThrowException("ACCEPT ERROR");//enqueter pas quitter??
+			// IRC_Client *client = new IRC_Client(client_fd);
+			// std::cout<<"le fd du lient est : "<<client->get_socket_client()<<std::endl;
+			this->_clients.push_back(client_fd);
+			for (int i = 0; i < static_cast<int>(this->_clients.size()); i++)
+			{
+				std::cout<<"fd dans le vecteur == "<<this->_clients[i].get_socket_client()<<std::endl;
+			}
 		}
 		for (int i = 0; i < static_cast<int>(this->_clients.size()); i++)
 		{
+			std::cout<<"chck client set : "<<i<<std::endl;
 			if (FD_ISSET(this->_clients[i].get_socket_client(), &exceptfds))
 				throw std::runtime_error("error in socket client");//ne pas quitter jsute degager le client
 			if (FD_ISSET(this->_clients[i].get_socket_client(), &writefds))
@@ -166,12 +179,12 @@ void	IRC_Server::manage()
 				if (bytes_received > 0)
 				{
 					std::cout << buffer << std::endl;
-					send(this->_clients[i].get_socket_client(), "coucou la socket\n", strlen("coucou la socket\n"), 0);
+					// send(this->_clients[i].get_socket_client(), "coucou la socket\n", strlen("coucou la socket\n"), 0);
 				}
 				else if (bytes_received == 0)
 				{
-					FD_CLR(this->_clients[i].get_socket_client(), &readfds);
-						std::cout << "Connexion closed" << std::endl;
+					// FD_CLR(this->_clients[i].get_socket_client(), &readfds);
+					std::cout << "Connexion closed" << std::endl;
 				}
 				else
 					throw ThrowException("RECV ERROR");
