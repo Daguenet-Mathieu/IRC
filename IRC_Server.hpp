@@ -24,39 +24,61 @@ class	IRC_Server
 {
 	public :
 
-	IRC_Server();										//CANONICAL
-	IRC_Server(int port, std::string const& password);
-	IRC_Server(IRC_Server const& src);					//CANONICAL
-	~IRC_Server();										//CANONICAL
+		IRC_Server();										//CANONICAL
+		IRC_Server(int port, std::string const& password);
+		IRC_Server(IRC_Server const& src);					//CANONICAL
+		~IRC_Server();										//CANONICAL
 
-	IRC_Server&	operator=(IRC_Server const& rhs);		//CANONICAL
-	void	manage();
+		IRC_Server&	operator=(IRC_Server const& rhs);		//CANONICAL
+		void	manage();
 
-	class	ThrowException : public std::exception
-	{
-		public :
-
-		explicit ThrowException(const std::string& message) : _error_message(message){}
-		virtual ~ThrowException() throw() {}
-
-		const char*	what() const throw()
+		class	ThrowException : public std::exception
 		{
-			return _error_message.c_str();
-		}
+			public :
 
-		private :
+			explicit ThrowException(const std::string& message) : _error_message(message){}
+			virtual ~ThrowException() throw() {}
 
-		std::string	_error_message;
-	};
+			const char*	what() const throw()
+			{
+				return _error_message.c_str();
+			}
+
+			private :
+
+			std::string	_error_message;
+		};
 
 	private :
+		fd_set						_readfds;
+		fd_set						_writefds;
+		fd_set						_exceptfds;
+		int							_port;
+		std::string					_password;
+		int							_socket;
+		struct sockaddr_in			_server_addr;
+		std::vector<IRC_Client>		_clients;
+		//std::vector<IRC_Channel>	_channels;
+		void						write_socket_client(int index_client);
+		void						read_socket_client(int index_client);
+		void						check_socket_client();
+		void						check_socket_server();
+		void						check_all_sockets();
+		void						manage_fdset();
+		int							get_nfds();
+		//struct input	parse_data(const std::string &);
+		//bool	allowed_method(const struct input &);
 
-	int							_port;
-	std::string					_password;
-	int							_socket;
-	struct sockaddr_in			_server_addr;
-	std::vector<IRC_Client>		_clients;
-	// std::vector<IRC_Channel>	_channels;
 };
+
+struct input{
+	int method;
+	std::string transmitter;
+	std::string	recipient;
+	std::string	content;
+	std::string password;
+	bool	allowed;
+	bool	format;
+}
 
 #endif

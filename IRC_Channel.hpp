@@ -12,6 +12,7 @@ class IRC_Channel{
        // std::vector<IRC_Client> _clients;
         std::string             _password;//si vide pas de mdp
         std::string             _topic;
+        std::vector<std::string> _invited_user;
 };
 
 #endif
