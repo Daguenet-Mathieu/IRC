@@ -28,7 +28,7 @@ IRC_Client::~IRC_Client()
 //     return (_client_addr);
 // }
 
-int     IRC_Client::get_socket_client(void)
+int     IRC_Client::get_socket_client(void) const
 {
     // std::cout<<"dans le getter "<<_socket_client<<std::endl;
     return (_socket_client);
@@ -46,7 +46,7 @@ void    IRC_Client::set_username(const std::string &username)
     _username = username;
 }
 
-std::string    IRC_Client::get_username()
+std::string    IRC_Client::get_username() const
 {
     return (_username);
 }
@@ -56,7 +56,7 @@ void    IRC_Client::set_nickname(const std::string &nickname)
     _nickname = nickname;
 }
 
-std::string    IRC_Client::get_nickname()
+std::string    IRC_Client::get_nickname() const
 {
     return (_nickname);
 }
@@ -66,7 +66,23 @@ void    IRC_Client::set_client_confirmation(bool value)
     _client_confirmation = value;
 }
 
-bool    IRC_Client::get_client_confirmation()
+bool    IRC_Client::get_client_confirmation() const
 {
     return (_client_confirmation);
 }
+
+void    IRC_Client::close_socket() const
+{
+    close(_socket_client);
+}
+
+void    IRC_Client::set_url(const std::string &url)
+{
+    _url = url;
+}
+
+std::string    IRC_Client::get_url() const
+{
+    return (_url);
+}
+
