@@ -13,14 +13,18 @@ class IRC_Client
         ~IRC_Client();
 
         // struct	sockaddr_in get_client_addr(void);
-        int     get_socket_client(void);
+        int     get_socket_client(void) const;
         void    set_socket_client(int);
         void    set_username(const std::string &);
-        std::string    get_username();
+        std::string    get_username() const;
+        void    set_url(const std::string &);
+        std::string    get_url() const;
         void    set_nickname(const std::string &);
-        std::string    get_nickname();
+        std::string    get_nickname() const;
         void    set_client_confirmation(bool);
-        bool    get_client_confirmation();
+        bool    get_client_confirmation() const;
+        void    close_socket() const;
+
 
         class	ThrowException : public std::exception
 	    {
@@ -43,9 +47,11 @@ class IRC_Client
 
         std::string     _username;
         std::string     _nickname;
+        std::string     _url;
         int             _socket_client;
         bool            _client_confirmation;
         std::vector<std::string> _connected_channel;
+        std::vector<std::string> _buffer_client;
         // struct	sockaddr_in	_client_addr;
         // std::vector<std::string>    _channels;     
 };

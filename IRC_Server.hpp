@@ -20,6 +20,29 @@
 
 class IRC_Client;
 
+typedef void (*MethodFunction)(const struct input &, IRC_Client &, const std::string &);
+
+struct input{
+	int			method;
+	std::string	transmitter;
+	std::string	recipient;
+	std::string	content;
+	std::string password;
+	// bool		allowed;
+	bool		format;
+};
+
+enum cmds{
+	CAPLS,
+	CAPEND,
+	NICK,
+	KICK,
+	INVITE,
+	TOPIC,
+	MODE
+};
+
+
 class	IRC_Server
 {
 	public :
@@ -66,19 +89,15 @@ class	IRC_Server
 		void						check_all_sockets();
 		void						manage_fdset();
 		int							get_nfds();
-		//struct input	parse_data(const std::string &);
-		//bool	allowed_method(const struct input &);
-
+		struct input	parse_data(std::string &, IRC_Client &);
+		// bool	allowed_method(const struct input &);//probablement pas utile
+		void	launch_method(const struct input &, IRC_Client &, const std::string &);
+		static void	capls(const struct input &, IRC_Client &, const std::string &);
+		static void	nick(const struct input &, IRC_Client &, const std::string &);
+		//void	kick(const struct input &, IRC_Client &);
+		//void	invite(const struct input &, IRC_Client &);
+		//void	topic(const struct input &, IRC_Client &);
+		//void	mode(const struct input &, IRC_Client &);
 };
-
-struct input{
-	int method;
-	std::string transmitter;
-	std::string	recipient;
-	std::string	content;
-	std::string password;
-	bool	allowed;
-	bool	format;
-}
 
 #endif

@@ -121,17 +121,17 @@ void	IRC_Server::check_socket_server()
 }
 
 
-void	IRC_Server::write_socket_client(int i)
-{
-	if (_clients[i].get_client_confirmation() == false)
-	{
-		send(this->_clients[i].get_socket_client(), ":server CAP * LS :\n:server 001 madaguen :Welcome to the IRC Network madaguen!madaguen@localhost\n:server 002 madaguen :Your host is server, running version 1.0\n:server 003 madaguen :This server was created 2024-10-23\n:server 004 madaguen server 1.0 i nt\n", strlen(":server CAP * LS :\n:server 001 madaguen :Welcome to the IRC Network madaguen!madaguen@localhost\n:server 002 madaguen :Your host is server, running version 1.0\n:server 003 madaguen :This server was created 2024-10-23\n:server 004 madaguen server 1.0 i nt\n"), 0);
-		_clients[i].set_client_confirmation(true);
-	}
-	else
-		send(this->_clients[i].get_socket_client(), "MODE madaguen +i\n", strlen("MODE madaguen +i\n"), 0);
-	// send(this->_clients[i].get_socket_client(), "coucou la socket\n", strlen("coucou la socket\n"), 0);
-}
+// void	IRC_Server::write_socket_client(int i)
+// {
+// 	if (_clients[i].get_client_confirmation() == false)
+// 	{
+// 		send(this->_clients[i].get_socket_client(), ":server CAP * LS :\n:server 001 madaguen :Welcome to the IRC Network madaguen!madaguen@localhost\n:server 002 madaguen :Your host is server, running version 1.0\n:server 003 madaguen :This server was created 2024-10-23\n:server 004 madaguen server 1.0 i nt\n", strlen(":server CAP * LS :\n:server 001 madaguen :Welcome to the IRC Network madaguen!madaguen@localhost\n:server 002 madaguen :Your host is server, running version 1.0\n:server 003 madaguen :This server was created 2024-10-23\n:server 004 madaguen server 1.0 i nt\n"), 0);
+// 		_clients[i].set_client_confirmation(true);
+// 	}
+// 	else
+// 		send(this->_clients[i].get_socket_client(), "MODE madaguen +i\n", strlen("MODE madaguen +i\n"), 0);
+// 	// send(this->_clients[i].get_socket_client(), "coucou la socket\n", strlen("coucou la socket\n"), 0);
+// }
 
 void	IRC_Server::read_socket_client(int i)
 {
@@ -142,6 +142,8 @@ void	IRC_Server::read_socket_client(int i)
 	if (bytes_received > 0)
 	{
 		std::cout << buffer << std::endl;
+		std::string input(buffer);
+		this->launch_method(this->parse_data(input, this->_clients[i]), this->_clients[i], input);
 	}
 	else if (bytes_received == 0)
 	{
@@ -163,7 +165,7 @@ void	IRC_Server::check_socket_client()
 		}
 		if (FD_ISSET(this->_clients[i].get_socket_client(), &_writefds))
 		{
-			this->write_socket_client(i);
+			// this->write_socket_client(i);
 		}
 		if (FD_ISSET(this->_clients[i].get_socket_client(), &_readfds))
 		{
@@ -222,4 +224,81 @@ void	IRC_Server::manage()
 		}
 		this->check_all_sockets();
 	}
+}
+
+static bool	get_line_from_input(std::string &input, std::string &line)
+{
+	std::string::size_type pos = input.find_first_of('\n');
+	if (pos >= input.size())
+	{
+		line = input;
+		return (false);
+	}
+	line = input.substr(0, pos - 1);
+	input.erase(0, pos);
+	std::cout<<"input:"<<input<<"line:"<<line<<std::endl;
+	return (true);
+}
+
+
+struct input	IRC_Server::parse_data(std::string &input, IRC_Client &client)
+{
+	struct input res;
+	std::string line;
+
+	(void)client;
+	while(get_line_from_input(input, line))
+	{
+		// for (int i =0; i < (int)line.size(); i++)
+		// {
+		// 	std::cout<<"line:"<<line[i]<<" et:"<<(int)line[i]<<std::endl;
+		// }
+		if (input[input.size() - 1] == '\n')
+		{
+			std::cout<<"coucou"<<std::endl;
+			std::cout<<"innput size: "<<input.size()<<std::endl;
+			input.erase(input.size() - 1);
+		}
+		if (line == "CAP LS")
+		{
+			std::cout<<"nego en cours"<<std::endl;
+			res.method = CAPLS;
+			return (res);
+		}
+		else if (line == "CAP END")
+		{
+			std::cout<<"nego finie"<<std::endl;
+			res.method = CAPEND;
+			return (res);		
+		}
+		else
+			std::cout<<"line recu == |"<<line<<"|"<<std::endl;
+		return (res);
+	}
+	return (res);
+}
+
+void	IRC_Server::capls(const struct input &struct_input, IRC_Client &client, const std::string &)
+{
+	(void)struct_input;
+	std::string response = ":server CAP * LS :\n\n: Welcome to the IRC Network \n\n";
+	response += client.get_username();
+	response += '!';
+	response += client.get_nickname();
+	response += "@madaguen_auferran" + client.get_url() + "\najouter les fonctionalites";
+	send(client.get_socket_client(), response.c_str(), response.size(), 0);
+}
+
+void	IRC_Server::nick(const struct input &, IRC_Client &, const std::string &)
+{
+}
+
+void	IRC_Server::launch_method(const struct input &struct_input,  IRC_Client &client, const std::string &input)
+{
+	MethodFunction fun[] = {&IRC_Server::capls, &IRC_Server::nick};
+
+	std::cout<<"method:"<<struct_input.method<<std::endl;
+	if (struct_input.method < 2)
+		fun[struct_input.method](struct_input, client, input);
+	std::cout<<"je passe par is !!!!!!!!!!!!!!!!!!!!!"<<std::endl;
 }
