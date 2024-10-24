@@ -4,6 +4,8 @@
 #include "IRC_Server.hpp"
 // #include "IRC_Channel.hpp"??
 
+#define BUFFER_SIZE 2048;
+
 class IRC_Client
 {
     public:
@@ -21,10 +23,14 @@ class IRC_Client
         std::string    get_url() const;
         void    set_nickname(const std::string &);
         std::string    get_nickname() const;
-        void    set_client_confirmation(bool);
-        bool    get_client_confirmation() const;
+        void    set_client_info(bool);
+        bool    get_client_info() const;
         void    close_socket() const;
-
+        void    fill_input_client(char *buffer, ssize_t size);
+        void    send_output_client();
+        void    set_output_client(const std::string &output);
+        void    set_output_client(const char *, int size);
+        std::string    get_input_client() const;
 
         class	ThrowException : public std::exception
 	    {
@@ -49,9 +55,11 @@ class IRC_Client
         std::string     _nickname;
         std::string     _url;
         int             _socket_client;
-        bool            _client_confirmation;
+        bool            _client_info;
+        // int             mode;
         std::vector<std::string> _connected_channel;
-        std::vector<std::string> _buffer_client;
+        std::vector<char> _output_client;
+        std::vector<char> _input_client;
         // struct	sockaddr_in	_client_addr;
         // std::vector<std::string>    _channels;     
 };

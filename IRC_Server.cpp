@@ -142,8 +142,8 @@ void	IRC_Server::read_socket_client(int i)
 	if (bytes_received > 0)
 	{
 		std::cout << buffer << std::endl;
+		_clients[i].fill_input_client(buffer, bytes_received);
 		std::string input(buffer);
-		this->launch_method(this->parse_data(input, this->_clients[i]), this->_clients[i], input);
 	}
 	else if (bytes_received == 0)
 	{
@@ -153,6 +153,7 @@ void	IRC_Server::read_socket_client(int i)
 	}
 	else
 		throw ThrowException("RECV ERROR");//ne pas quitter?
+	this->launch_method(this->parse_data(this->_clients[i]), this->_clients[i]);
 }
 
 void	IRC_Server::check_socket_client()
@@ -226,59 +227,56 @@ void	IRC_Server::manage()
 	}
 }
 
-static bool	get_line_from_input(std::string &input, std::string &line)
-{
-	std::string::size_type pos = input.find_first_of('\n');
-	if (pos >= input.size())
-	{
-		line = input;
-		return (false);
-	}
-	line = input.substr(0, pos - 1);
-	input.erase(0, pos);
-	std::cout<<"input:"<<input<<"line:"<<line<<std::endl;
-	return (true);
-}
+// static bool	get_line_from_input(std::string &input, std::string &line)
+// {
+// 	std::string::size_type pos = input.find_first_of('\n');
+// 	if (pos >= input.size())
+// 	{
+// 		line = input;
+// 		return (false);
+// 	}
+// 	line = input.substr(0, pos - 1);
+// 	input.erase(0, pos);
+// 	std::cout<<"input:"<<input<<"line:"<<line<<std::endl;
+// 	return (true);
+// }
 
 
-struct input	IRC_Server::parse_data(std::string &input, IRC_Client &client)
+struct input	IRC_Server::parse_data(IRC_Client &client)
 {
 	struct input res;
-	std::string line;
+	// std::string line;
 
 	(void)client;
-	while(get_line_from_input(input, line))
-	{
-		// for (int i =0; i < (int)line.size(); i++)
-		// {
-		// 	std::cout<<"line:"<<line[i]<<" et:"<<(int)line[i]<<std::endl;
-		// }
-		if (input[input.size() - 1] == '\n')
-		{
-			std::cout<<"coucou"<<std::endl;
-			std::cout<<"innput size: "<<input.size()<<std::endl;
-			input.erase(input.size() - 1);
-		}
-		if (line == "CAP LS")
-		{
-			std::cout<<"nego en cours"<<std::endl;
-			res.method = CAPLS;
-			return (res);
-		}
-		else if (line == "CAP END")
-		{
-			std::cout<<"nego finie"<<std::endl;
-			res.method = CAPEND;
-			return (res);		
-		}
-		else
-			std::cout<<"line recu == |"<<line<<"|"<<std::endl;
-		return (res);
-	}
+
+	// // for (int i =0; i < (int)line.size(); i++)
+	// // {
+	// // 	std::cout<<"line:"<<line[i]<<" et:"<<(int)line[i]<<std::endl;
+	// // }
+	// if (input[input.size() - 1] == '\n')
+	// {
+	// 	std::cout<<"coucou"<<std::endl;
+	// 	std::cout<<"innput size: "<<input.size()<<std::endl;
+	// 	input.erase(input.size() - 1);
+	// }
+	// if (line == "CAP LS")
+	// {
+	// 	std::cout<<"nego en cours"<<std::endl;
+	// 	res.method = CAPLS;
+	// 	return (res);
+	// }
+	// else if (line == "CAP END")
+	// {
+	// 	std::cout<<"nego finie"<<std::endl;
+	// 	res.method = CAPEND;
+	// 	return (res);		
+	// }
+	// else
+	// 	std::cout<<"line recu == |"<<line<<"|"<<std::endl;
 	return (res);
 }
 
-void	IRC_Server::capls(const struct input &struct_input, IRC_Client &client, const std::string &)
+void	IRC_Server::capls(const struct input &struct_input, IRC_Client &client)
 {
 	(void)struct_input;
 	std::string response = ":server CAP * LS :\n\n: Welcome to the IRC Network \n\n";
@@ -289,16 +287,48 @@ void	IRC_Server::capls(const struct input &struct_input, IRC_Client &client, con
 	send(client.get_socket_client(), response.c_str(), response.size(), 0);
 }
 
-void	IRC_Server::nick(const struct input &, IRC_Client &, const std::string &)
+
+void	IRC_Server::capend(const struct input &, IRC_Client &)
+{
+	//check info passer a true ou non
+}
+
+void	IRC_Server::join(const struct input &, IRC_Client &)
 {
 }
 
-void	IRC_Server::launch_method(const struct input &struct_input,  IRC_Client &client, const std::string &input)
+void	IRC_Server::leave(const struct input &, IRC_Client &)
 {
-	MethodFunction fun[] = {&IRC_Server::capls, &IRC_Server::nick};
+}
+
+
+
+void	IRC_Server::nick(const struct input &, IRC_Client &)
+{
+}
+
+void	IRC_Server::kick(const struct input &, IRC_Client &)
+{
+}
+
+void	IRC_Server::invite(const struct input &, IRC_Client &)
+{
+}
+
+void	IRC_Server::topic(const struct input &, IRC_Client &)
+{
+}
+
+void	IRC_Server::mode(const struct input &, IRC_Client &)
+{
+}
+
+void	IRC_Server::launch_method(const struct input &struct_input,  IRC_Client &client)
+{
+	MethodFunction fun[] = {&IRC_Server::capls, &IRC_Server::capend,IRC_Server::join ,&IRC_Server::nick, &IRC_Server::kick, &IRC_Server::invite, &IRC_Server::topic, &IRC_Server::mode};
 
 	std::cout<<"method:"<<struct_input.method<<std::endl;
 	if (struct_input.method < 2)
-		fun[struct_input.method](struct_input, client, input);
-	std::cout<<"je passe par is !!!!!!!!!!!!!!!!!!!!!"<<std::endl;
+		fun[struct_input.method](struct_input, client);
 }
+

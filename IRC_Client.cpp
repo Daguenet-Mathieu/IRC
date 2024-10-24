@@ -1,6 +1,6 @@
 #include "IRC_Client.hpp"
 
-IRC_Client::IRC_Client(int socket_client): _socket_client(socket_client), _client_confirmation(false)
+IRC_Client::IRC_Client(int socket_client): _socket_client(socket_client), _client_info(false)
 {
     // std::cout<<"cocket constructeur == "<< socket_client <<" socket dans le client : " << _socket_client<<std::endl;
     // _socket_client = socket(AF_INET, SOCK_STREAM, 0);
@@ -12,7 +12,7 @@ IRC_Client::IRC_Client(int socket_client): _socket_client(socket_client), _clien
 	// _client_addr.sin_port = htons(port);
 }
 
-IRC_Client::IRC_Client(const IRC_Client &client): _socket_client(client._socket_client),  _client_confirmation(false)
+IRC_Client::IRC_Client(const IRC_Client &client): _socket_client(client._socket_client),  _client_info(false)
 {}
 
 IRC_Client::~IRC_Client()
@@ -61,14 +61,14 @@ std::string    IRC_Client::get_nickname() const
     return (_nickname);
 }
 
-void    IRC_Client::set_client_confirmation(bool value)
+void    IRC_Client::set_client_info(bool value)
 {
-    _client_confirmation = value;
+    _client_info = value;
 }
 
-bool    IRC_Client::get_client_confirmation() const
+bool    IRC_Client::get_client_info() const
 {
-    return (_client_confirmation);
+    return (_client_info);
 }
 
 void    IRC_Client::close_socket() const
@@ -86,3 +86,28 @@ std::string    IRC_Client::get_url() const
     return (_url);
 }
 
+void    IRC_Client::fill_input_client(char *buffer, ssize_t size)
+{
+    _input_client.insert(_input_client.end(), buffer, buffer + size);
+}
+
+std::string    IRC_Client::get_input_client() const
+{
+    std::string str;
+    return (str);
+}
+
+void     IRC_Client::set_output_client(const std::string &)
+{
+
+}
+
+void    IRC_Client::set_output_client(const char *, int size)
+{
+    (void)size;
+}
+
+void    IRC_Client::send_output_client()
+{
+
+}

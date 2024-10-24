@@ -1,5 +1,5 @@
 #ifndef	IRC_SERVER_HPP
-#define	IRC_SERVER_HPP
+# define	IRC_SERVER_HPP
 
 #include <iostream>
 #include <sys/types.h>
@@ -20,7 +20,7 @@
 
 class IRC_Client;
 
-typedef void (*MethodFunction)(const struct input &, IRC_Client &, const std::string &);
+typedef void (*MethodFunction)(const struct input &, IRC_Client &);
 
 struct input{
 	int			method;
@@ -35,6 +35,8 @@ struct input{
 enum cmds{
 	CAPLS,
 	CAPEND,
+	JOIN,
+	LEAVE,
 	NICK,
 	KICK,
 	INVITE,
@@ -89,15 +91,17 @@ class	IRC_Server
 		void						check_all_sockets();
 		void						manage_fdset();
 		int							get_nfds();
-		struct input	parse_data(std::string &, IRC_Client &);
-		// bool	allowed_method(const struct input &);//probablement pas utile
-		void	launch_method(const struct input &, IRC_Client &, const std::string &);
-		static void	capls(const struct input &, IRC_Client &, const std::string &);
-		static void	nick(const struct input &, IRC_Client &, const std::string &);
-		//void	kick(const struct input &, IRC_Client &);
-		//void	invite(const struct input &, IRC_Client &);
-		//void	topic(const struct input &, IRC_Client &);
-		//void	mode(const struct input &, IRC_Client &);
+		struct input	parse_data(IRC_Client &);
+		void	launch_method(const struct input &, IRC_Client &);
+		static void	capls(const struct input &, IRC_Client &);
+		static void	capend(const struct input &, IRC_Client &);
+		static void	join(const struct input &, IRC_Client &);
+		static void	leave(const struct input &, IRC_Client &);
+		static void	nick(const struct input &, IRC_Client &);
+		static void	kick(const struct input &, IRC_Client &);
+		static void	invite(const struct input &, IRC_Client &);
+		static void	topic(const struct input &, IRC_Client &);
+		static void	mode(const struct input &, IRC_Client &);
 };
 
 #endif
