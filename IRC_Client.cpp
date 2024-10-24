@@ -91,10 +91,20 @@ void    IRC_Client::fill_input_client(char *buffer, ssize_t size)
     _input_client.insert(_input_client.end(), buffer, buffer + size);
 }
 
-std::string    IRC_Client::get_input_client() const
+bool    IRC_Client::get_input_client(std::string &line)
 {
-    std::string str;
-    return (str);
+    (void)line;
+    int i = 0;
+    for (; i < (int)_input_client.size(); i++)
+    {
+        if (_input_client[i] == '\n')
+            break;
+    }
+    if (i >= (int)_input_client.size())
+        return (false);
+    line = std::string(_input_client.begin(), _input_client.begin() + i - 1);
+    _input_client.erase(_input_client.begin(), _input_client.begin() + i + 1);
+    return (true);
 }
 
 void     IRC_Client::set_output_client(const std::string &)
