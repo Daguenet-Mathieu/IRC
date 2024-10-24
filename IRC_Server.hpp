@@ -91,7 +91,7 @@ class	IRC_Server
 		void						check_all_sockets();
 		void						manage_fdset();
 		int							get_nfds();
-		struct input	parse_data(IRC_Client &);
+		struct input	parse_data(const std::string &, IRC_Client &);
 		void	launch_method(const struct input &, IRC_Client &);
 		static void	capls(const struct input &, IRC_Client &);
 		static void	capend(const struct input &, IRC_Client &);

@@ -30,7 +30,7 @@ class IRC_Client
         void    send_output_client();
         void    set_output_client(const std::string &output);
         void    set_output_client(const char *, int size);
-        std::string    get_input_client() const;
+        bool    get_input_client(std::string &);
 
         class	ThrowException : public std::exception
 	    {

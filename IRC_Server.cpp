@@ -135,7 +135,8 @@ void	IRC_Server::check_socket_server()
 
 void	IRC_Server::read_socket_client(int i)
 {
-	char	buffer[2048];
+	char		buffer[2048];
+	std::string	line;
 
 	memset(&buffer, 0, sizeof(buffer));
 	ssize_t	bytes_received = recv(this->_clients[i].get_socket_client(), buffer, sizeof(buffer), 0);
@@ -153,7 +154,9 @@ void	IRC_Server::read_socket_client(int i)
 	}
 	else
 		throw ThrowException("RECV ERROR");//ne pas quitter?
-	this->launch_method(this->parse_data(this->_clients[i]), this->_clients[i]);
+	std::cout<<"on passe ici???"<<std::endl;
+	if (this->_clients[i].get_input_client(line))
+		this->launch_method(this->parse_data(line, this->_clients[i]), this->_clients[i]);
 }
 
 void	IRC_Server::check_socket_client()
@@ -242,13 +245,12 @@ void	IRC_Server::manage()
 // }
 
 
-struct input	IRC_Server::parse_data(IRC_Client &client)
+struct input	IRC_Server::parse_data(const std::string &line, IRC_Client &client)
 {
 	struct input res;
-	// std::string line;
 
 	(void)client;
-
+	(void)line;
 	// // for (int i =0; i < (int)line.size(); i++)
 	// // {
 	// // 	std::cout<<"line:"<<line[i]<<" et:"<<(int)line[i]<<std::endl;
@@ -259,12 +261,12 @@ struct input	IRC_Server::parse_data(IRC_Client &client)
 	// 	std::cout<<"innput size: "<<input.size()<<std::endl;
 	// 	input.erase(input.size() - 1);
 	// }
-	// if (line == "CAP LS")
-	// {
-	// 	std::cout<<"nego en cours"<<std::endl;
-	// 	res.method = CAPLS;
-	// 	return (res);
-	// }
+	if (line == "CAP LS")
+	{
+		std::cout<<"nego en cours"<<std::endl;
+		res.method = CAPLS;
+		return (res);
+	}
 	// else if (line == "CAP END")
 	// {
 	// 	std::cout<<"nego finie"<<std::endl;
@@ -279,11 +281,17 @@ struct input	IRC_Server::parse_data(IRC_Client &client)
 void	IRC_Server::capls(const struct input &struct_input, IRC_Client &client)
 {
 	(void)struct_input;
-	std::string response = ":server CAP * LS :\n\n: Welcome to the IRC Network \n\n";
-	response += client.get_username();
-	response += '!';
-	response += client.get_nickname();
-	response += "@madaguen_auferran" + client.get_url() + "\najouter les fonctionalites";
+	// std::string response = ":server CAP * LS :\n\n: Welcome to the IRC Network \n\n";
+	// response += client.get_username();
+	// response += '!';
+	// response += client.get_nickname();
+	// response += "@madaguen_auferran" + client.get_url() + "\n KICK\n INVITE\n TOPIC\n MODE [-i -t -k -o -l]\n";
+	// std::string response = ":server CAP * LS :KICK INVITE TOPIC MODE\r\n";
+	// response += ":server 001 " + client.get_nickname() + " :Welcome to the IRC Network\r\n";
+	// response += ":" + client.get_nickname() + "!" + client.get_username() + "@" + client.get_url() + " ";
+	std::string response = ":server CAP * LS :KICK INVITE TOPIC MODE\r\n";
+	response += ":server 001 " + client.get_nickname() + " :Welcome to the IRC Network\r\n";
+	response += ":server MODE " + client.get_nickname() + " +i\r\n";
 	send(client.get_socket_client(), response.c_str(), response.size(), 0);
 }
 
