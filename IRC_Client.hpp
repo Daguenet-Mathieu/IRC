@@ -10,7 +10,7 @@ class IRC_Client
 {
     public:
 
-        IRC_Client(int port);
+        IRC_Client(int port, int ip);
         IRC_Client(const IRC_Client &);
         ~IRC_Client();
 
@@ -19,8 +19,7 @@ class IRC_Client
         void    set_socket_client(int);
         void    set_username(const std::string &);
         std::string    get_username() const;
-        void    set_url(const std::string &);
-        std::string    get_url() const;
+        int    get_ip() const;
         void    set_nickname(const std::string &);
         std::string    get_nickname() const;
         void    set_client_info(bool);
@@ -53,11 +52,12 @@ class IRC_Client
 
         std::string     _username;
         std::string     _nickname;
-        std::string     _url;
         int             _socket_client;
+        int              _ip;
         bool            _client_info;
         // int             mode;
         std::vector<std::string> _connected_channel;
+        std::vector<std::string> _invited_channel;
         std::vector<char> _output_client;
         std::vector<char> _input_client;
         // struct	sockaddr_in	_client_addr;

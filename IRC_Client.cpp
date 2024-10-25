@@ -1,6 +1,6 @@
 #include "IRC_Client.hpp"
 
-IRC_Client::IRC_Client(int socket_client): _socket_client(socket_client), _client_info(false)
+IRC_Client::IRC_Client(int socket_client, int ip): _socket_client(socket_client), _ip(ip), _client_info(false)
 {
     // std::cout<<"cocket constructeur == "<< socket_client <<" socket dans le client : " << _socket_client<<std::endl;
     // _socket_client = socket(AF_INET, SOCK_STREAM, 0);
@@ -12,7 +12,7 @@ IRC_Client::IRC_Client(int socket_client): _socket_client(socket_client), _clien
 	// _client_addr.sin_port = htons(port);
 }
 
-IRC_Client::IRC_Client(const IRC_Client &client): _socket_client(client._socket_client),  _client_info(false)
+IRC_Client::IRC_Client(const IRC_Client &client): _socket_client(client._socket_client), _ip(client._ip), _client_info(false)
 {}
 
 IRC_Client::~IRC_Client()
@@ -76,14 +76,9 @@ void    IRC_Client::close_socket() const
     close(_socket_client);
 }
 
-void    IRC_Client::set_url(const std::string &url)
+int    IRC_Client::get_ip() const
 {
-    _url = url;
-}
-
-std::string    IRC_Client::get_url() const
-{
-    return (_url);
+    return (_ip);
 }
 
 void    IRC_Client::fill_input_client(char *buffer, ssize_t size)

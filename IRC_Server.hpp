@@ -15,6 +15,7 @@
 #include <exception>
 #include <stdexcept>
 #include <signal.h>
+#include <arpa/inet.h>
 #include "IRC_Client.hpp"
 #include "IRC_Channel.hpp"
 

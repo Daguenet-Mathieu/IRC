@@ -112,11 +112,19 @@ void	IRC_Server::check_socket_server()
 	if (FD_ISSET(_socket, &_readfds))
 	{
 		int client_fd;
-		client_fd = accept(this->_socket, NULL, NULL);
+		char *client_ip;
+		int	ip;
+		struct sockaddr_in client_addr;
+		socklen_t addr_len = sizeof(client_addr);
+		client_fd = accept(this->_socket, (struct sockaddr *)&client_addr, &addr_len);
 		std::cout<<"accept client fd: "<<client_fd<<std::endl;
 		if (client_fd == -1)
 			throw ThrowException("ACCEPT ERROR");//enqueter pas quitter??
-		this->_clients.push_back(client_fd);
+		client_ip = inet_ntoa(client_addr.sin_addr);
+		ip = ntohs(client_addr.sin_port);
+		IRC_Client client(client_fd, ip);
+		std::cout<<"Connexion acceptée de "<<client_ip<<" : "<<ntohs(client_addr.sin_port)<<std::endl;
+		this->_clients.push_back(client);
 	}
 }
 
@@ -334,7 +342,6 @@ void	IRC_Server::mode(const struct input &, IRC_Client &)
 void	IRC_Server::launch_method(const struct input &struct_input,  IRC_Client &client)
 {
 	MethodFunction fun[] = {&IRC_Server::capls, &IRC_Server::capend,IRC_Server::join ,&IRC_Server::nick, &IRC_Server::kick, &IRC_Server::invite, &IRC_Server::topic, &IRC_Server::mode};
-
 	std::cout<<"method:"<<struct_input.method<<std::endl;
 	if (struct_input.method < 2)
 		fun[struct_input.method](struct_input, client);
