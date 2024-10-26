@@ -1,6 +1,6 @@
 #include "IRC_Client.hpp"
 
-IRC_Client::IRC_Client(int socket_client, int ip): _socket_client(socket_client), _ip(ip), _client_info(false)
+IRC_Client::IRC_Client(int socket_client, int ip): _socket_client(socket_client), _ip(ip), _client_info(false), _state(NOT_CONNECTED)
 {
     // std::cout<<"cocket constructeur == "<< socket_client <<" socket dans le client : " << _socket_client<<std::endl;
     // _socket_client = socket(AF_INET, SOCK_STREAM, 0);
@@ -12,7 +12,7 @@ IRC_Client::IRC_Client(int socket_client, int ip): _socket_client(socket_client)
 	// _client_addr.sin_port = htons(port);
 }
 
-IRC_Client::IRC_Client(const IRC_Client &client): _socket_client(client._socket_client), _ip(client._ip), _client_info(false)
+IRC_Client::IRC_Client(const IRC_Client &client): _socket_client(client._socket_client), _ip(client._ip), _client_info(false), _state(NOT_CONNECTED)
 {}
 
 IRC_Client::~IRC_Client()
@@ -102,9 +102,10 @@ bool    IRC_Client::get_input_client(std::string &line)
     return (true);
 }
 
-void     IRC_Client::set_output_client(const std::string &)
+void     IRC_Client::set_output_client(const std::string &str)
 {
-
+    // std::cout<<"on set ceci dans l'outpur c;uint:"<<str<<std::endl;
+    this->_output_client.insert(_output_client.end(), str.c_str(), str.c_str() + str.size());
 }
 
 void    IRC_Client::set_output_client(const char *, int size)
@@ -114,5 +115,30 @@ void    IRC_Client::set_output_client(const char *, int size)
 
 void    IRC_Client::send_output_client()
 {
+    int i = 0;
+    if (_output_client.size() <= 0)
+    {
+        // std::cout<<"j'envoi rien!"<<std::endl;
+        return ;
+    }
+    for (; i < (int)_output_client.size(); i++)
+    {
+        if (_output_client[i] == '\n')
+            break;
+    }
+    if (i >= (int)_output_client.size())
+        return ;
+    std::string response = std::string(_output_client.begin(), _output_client.begin() + i + 1);
+    _output_client.erase(_output_client.begin(), _output_client.begin() + i + 1);
+    send(this->get_socket_client(), response.c_str(), response.size(), 0);
+}
 
+void    IRC_Client::set_state(int state)
+{
+    _state = state;
+}
+
+int IRC_Client::get_state() const
+{
+    return (_state);
 }

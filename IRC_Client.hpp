@@ -6,6 +6,13 @@
 
 #define BUFFER_SIZE 2048;
 
+enum nego{
+	NOT_CONNECTED,
+	NEGOCIATING,
+	END_NEGO,
+};
+
+
 class IRC_Client
 {
     public:
@@ -30,6 +37,9 @@ class IRC_Client
         void    set_output_client(const std::string &output);
         void    set_output_client(const char *, int size);
         bool    get_input_client(std::string &);
+        void    set_state(int state);
+        int get_state() const;
+
 
         class	ThrowException : public std::exception
 	    {
@@ -55,6 +65,7 @@ class IRC_Client
         int             _socket_client;
         int              _ip;
         bool            _client_info;
+        int             _state;
         // int             mode;
         std::vector<std::string> _connected_channel;
         std::vector<std::string> _invited_channel;

@@ -34,16 +34,18 @@ struct input{
 };
 
 enum cmds{
-	CAPLS,
-	CAPEND,
+	CAP,
 	JOIN,
 	LEAVE,
 	NICK,
 	KICK,
 	INVITE,
 	TOPIC,
-	MODE
+	MODE,
+	PRIVMSG,
+	DCC
 };
+
 
 
 class	IRC_Server
@@ -94,8 +96,8 @@ class	IRC_Server
 		int							get_nfds();
 		struct input	parse_data(const std::string &, IRC_Client &);
 		void	launch_method(const struct input &, IRC_Client &);
-		static void	capls(const struct input &, IRC_Client &);
-		static void	capend(const struct input &, IRC_Client &);
+		static void	cap(const struct input &, IRC_Client &);
+		static void	dcc(const struct input &, IRC_Client &);
 		static void	join(const struct input &, IRC_Client &);
 		static void	leave(const struct input &, IRC_Client &);
 		static void	nick(const struct input &, IRC_Client &);
@@ -103,6 +105,7 @@ class	IRC_Server
 		static void	invite(const struct input &, IRC_Client &);
 		static void	topic(const struct input &, IRC_Client &);
 		static void	mode(const struct input &, IRC_Client &);
+		static void privmsg(const struct input &, IRC_Client &);
 };
 
 #endif
