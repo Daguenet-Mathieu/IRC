@@ -43,10 +43,13 @@ enum cmds{
 	TOPIC,
 	MODE,
 	PRIVMSG,
-	DCC
+	DCC,
+	PONG,
+	PASS,
+	USER,
+	WHOIS,
+	END_METHOD
 };
-
-
 
 class	IRC_Server
 {
@@ -106,6 +109,10 @@ class	IRC_Server
 		static void	topic(const struct input &, IRC_Client &);
 		static void	mode(const struct input &, IRC_Client &);
 		static void privmsg(const struct input &, IRC_Client &);
+		static void pong(const struct input &, IRC_Client &);
+		static void pass(const struct input &, IRC_Client &);
+		static void	user(const struct input &, IRC_Client &);
+		static void	whois(const struct input &, IRC_Client &);
 };
 
 #endif

@@ -83,7 +83,14 @@ int    IRC_Client::get_ip() const
 
 void    IRC_Client::fill_input_client(char *buffer, ssize_t size)
 {
+    // std::cout<<"jep asse ici fill input"<<std::endl;
     _input_client.insert(_input_client.end(), buffer, buffer + size);
+    // std::cout<<"\t\tdans vector input:";
+    // for (int i = 0;i < (int)_input_client.size(); i++)
+    // {
+    //     std::cout<<_input_client[i];
+    // }
+    // std::cout<<std::endl;
 }
 
 bool    IRC_Client::get_input_client(std::string &line)
@@ -95,10 +102,18 @@ bool    IRC_Client::get_input_client(std::string &line)
         if (_input_client[i] == '\n')
             break;
     }
+    // std::cout<<"dans get in put client i:"<<i<<std::endl;
     if (i >= (int)_input_client.size())
         return (false);
     line = std::string(_input_client.begin(), _input_client.begin() + i - 1);
+    // std::cout<<"\test preleve dans l'input client:"<<line<<std::endl;
     _input_client.erase(_input_client.begin(), _input_client.begin() + i + 1);
+    // std::cout<<"\t vecteur inpu client apres line erase:";
+    // for (i = 0;i < (int)_input_client.size(); i++)
+    // {
+    //     std::cout<<_input_client[i];
+    // }
+    // std::cout<<std::endl;
     return (true);
 }
 
@@ -118,7 +133,6 @@ void    IRC_Client::send_output_client()
     int i = 0;
     if (_output_client.size() <= 0)
     {
-        // std::cout<<"j'envoi rien!"<<std::endl;
         return ;
     }
     for (; i < (int)_output_client.size(); i++)
@@ -130,6 +144,7 @@ void    IRC_Client::send_output_client()
         return ;
     std::string response = std::string(_output_client.begin(), _output_client.begin() + i + 1);
     _output_client.erase(_output_client.begin(), _output_client.begin() + i + 1);
+    // std::cout<<"res[onse sended:"<<response<<std::endl;
     send(this->get_socket_client(), response.c_str(), response.size(), 0);
 }
 

@@ -10,6 +10,7 @@ enum nego{
 	NOT_CONNECTED,
 	NEGOCIATING,
 	END_NEGO,
+    CONNECTED
 };
 
 
@@ -26,7 +27,7 @@ class IRC_Client
         void    set_socket_client(int);
         void    set_username(const std::string &);
         std::string    get_username() const;
-        int    get_ip() const;
+        int     get_ip() const;
         void    set_nickname(const std::string &);
         std::string    get_nickname() const;
         void    set_client_info(bool);
@@ -38,7 +39,7 @@ class IRC_Client
         void    set_output_client(const char *, int size);
         bool    get_input_client(std::string &);
         void    set_state(int state);
-        int get_state() const;
+        int     get_state() const;
 
 
         class	ThrowException : public std::exception
