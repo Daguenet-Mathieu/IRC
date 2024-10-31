@@ -18,6 +18,8 @@
 #include <arpa/inet.h>
 #include "IRC_Client.hpp"
 #include "IRC_Channel.hpp"
+#include <ctime>
+#include <string>
 
 class IRC_Client;
 
@@ -36,7 +38,6 @@ struct input{
 enum cmds{
 	CAP,
 	JOIN,
-	LEAVE,
 	NICK,
 	KICK,
 	INVITE,
@@ -48,6 +49,7 @@ enum cmds{
 	PASS,
 	USER,
 	WHOIS,
+	LEAVE,
 	END_METHOD
 };
 
@@ -59,7 +61,7 @@ class	IRC_Server
 		IRC_Server(int port, std::string const& password);
 		IRC_Server(IRC_Server const& src);					//CANONICAL
 		~IRC_Server();										//CANONICAL
-
+		static std::string	get_create_time();
 		IRC_Server&	operator=(IRC_Server const& rhs);		//CANONICAL
 		void	manage();
 
@@ -84,6 +86,7 @@ class	IRC_Server
 		fd_set						_readfds;
 		fd_set						_writefds;
 		fd_set						_exceptfds;
+		static	std::string			_create_time;
 		int							_port;
 		std::string					_password;
 		int							_socket;
@@ -97,22 +100,23 @@ class	IRC_Server
 		void						check_all_sockets();
 		void						manage_fdset();
 		int							get_nfds();
-		struct input	parse_data(const std::string &, IRC_Client &);
-		void	launch_method(const struct input &, IRC_Client &);
-		static void	cap(const struct input &, IRC_Client &);
-		static void	dcc(const struct input &, IRC_Client &);
-		static void	join(const struct input &, IRC_Client &);
-		static void	leave(const struct input &, IRC_Client &);
-		static void	nick(const struct input &, IRC_Client &);
-		static void	kick(const struct input &, IRC_Client &);
-		static void	invite(const struct input &, IRC_Client &);
-		static void	topic(const struct input &, IRC_Client &);
-		static void	mode(const struct input &, IRC_Client &);
-		static void privmsg(const struct input &, IRC_Client &);
-		static void pong(const struct input &, IRC_Client &);
-		static void pass(const struct input &, IRC_Client &);
-		static void	user(const struct input &, IRC_Client &);
-		static void	whois(const struct input &, IRC_Client &);
+		static std::string					getCurrentDateTime();
+		struct input				parse_data(const std::string &, IRC_Client &);
+		void						launch_method(const struct input &, IRC_Client &);
+		static void					cap(const struct input &, IRC_Client &);
+		static void					dcc(const struct input &, IRC_Client &);
+		static void					join(const struct input &, IRC_Client &);
+		static void					nick(const struct input &, IRC_Client &);
+		static void					kick(const struct input &, IRC_Client &);
+		static void					invite(const struct input &, IRC_Client &);
+		static void					topic(const struct input &, IRC_Client &);
+		static void					mode(const struct input &, IRC_Client &);
+		static void					privmsg(const struct input &, IRC_Client &);
+		static void					pong(const struct input &, IRC_Client &);
+		static void					pass(const struct input &, IRC_Client &);
+		static void					user(const struct input &, IRC_Client &);
+		static void					whois(const struct input &, IRC_Client &);
+		static void					leave(const struct input &, IRC_Client &);
 };
 
 #endif

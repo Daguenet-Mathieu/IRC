@@ -2,6 +2,9 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <errno.h>
+
+ std::string	IRC_Server::_create_time = getCurrentDateTime();
+
 //CONSTRUCTOR
 
 IRC_Server::IRC_Server() : _port(0)
@@ -15,16 +18,15 @@ IRC_Server::IRC_Server() : _port(0)
 	_server_addr.sin_port = htons(_port);
 }
 
-IRC_Server::IRC_Server(int port, std::string const& password) : _port(port), _password(password)
-{
-	_socket = socket(AF_INET, SOCK_STREAM, 0);
-	if (_socket == -1)
-		throw ThrowException("ERROR SOCKET");
-	// std::cout<<"socket fd = "<<_socket<<std::endl;
-	memset(&_server_addr, 0, sizeof(_server_addr));
-	_server_addr.sin_family = AF_INET;
-	_server_addr.sin_addr.s_addr = INADDR_ANY;
-	_server_addr.sin_port = htons(_port);
+IRC_Server::IRC_Server(int port, const std::string& password) : _port(port), _password(password){
+    _socket = socket(AF_INET, SOCK_STREAM, 0);
+    if (_socket == -1)
+        throw ThrowException("ERROR SOCKET");
+    memset(&_server_addr, 0, sizeof(_server_addr));
+    _server_addr.sin_family = AF_INET;
+    _server_addr.sin_addr.s_addr = INADDR_ANY;
+    _server_addr.sin_port = htons(_port);
+    std::cout << "Creation time: " << _create_time << std::endl;
 }
 
 IRC_Server::IRC_Server(IRC_Server const& src) : _password(src._password), _server_addr(src._server_addr)
@@ -62,6 +64,26 @@ IRC_Server&	IRC_Server::operator=(IRC_Server const& rhs)
 	}
 	return *this;
 }
+
+std::string IRC_Server::getCurrentDateTime() {
+    // Obtenez l'heure actuelle
+    time_t now = time(0);
+    struct tm tstruct;
+    char buffer[80];
+
+    // Convertissez le temps en une structure tm
+    tstruct = *localtime(&now);
+
+    // Formatez le temps en "jj mois yyyy"
+    strftime(buffer, sizeof(buffer), "%d %B %Y", &tstruct);
+    return std::string(buffer);
+}
+
+std::string	IRC_Server::get_create_time()
+{
+	return (_create_time);
+}
+
 
 //MEMBER FUNCTIONS
 
@@ -286,7 +308,7 @@ std::string get_word(const std::string &line, int word_index)
 struct input	IRC_Server::parse_data(const std::string &line, IRC_Client &client)
 {
 	struct input res;
-
+	std::cout<<"\t\ton parse :"<<line<<std::endl;
 	(void)client;
 	(void)line;
 	const char	*method[] = {"CAP","JOIN" ,"NICK", "KICK", "INVITE", "TOPIC", "MODE",  "PRIVMSG", "DCC","PING", "PASS", "USER", "WHOIS",NULL};
@@ -435,13 +457,13 @@ void	IRC_Server::cap(const struct input &struct_input, IRC_Client &client)
 		response = ":server CAP * LS :KICK INVITE TOPIC MODE\r\n";
 
 		// 2. RPL_WELCOME (001)
-		response += ":server 001 " + client.get_nickname() + " :Welcome to the MADAGUENAUFERRANIRC SERVER\r\n";
+		response += std::string(":server 001 ") + "mdaguen" + client.get_nickname() + " :Welcome to the MADAGUENAUFERRANIRC SERVER\r\n";
 
 		// 3. RPL_YOURHOST (002)
 		response += ":server 002 " + client.get_nickname() + " :Your host is server, running version 1.0\r\n";
 
 		// 4. RPL_CREATED (003)
-		response += ":server 003 " + client.get_nickname() + " :This server was created now\r\n";
+		response += ":server 003 " + client.get_nickname() + " :This server was created " + get_create_time() + "\r\n";
 
 		// 5. RPL_MYINFO (004) - Format corrigé : ne pas mettre le ":" avant le message
 		response += ":server 004 " + client.get_nickname() + " localhost 1.0 o itklo\r\n";
@@ -472,14 +494,6 @@ void	IRC_Server::join(const struct input &, IRC_Client &)
 {
 	std::cout<<"in join"<<std::endl;
 }
-
-void	IRC_Server::leave(const struct input &, IRC_Client &)
-{
-	std::cout<<"in leave"<<std::endl;
-
-}
-
-
 
 void	IRC_Server::nick(const struct input &, IRC_Client &)
 {
@@ -516,6 +530,7 @@ void	IRC_Server::mode(const struct input &, IRC_Client &)
 void	IRC_Server::privmsg(const struct input &input, IRC_Client &)
 {
 	std::cout<<"in privmsg"<<std::endl;
+	(void) input;
 	// if (input.destinataire[0] == '#')
 	//channel
 	// 	;
@@ -545,11 +560,36 @@ void	IRC_Server::user(const struct input &, IRC_Client &)
 	std::cout<<"in user"<<std::endl;
 }
 
-
 void	IRC_Server::whois(const struct input &, IRC_Client &)
 {
 	std::cout<<"in whois"<<std::endl;
 }
+
+void	IRC_Server::leave(const struct input &, IRC_Client &)
+{
+	std::cout<<"in leave"<<std::endl;
+}
+
+// MethodFunction* IRC_Server::initializeFunctions() {
+// 	MethodFunction fun;
+
+//     fun[0] = &IRC_Server::cap;
+//     fun[1] = &IRC_Server::join;
+//     fun[2] = &IRC_Server::nick;
+//     fun[3] = &IRC_Server::kick;
+//     fun[4] = &IRC_Server::invite;
+//     fun[5] = &IRC_Server::topic;
+//     fun[6] = &IRC_Server::mode;
+//     fun[7] = &IRC_Server::privmsg;
+//     fun[8] = &IRC_Server::dcc;
+//     fun[9] = &IRC_Server::pong;
+//     fun[10] = &IRC_Server::pass;
+//     fun[11] = &IRC_Server::user;
+//     fun[12] = &IRC_Server::whois;
+//     fun[13] = &IRC_Server::leave;
+//     fun[14] = NULL;
+// 	return (fun);
+// }
 
 void	IRC_Server::launch_method(const struct input &struct_input,  IRC_Client &client)
 {
@@ -559,6 +599,8 @@ void	IRC_Server::launch_method(const struct input &struct_input,  IRC_Client &cl
 		//reclamer le password
 		;
 	}
+	std::cout<<"!= CAP:"<<(struct_input.method != CAP)<<"!= UESER:"<<(struct_input.method != USER)<<"!= NICK:"<<(struct_input.method != NICK)<<std::endl;
+	std::cout<<"method:"<<struct_input.method<<std::endl;
 	if (client.get_state() != CONNECTED && (struct_input.method != CAP && struct_input.method != USER && struct_input.method != NICK))
 	{
 		//send missing info message 
@@ -573,8 +615,9 @@ void	IRC_Server::launch_method(const struct input &struct_input,  IRC_Client &cl
 	//si cap et nego over ignorer
 
 	//si different de cap nick ou user et pas tout set envoyer erreur doner les infos manquqntes dans le message
-	MethodFunction fun[] = {&IRC_Server::cap,IRC_Server::join ,&IRC_Server::nick, &IRC_Server::kick, &IRC_Server::invite, &IRC_Server::topic, &IRC_Server::mode, &IRC_Server::privmsg, &IRC_Server::dcc, &IRC_Server::pong,  &IRC_Server::pass, &IRC_Server::user, &IRC_Server::whois, NULL};
-	std::cout<<"method:"<<struct_input.method<<std::endl;
+	MethodFunction fun[] = {&IRC_Server::cap,IRC_Server::join ,&IRC_Server::nick, &IRC_Server::kick, &IRC_Server::invite, &IRC_Server::topic, &IRC_Server::mode, &IRC_Server::privmsg, \
+	&IRC_Server::dcc, &IRC_Server::pong,  &IRC_Server::pass, &IRC_Server::user, &IRC_Server::whois, &IRC_Server::leave, NULL};
+	// MethodFunction fun = initializeFunctions();
 	if (struct_input.method < END_METHOD)
 		fun[struct_input.method](struct_input, client);
 }
