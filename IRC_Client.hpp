@@ -9,8 +9,8 @@
 enum nego{
 	NOT_CONNECTED,
 	NEGOCIATING,
-	END_NEGO,
-    CONNECTED
+    CONNECTED,
+    ERROR
 };
 
 
@@ -34,7 +34,7 @@ class IRC_Client
         bool    get_client_info() const;
         void    close_socket() const;
         void    fill_input_client(char *buffer, ssize_t size);
-        void    send_output_client();
+        bool    send_output_client();
         void    set_output_client(const std::string &output);
         void    set_output_client(const char *, int size);
         bool    get_input_client(std::string &);

@@ -150,19 +150,6 @@ void	IRC_Server::check_socket_server()
 	}
 }
 
-
-// void	IRC_Server::write_socket_client(int i)
-// {
-// 	if (_clients[i].get_client_confirmation() == false)
-// 	{
-// 		send(this->_clients[i].get_socket_client(), ":server CAP * LS :\n:server 001 madaguen :Welcome to the IRC Network madaguen!madaguen@localhost\n:server 002 madaguen :Your host is server, running version 1.0\n:server 003 madaguen :This server was created 2024-10-23\n:server 004 madaguen server 1.0 i nt\n", strlen(":server CAP * LS :\n:server 001 madaguen :Welcome to the IRC Network madaguen!madaguen@localhost\n:server 002 madaguen :Your host is server, running version 1.0\n:server 003 madaguen :This server was created 2024-10-23\n:server 004 madaguen server 1.0 i nt\n"), 0);
-// 		_clients[i].set_client_confirmation(true);
-// 	}
-// 	else
-// 		send(this->_clients[i].get_socket_client(), "MODE madaguen +i\n", strlen("MODE madaguen +i\n"), 0);
-// 	// send(this->_clients[i].get_socket_client(), "coucou la socket\n", strlen("coucou la socket\n"), 0);
-// }
-
 void	IRC_Server::read_socket_client(int i)
 {
 	char		buffer[2048];
@@ -194,15 +181,23 @@ void	IRC_Server::check_socket_client()
 			throw std::runtime_error("error in socket client");//ne pas quitter jsute degager le client
 		}
 		if (FD_ISSET(this->_clients[i].get_socket_client(), &_writefds))
-		{//faire operation en attente dans l'input
+		{
 			std::string line;
 			if (this->_clients[i].get_input_client(line))
 			{
-				std::cout<<"a ete lu dansl 'input client: "<<line<<std::endl;
+				std::cout<<"\t\t\t\ta ete lu dansl 'input client: "<<line<<std::endl;
 				this->launch_method(this->parse_data(line, this->_clients[i]), this->_clients[i]);
 			}
-			this->_clients[i].send_output_client();
-			// this->write_socket_client(i);
+			bool res = this->_clients[i].send_output_client();
+			std::cout<<"RES == "<<res<<" current STATE == "<<this->_clients[i].get_state()<<std::endl;
+			if (this->_clients[i].get_state() == ERROR && res == false){
+			// { int k = 0;
+			// 	while (this->_clients[i].send_output_client())
+			// 		std::cout<<"k ==== "<<k<<std::endl;;
+				close(this->_clients[i].get_socket_client());
+				// shutdown(this->_clients[i].get_socket_client(), SHUT_WR);
+				this->_clients.erase(this->_clients.begin() + i);
+			}
 		}
 		if (FD_ISSET(this->_clients[i].get_socket_client(), &_readfds))
 		{
@@ -264,20 +259,6 @@ void	IRC_Server::manage()
 		this->check_all_sockets();
 	}
 }
-
-// static bool	get_line_from_input(std::string &input, std::string &line)
-// {
-// 	std::string::size_type pos = input.find_first_of('\n');
-// 	if (pos >= input.size())
-// 	{
-// 		line = input;
-// 		return (false);
-// 	}
-// 	line = input.substr(0, pos - 1);
-// 	input.erase(0, pos);
-// 	std::cout<<"input:"<<input<<"line:"<<line<<std::endl;
-// 	return (true);
-// }
 
 std::string get_word(const std::string &line, int word_index)
 {
@@ -355,78 +336,17 @@ struct input	IRC_Server::parse_data(const std::string &line, IRC_Client &client)
 		res.method = PONG;
 		res.content = get_word(line, 2);
 	}
+	if (word == "PASS")
+	{
+		res.password = get_word(line, 2);
+	}
 	return (res);
 }
 
-// void	IRC_Server::cap(const struct input &struct_input, IRC_Client &client)
-// {
-// 		std::string response;
-// 	std::cout<<"in cap"<<std::endl;
-// 	// set negociating si ls
-// 	// terminer negociation si end envoyer la liste des infos manquqntes
-// 	//quitter si nego == over
-// 	(void)struct_input;
-// 	// std::string response = ":server CAP * LS :\n\n: Welcome to the IRC Network \n\n";
-// 	// response += client.get_username();
-// 	// response += '!';
-// 	// response += client.get_nickname();
-// 	// response += "@madaguen_auferran" + client.get_url() + "\n KICK\n INVITE\n TOPIC\n MODE [-i -t -k -o -l]\n";
-// 	// std::string response = ":server CAP * LS :KICK INVITE TOPIC MODE\r\n";
-// 	// response += ":server 001 " + client.get_nickname() + " :Welcome to the IRC Network\r\n";
-// 	// response += ":" + client.get_nickname() + "!" + client.get_username() + "@" + client.get_url() + " ";
-// 	if (client.get_state() == END_NEGO)
-// 		return ;
-// 	if (struct_input.content == "END")
-// 	{
-    
-// 		client.set_state(END_NEGO);
-// 		return ;
-// 	}
-// 	if (struct_input.content == "LS")
-// 	{
-// 		client.set_state(NEGOCIATING);
-// 		// 1. CAP LS
-// 		// response = ":server CAP * LS :KICK INVITE TOPIC MODE\r\n";
-//     	// // 1. RPL_WELCOME (001)
-//     	// response = ":server 001 " + client.get_nickname() + " :Welcome to the IRCMADAGENAUFERRAN " + client.get_nickname() + "!" + client.get_username() + "@localhost\r\n";
-
-//     	// // 2. RPL_YOURHOST (002)
-//     	// response += ":server 002 " + client.get_nickname() + " :Your host is server, running version 1.0\r\n";
-//     	// // 3. RPL_CREATED (003)
-//     	// response += ":server 003 " + client.get_nickname() + " :This server was created now\r\n";
-//     	// // 4. RPL_MYINFO (004)
-//     	// response += ":server 004 " + client.get_nickname() + " localhost 1.0 o itklo\r\n";
-//     	// // 5. Mode utilisateur
-//     	// response += ":server MODE " + client.get_nickname() + " +i\r\n";
-// 		// 2. RPL_WELCOME (001)
-// 		response += ":server 001 " + client.get_nickname() + " :Welcome to the Internet Relay Chat Network" + client.get_nickname() + "!" + client.get_username() + "@" + "localhost" + + "\r\n";
-
-// 		// 3. RPL_YOURHOST (002)
-// 		response += ":server 002 " + client.get_nickname() + " :Your host is server, running version 1.0\r\n";
-
-// 		// 4. RPL_CREATED (003)
-// 		response += ":server 003 " + client.get_nickname() + " :This server was created now\r\n";
-
-// 		// 5. RPL_MYINFO (004) - Format corrigé : ne pas mettre le ":" avant le message
-// 		response += ":server 004 " + client.get_nickname() + ": localhost 1.0 o itklo\r\n";
-
-// 		// // 6. Mode utilisateur
-// 		// response += ":server MODE " + client.get_nickname() + " +i\r\n";
-
-// 		// Pour la commande WHOIS, vous devez répondre avec :
-// 		// RPL_WHOISUSER (311)
-// 		// response += ":server 311 " + nickname + " " + target + " " + username + " " + hostname + " * :" + realname + "\r\n";
-// 		// RPL_ENDOFWHOIS (318)
-// 		// response += ":server 318 " + target + " :End of /WHOIS list\r\n";
-// 		client.set_output_client(response);
-// 	}
-// 	// std::cout<<"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"<<std::endl;
-// 	// send(client.get_socket_client(), response.c_str(), response.size(), 0);
-// }
-
-
 void	IRC_Server::cap(const struct input &struct_input, IRC_Client &client)
 {
+	if (client.get_state() == ERROR)
+		return ;
 	// set negociating si ls
 	// terminer negociation si end envoyer la liste des infos manquqntes
 	//quitter si nego == over
@@ -457,10 +377,10 @@ void	IRC_Server::cap(const struct input &struct_input, IRC_Client &client)
 		response = ":server CAP * LS :KICK INVITE TOPIC MODE\r\n";
 
 		// 2. RPL_WELCOME (001)
-		response += std::string(":server 001 ") + "mdaguen" + client.get_nickname() + " :Welcome to the MADAGUENAUFERRANIRC SERVER\r\n";
+		response += std::string(":server 001 ") + client.get_nickname() + "madaguen" + " :Welcome to the MADAGUENAUFERRANIRC SERVER\r\n";
 
 		// 3. RPL_YOURHOST (002)
-		response += ":server 002 " + client.get_nickname() + " :Your host is server, running version 1.0\r\n";
+		response += ":server 002 " + client.get_nickname() +  " :Your host is server MADAGUENAUFERRANIRC, running version 1.0\r\n";
 
 		// 4. RPL_CREATED (003)
 		response += ":server 003 " + client.get_nickname() + " :This server was created " + get_create_time() + "\r\n";
@@ -539,20 +459,18 @@ void	IRC_Server::privmsg(const struct input &input, IRC_Client &)
 	// 	;
 }
 
-void	IRC_Server::pong(const struct input &input, IRC_Client &client)
-{
-	std::cout<<"in pong"<<std::endl;
-	std::string response;
-	response += "PONG" + input.content;
-	std::cout<<"pong response: "<<response<<std::endl;
-	client.set_output_client(response);
-
-}
-
-
-void	IRC_Server::pass(const struct input &, IRC_Client &)
+void	IRC_Server::pass(const struct input &input, IRC_Client &client)
 {
 	std::cout<<"in pass"<<std::endl;
+	std::cout<<"le passwod du serveur est  : " << _password <<std::endl;
+	std::cout<<"le passwod recu est : " << input.password <<std::endl;
+	if (_password != input.password)
+	{
+		std::string response = ":464 madaguen :Password incorrect\r\n";//mettre username
+		std::cout<<"\t\t\t wrong password"<<std::endl;
+		client.set_output_client(response);
+		client.set_state(ERROR);
+	}
 }
 
 void	IRC_Server::user(const struct input &, IRC_Client &)
@@ -570,54 +488,91 @@ void	IRC_Server::leave(const struct input &, IRC_Client &)
 	std::cout<<"in leave"<<std::endl;
 }
 
-// MethodFunction* IRC_Server::initializeFunctions() {
-// 	MethodFunction fun;
 
-//     fun[0] = &IRC_Server::cap;
-//     fun[1] = &IRC_Server::join;
-//     fun[2] = &IRC_Server::nick;
-//     fun[3] = &IRC_Server::kick;
-//     fun[4] = &IRC_Server::invite;
-//     fun[5] = &IRC_Server::topic;
-//     fun[6] = &IRC_Server::mode;
-//     fun[7] = &IRC_Server::privmsg;
-//     fun[8] = &IRC_Server::dcc;
-//     fun[9] = &IRC_Server::pong;
-//     fun[10] = &IRC_Server::pass;
-//     fun[11] = &IRC_Server::user;
-//     fun[12] = &IRC_Server::whois;
-//     fun[13] = &IRC_Server::leave;
-//     fun[14] = NULL;
-// 	return (fun);
-// }
+void ping(const struct input &, IRC_Client &)
+{
+	std::cout<<"in ping"<<std::endl;
+	std::string response;
+	response += "PONG" + input.content;
+	std::cout<<"pong response: "<<response<<std::endl;
+	client.set_output_client(response);
+}
+
+void part(const struct input &, IRC_Client &)
+{
+	std::cout<<"in part"<<std::endl;
+}
+
+void quit(const struct input &, IRC_Client &)
+{
+	std::cout<<"in quit"<<std::endl;
+
+} 
+
+void names(const struct input &, IRC_Client &)
+{
+	std::cout<<"in names"<<std::endl;
+
+}
+
+void list(const struct input &, IRC_Client &)
+{
+	std::cout<<"in list"<<std::endl;
+
+} 
+
+
+//en cas d'erreur mdp invalid par ex kill le client
 
 void	IRC_Server::launch_method(const struct input &struct_input,  IRC_Client &client)
 {
-	if (client.get_state() == NOT_CONNECTED && (struct_input.method != PASS && struct_input.method != CAP))
-	{
-		//ERR_PASSWDMISMATCH (464)
-		//reclamer le password
-		;
-	}
+
+	// if (client.get_state() == NOT_CONNECTED && (struct_input.method != PASS && struct_input.method != CAP))
+	// {
+	// 	//ERR_PASSWDMISMATCH (464)
+	// 	//reclamer le password
+	// 	;
+	// }
 	std::cout<<"!= CAP:"<<(struct_input.method != CAP)<<"!= UESER:"<<(struct_input.method != USER)<<"!= NICK:"<<(struct_input.method != NICK)<<std::endl;
 	std::cout<<"method:"<<struct_input.method<<std::endl;
-	if (client.get_state() != CONNECTED && (struct_input.method != CAP && struct_input.method != USER && struct_input.method != NICK))
-	{
-		//send missing info message 
-		// :MonSrv 431 ERR_NICKREQ Vous devez fournir un nom de surnom (NICK) avant de vous connecter.
-		//nick?
-		// :MonSrv ERR_USERREQ Vous devez fournir des informations utilisateur (USER) avant de vous connecter.
-		// :MonSrv 461 ERR_NEEDMOREPARAMS  Vous devez fournir un username (USER) avant de vous connecter.
-		//user?
-		std::cout<<"on rentre la dedans meme si on veut pas"<<std::endl;
-		return ;
-	}
+	// if (client.get_state() != CONNECTED && (struct_input.method != CAP && struct_input.method != USER && struct_input.method != NICK))
+	// {
+	// 	//send missing info message 
+	// 	// :MonSrv 431 ERR_NICKREQ Vous devez fournir un nom de surnom (NICK) avant de vous connecter.
+	// 	//nick?
+	// 	// :MonSrv ERR_USERREQ Vous devez fournir des informations utilisateur (USER) avant de vous connecter.
+	// 	// :MonSrv 461 ERR_NEEDMOREPARAMS  Vous devez fournir un username (USER) avant de vous connecter.
+	// 	//user?
+	// 	std::cout<<"on rentre la dedans meme si on veut pas"<<std::endl;
+	// 	return ;
+	// }
 	//si cap et nego over ignorer
 
 	//si different de cap nick ou user et pas tout set envoyer erreur doner les infos manquqntes dans le message
-	MethodFunction fun[] = {&IRC_Server::cap,IRC_Server::join ,&IRC_Server::nick, &IRC_Server::kick, &IRC_Server::invite, &IRC_Server::topic, &IRC_Server::mode, &IRC_Server::privmsg, \
-	&IRC_Server::dcc, &IRC_Server::pong,  &IRC_Server::pass, &IRC_Server::user, &IRC_Server::whois, &IRC_Server::leave, NULL};
+void (IRC_Server::*fun[])(const struct input&, IRC_Client&) = {
+   &IRC_Server::cap,       // Négociation des capacités
+   &IRC_Server::nick,      // Gestion du nickname
+   &IRC_Server::pass,      // Vérification du mot de passe
+   &IRC_Server::user,      // Configuration username/realname
+   &IRC_Server::join,      // Rejoindre un channel
+   &IRC_Server::kick,      // Éjecter un user (op)
+   &IRC_Server::invite,    // Inviter un user (op)
+   &IRC_Server::topic,     // Gérer le sujet (op)
+   &IRC_Server::mode,      // Gérer les modes (op)
+   &IRC_Server::privmsg,   // Messages privés/channel
+   &IRC_Server::dcc,       // Transfert de fichiers
+   &IRC_Server::ping,      // Gestion du ping
+   &IRC_Server::whois,     // Info sur un user
+   &IRC_Server::leave,     // Quitter un channel
+   &IRC_Server::part,      // Alternative à leave
+   &IRC_Server::quit,      // Déconnexion
+   &IRC_Server::names,     // Liste des users
+   &IRC_Server::list,      // Liste des channels
+   NULL                    // Fin du tableau
+};
+	//  void (IRC_Server::*fun[])(const struct input&, IRC_Client&) = {&IRC_Server::cap,&IRC_Server::join ,&IRC_Server::nick, &IRC_Server::kick, &IRC_Server::invite, &IRC_Server::topic, &IRC_Server::mode, &IRC_Server::privmsg, \
+	// &IRC_Server::dcc, &IRC_Server::pong,  &IRC_Server::pass, &IRC_Server::user, &IRC_Server::whois, &IRC_Server::leave, NULL};
 	// MethodFunction fun = initializeFunctions();
 	if (struct_input.method < END_METHOD)
-		fun[struct_input.method](struct_input, client);
+		(this->*fun[struct_input.method])(struct_input, client);
 }

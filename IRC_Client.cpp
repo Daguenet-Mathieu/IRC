@@ -17,7 +17,7 @@ IRC_Client::IRC_Client(const IRC_Client &client): _socket_client(client._socket_
 
 IRC_Client::~IRC_Client()
 {
-    // std::cout<<"client destructeur"<<std::endl;
+    std::cout<<"client destructeur"<<std::endl;
     // if (_socket_client != -1)
     //     close(_socket_client);
 }
@@ -84,6 +84,8 @@ int    IRC_Client::get_ip() const
 void    IRC_Client::fill_input_client(char *buffer, ssize_t size)
 {
     // std::cout<<"jep asse ici fill input"<<std::endl;
+    if (size == 0)
+        return ;
     _input_client.insert(_input_client.end(), buffer, buffer + size);
     // std::cout<<"\t\tdans vector input:";
     // for (int i = 0;i < (int)_input_client.size(); i++)
@@ -107,13 +109,15 @@ bool    IRC_Client::get_input_client(std::string &line)
         return (false);
     line = std::string(_input_client.begin(), _input_client.begin() + i - 1);
     // std::cout<<"\test preleve dans l'input client:"<<line<<std::endl;
-    _input_client.erase(_input_client.begin(), _input_client.begin() + i + 1);
-    // std::cout<<"\t vecteur inpu client apres line erase:";
-    // for (i = 0;i < (int)_input_client.size(); i++)
-    // {
-    //     std::cout<<_input_client[i];
-    // }
-    // std::cout<<std::endl;
+    _input_client.erase(_input_client.begin(), _input_client.begin() + i + 1);//\r
+    if (*_input_client.begin() == '\r')
+        _input_client.erase(_input_client.begin(), _input_client.begin() + 1);
+    std::cout<<"\t vecteur inpu client apres line erase:";
+    for (i = 0;i < (int)_input_client.size(); i++)
+    {
+        std::cout<<_input_client[i];
+    }
+    std::cout<<std::endl;
     return (true);
 }
 
@@ -128,24 +132,29 @@ void    IRC_Client::set_output_client(const char *, int size)
     (void)size;
 }
 
-void    IRC_Client::send_output_client()
+bool    IRC_Client::send_output_client()
 {
     int i = 0;
-    if (_output_client.size() <= 0)
+    if (_output_client.size() == 0)
     {
-        return ;
+        return false;
     }
     for (; i < (int)_output_client.size(); i++)
     {
         if (_output_client[i] == '\n')
-            break;
+            break ;
     }
-    if (i >= (int)_output_client.size())
-        return ;
-    std::string response = std::string(_output_client.begin(), _output_client.begin() + i + 1);
-    _output_client.erase(_output_client.begin(), _output_client.begin() + i + 1);
-    // std::cout<<"res[onse sended:"<<response<<std::endl;
+    if (_output_client[i] == '\n')
+        i++;
+    std::string response = std::string(_output_client.begin(), _output_client.begin() + i);
+    std::cout<<std::endl;
+    if (_output_client[i] == '\n' && _output_client[i + 1] == '\r')
+        i++;
+    _output_client.erase(_output_client.begin(), _output_client.begin() + i);
+    
+    std::cout<<"\t\t\t vector size  :"<< _output_client.size()<<"  i == "<< i <<"res[onse sended:"<<response<<std::endl;  
     send(this->get_socket_client(), response.c_str(), response.size(), 0);
+    return (true);
 }
 
 void    IRC_Client::set_state(int state)
