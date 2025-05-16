@@ -23,28 +23,14 @@
 
 class IRC_Client;
 
-struct input{
+struct input {
 	int			method;
-	std::string	transmitter;
-	std::string	recipient;
-	std::string	content;
-	std::string password;
-	// bool		allowed;
-	// bool		format;
-};
-
-struct response{
-	int	status_code;
-	std::string	transmitter;
-	std::string	recipient;
-	std::string method;
-	std::string body;
 };
 
 enum cmds {
    CAP,        // Négociation des capacités du client/serveur
-   NICK,       // Définir/changer le nickname
    PASS,       // Authentification avec le mot de passe serveur
+   NICK,       // Définir/changer le nickname
    USER,       // Définir le username et realname 
    JOIN,       // Rejoindre un channel
    KICK,       // Éjecter un utilisateur d'un channel (opérateur)
@@ -67,12 +53,10 @@ class	IRC_Server
 {
 	public :
 
-		IRC_Server();										//CANONICAL
 		IRC_Server(int port, std::string const& password);
-		IRC_Server(IRC_Server const& src);					//CANONICAL
-		~IRC_Server();										//CANONICAL
-		static std::string	get_create_time();
-		IRC_Server&	operator=(IRC_Server const& rhs);		//CANONICAL
+		~IRC_Server();
+
+		std::string	get_create_time();
 		void	manage();
 
 		class	ThrowException : public std::exception
@@ -93,16 +77,18 @@ class	IRC_Server
 		};
 
 	private :
+
 		fd_set						_readfds;
 		fd_set						_writefds;
 		fd_set						_exceptfds;
-		static	std::string			_create_time;
-		int							_port;
+		std::string					_create_time;
 		std::string					_password;
+		int							_port;
 		int							_socket;
+		int							ip;
 		struct sockaddr_in			_server_addr;
 		std::vector<IRC_Client>		_clients;
-		//std::vector<IRC_Channel>	_channels;
+
 		void						write_socket_client(int index_client);
 		void						read_socket_client(int index_client);
 		void						check_socket_client();
@@ -110,27 +96,27 @@ class	IRC_Server
 		void						check_all_sockets();
 		void						manage_fdset();
 		int							get_nfds();
-		static std::string					getCurrentDateTime();
+		std::string					getCurrentDateTime();
 		struct input				parse_data(const std::string &, IRC_Client &);
-		void						launch_method(const struct input &, IRC_Client &);
-		void cap(const struct input &, IRC_Client &);      // Négociation des capacités
-		void dcc(const struct input &, IRC_Client &);      // Transfert de fichiers (bonus)
-		void join(const struct input &, IRC_Client &);     // Rejoindre un channel
-		void nick(const struct input &, IRC_Client &);     // Définir/changer le nickname 
-		void kick(const struct input &, IRC_Client &);     // Éjecter un utilisateur (op)
-		void invite(const struct input &, IRC_Client &);   // Inviter un utilisateur (op)
-		void topic(const struct input &, IRC_Client &);    // Définir/voir le sujet (op)
-		void mode(const struct input &, IRC_Client &);     // Modifier les modes (op)
-		void privmsg(const struct input &, IRC_Client &);  // Messages privés/channel
-		void ping(const struct input &, IRC_Client &);     // Réception d'un ping client 
-		void pass(const struct input &, IRC_Client &);     // Vérif mot de passe serveur
-		void user(const struct input &, IRC_Client &);     // Définir username/realname
-		void whois(const struct input &, IRC_Client &);    // Info sur un utilisateur
-		void leave(const struct input &, IRC_Client &);    // Quitter un channel
-		void part(const struct input &, IRC_Client &);     // Alternative à leave
-		void quit(const struct input &, IRC_Client &);     // Déconnexion du serveur 
-		void names(const struct input &, IRC_Client &);    // Liste des users du channel
-		void list(const struct input &, IRC_Client &);     // Liste des channels
+		void						launch_method(const struct input &, const std::string &, IRC_Client &, int);
+		bool 						cap(const struct input &, IRC_Client &, const std::string &);
+		bool 						dcc(const struct input &, IRC_Client &, const std::string &);
+		bool						join(const struct input &, IRC_Client &, const std::string &);
+		bool						nick(const struct input &, IRC_Client &, const std::string &);
+		bool						kick(const struct input &, IRC_Client &, const std::string &);
+		bool						invite(const struct input &, IRC_Client &, const std::string &);
+		bool						topic(const struct input &, IRC_Client &, const std::string &);
+		bool						mode(const struct input &, IRC_Client &, const std::string &);
+		bool						privmsg(const struct input &, IRC_Client &, const std::string &);
+		bool						ping(const struct input &, IRC_Client &, const std::string &);
+		bool						pass(const struct input &, IRC_Client &, const std::string &);
+		bool						user(const struct input &, IRC_Client &, const std::string &);
+		bool						whois(const struct input &, IRC_Client &, const std::string &);
+		bool						leave(const struct input &, IRC_Client &, const std::string &);
+		bool						part(const struct input &, IRC_Client &, const std::string &);
+		bool						quit(const struct input &, IRC_Client &, const std::string &); 
+		bool						names(const struct input &, IRC_Client &, const std::string &);
+		bool						list(const struct input &, IRC_Client &, const std::string &);
 
 };
 

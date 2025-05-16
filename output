@@ -1,0 +1,4647 @@
+Creation time: 15 May 2025
+--------------------------new accept client fd: 4
+Connexion acceptée de 127.0.0.1 : 47478
+client destructeur
+CAP LS
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+--------------------------new accept client fd: 5
+Connexion acceptée de 127.0.0.1 : 38378
+client destructeur
+client destructeur
+CAP LS
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+MODE madaguen +i
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
+PRIVMSG #fdp :kick auferran
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PRIVMSG #fdp :kick auferran
+		on parse :PRIVMSG #fdp :kick auferran
+WORD : PRIVMSG
+method found :9
+!= CAP:1!= UESER:1!= NICK:1
+method:9
+in privmsg
+KICK #fdp auferran :
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: KICK #fdp auferran :
+		on parse :KICK #fdp auferran :
+WORD : KICK
+method found :5
+!= CAP:1!= UESER:1!= NICK:1
+method:5
+in kick
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 6
+Connexion acceptée de 127.0.0.1 : 57676
+client destructeur
+CAP LS
+PASS coucou
+
+	 vecteur inpu client apres line erase:PASS coucou
+
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 7
+Connexion acceptée de 127.0.0.1 : 38314
+client destructeur
+CAP LS
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+MODE madaguen +i
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 8
+Connexion acceptée de 127.0.0.1 : 55474
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+CAP END
+
+	 vecteur inpu client apres line erase:CAP END
+
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+MODE madaguen +i
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 9
+Connexion acceptée de 127.0.0.1 : 55194
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+JOIN #fdp
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:JOIN #fdp
+
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 10
+Connexion acceptée de 127.0.0.1 : 59344
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+CAP END
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+CAP END
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+CAP END
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+MODE madaguen +i
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:CAP END
+MODE madaguen +i
+WHOIS auferran
+
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+	 vecteur inpu client apres line erase:MODE madaguen +i
+WHOIS auferran
+
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 11
+Connexion acceptée de 127.0.0.1 : 43722
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+JOIN #fdp
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:JOIN #fdp
+
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 12
+Connexion acceptée de 127.0.0.1 : 37046
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+CAP END
+
+	 vecteur inpu client apres line erase:CAP END
+
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+MODE madaguen +i
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 13
+Connexion acceptée de 127.0.0.1 : 35860
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+JOIN #fdp
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:JOIN #fdp
+
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 14
+Connexion acceptée de 127.0.0.1 : 34098
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+CAP END
+
+	 vecteur inpu client apres line erase:CAP END
+
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+MODE madaguen +i
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:MODE madaguen +i
+WHOIS auferran
+
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 15
+Connexion acceptée de 127.0.0.1 : 57440
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+JOIN #fdp
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:JOIN #fdp
+
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 16
+Connexion acceptée de 127.0.0.1 : 51596
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+CAP END
+
+	 vecteur inpu client apres line erase:CAP END
+
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+MODE madaguen +i
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:MODE madaguen +i
+WHOIS auferran
+
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 17
+Connexion acceptée de 127.0.0.1 : 44008
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+JOIN #fdp
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:JOIN #fdp
+
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 18
+Connexion acceptée de 127.0.0.1 : 54756
+client destructeur
+CAP LS
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 19
+Connexion acceptée de 127.0.0.1 : 48186
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+WHOIS auferran
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:JOIN #fdp
+
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 20
+Connexion acceptée de 127.0.0.1 : 49566
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+CAP END
+
+	 vecteur inpu client apres line erase:CAP END
+
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+MODE madaguen +i
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 21
+Connexion acceptée de 127.0.0.1 : 41218
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+JOIN #fdp
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:JOIN #fdp
+
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 22
+Connexion acceptée de 127.0.0.1 : 60918
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+MODE madaguen +i
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 23
+Connexion acceptée de 127.0.0.1 : 58122
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+JOIN #fdp
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:JOIN #fdp
+
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 24
+Connexion acceptée de 127.0.0.1 : 52096
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 25
+Connexion acceptée de 127.0.0.1 : 33952
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+JOIN #fdp
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:JOIN #fdp
+
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 26
+Connexion acceptée de 127.0.0.1 : 44504
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+MODE madaguen +i
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 27
+Connexion acceptée de 127.0.0.1 : 36128
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+WHOIS auferran
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:JOIN #fdp
+
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 28
+Connexion acceptée de 127.0.0.1 : 32810
+client destructeur
+CAP LS
+PASS coucou
+
+	 vecteur inpu client apres line erase:PASS coucou
+
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+MODE madaguen +i
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 29
+Connexion acceptée de 127.0.0.1 : 34396
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+JOIN #fdp
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:JOIN #fdp
+
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 30
+Connexion acceptée de 127.0.0.1 : 37744
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 31
+Connexion acceptée de 127.0.0.1 : 57710
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+MODE madaguen +i
+WHOIS auferran
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+JOIN #fdp
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:JOIN #fdp
+
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 32
+Connexion acceptée de 127.0.0.1 : 38978
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 33
+Connexion acceptée de 127.0.0.1 : 49448
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+JOIN #fdp
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:JOIN #fdp
+
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 34
+Connexion acceptée de 127.0.0.1 : 42594
+client destructeur
+CAP LS
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+MODE madaguen +i
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 35
+Connexion acceptée de 127.0.0.1 : 50458
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+JOIN #fdp
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:JOIN #fdp
+
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 36
+Connexion acceptée de 127.0.0.1 : 46098
+client destructeur
+CAP LS
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+MODE madaguen +i
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 37
+Connexion acceptée de 127.0.0.1 : 32920
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+JOIN #fdp
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:JOIN #fdp
+
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 38
+Connexion acceptée de 127.0.0.1 : 43602
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 39
+Connexion acceptée de 127.0.0.1 : 45456
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+JOIN #fdp
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:JOIN #fdp
+
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 40
+Connexion acceptée de 127.0.0.1 : 48786
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+PING server
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: PING server
+		on parse :PING server
+WORD : PING
+method found :11
+!= CAP:1!= UESER:1!= NICK:1
+method:11
+in ping
+pong response: PONG
+
+			 vector size  :0  i == 4res[onse sended:PONG
+client destructeur
+Connexion closed
+--------------------------new accept client fd: 41
+Connexion acceptée de 127.0.0.1 : 60360
+client destructeur
+CAP LS
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP LS
+		on parse :CAP LS
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:LS
+je print ici la reponse::server CAP * LS :KICK INVITE TOPIC MODE
+:server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+:server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+:server 003  :This server was created 15 May 2025
+:server 004  localhost 1.0 o itklo
+:server MODE  +i
+
+
+			 vector size  :246  i == 42res[onse sended::server CAP * LS :KICK INVITE TOPIC MODE
+
+
+			 vector size  :181  i == 65res[onse sended::server 001 madaguen :Welcome to the MADAGUENAUFERRANIRC SERVER
+
+PASS coucou
+NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+	 vecteur inpu client apres line erase:NICK auferran
+USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: PASS coucou
+		on parse :PASS coucou
+WORD : PASS
+method found :2
+!= CAP:1!= UESER:1!= NICK:1
+method:2
+in pass
+le passwod du serveur est  : coucou
+le passwod recu est : coucou
+
+			 vector size  :105  i == 76res[onse sended::server 002  :Your host is server MADAGUENAUFERRANIRC, running version 1.0
+
+	 vecteur inpu client apres line erase:USER auferran auferran localhost :Aurelien FERRAND
+
+				a ete lu dansl 'input client: NICK auferran
+		on parse :NICK auferran
+WORD : NICK
+method found :1
+!= CAP:1!= UESER:1!= NICK:0
+method:1
+in nick
+
+			 vector size  :54  i == 51res[onse sended::server 003  :This server was created 15 May 2025
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: USER auferran auferran localhost :Aurelien FERRAND
+		on parse :USER auferran auferran localhost :Aurelien FERRAND
+WORD : USER
+method found :3
+!= CAP:1!= UESER:0!= NICK:1
+method:3
+in user
+
+			 vector size  :18  i == 36res[onse sended::server 004  localhost 1.0 o itklo
+
+
+			 vector size  :0  i == 18res[onse sended::server MODE  +i
+
+CAP END
+
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: CAP END
+		on parse :CAP END
+WORD : CAP
+method found :0
+!= CAP:0!= UESER:1!= NICK:1
+method:0
+intput:END
+MODE madaguen +i
+WHOIS auferran
+JOIN #fdp
+
+	 vecteur inpu client apres line erase:WHOIS auferran
+JOIN #fdp
+
+				a ete lu dansl 'input client: MODE madaguen +i
+		on parse :MODE madaguen +i
+WORD : MODE
+method found :8
+!= CAP:1!= UESER:1!= NICK:1
+method:8
+in mode
+	 vecteur inpu client apres line erase:JOIN #fdp
+
+				a ete lu dansl 'input client: WHOIS auferran
+		on parse :WHOIS auferran
+WORD : WHOIS
+method found :12
+!= CAP:1!= UESER:1!= NICK:1
+method:12
+in whois
+	 vecteur inpu client apres line erase:
+				a ete lu dansl 'input client: JOIN #fdp
+		on parse :JOIN #fdp
+WORD : JOIN
+method found :4
+!= CAP:1!= UESER:1!= NICK:1
+method:4
+in join
