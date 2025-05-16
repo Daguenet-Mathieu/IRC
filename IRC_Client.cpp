@@ -6,7 +6,11 @@ IRC_Client::IRC_Client(int socket_client): _socket_client(socket_client), _clien
 {
 }
 
-IRC_Client::IRC_Client(const IRC_Client &client): _socket_client(client._socket_client), _client_info(false), _state(NOT_CONNECTED)
+IRC_Client::IRC_Client(int socket_client, const std::string &host): _socket_client(socket_client), _client_info(false), _state(NOT_CONNECTED), _host(host)
+{
+}
+
+IRC_Client::IRC_Client(const IRC_Client &client): _socket_client(client._socket_client), _client_info(false), _state(NOT_CONNECTED), _host(client._host)
 {
 }
 
@@ -30,7 +34,9 @@ void    IRC_Client::set_socket_client(int socket_client)
 
 void    IRC_Client::set_username(const std::string &username)
 {
+    std::cout<<"old user name == "<<_username<<std::endl;
     _username = username;
+    std::cout<<"newuser name == "<<_username<<std::endl;
 }
 
 std::string    IRC_Client::get_username() const
@@ -69,6 +75,10 @@ int IRC_Client::get_state() const
 }
 
 //FUNCTIONS
+
+std::string IRC_Client::get_prefix() const {
+	return ":" + _nickname + "!~" + _username + "@" + _host;
+}
 
 void    IRC_Client::close_socket() const
 {
@@ -109,14 +119,13 @@ bool    IRC_Client::send_output_client()
     {
         if (_output_client[i] == '\n')
         {
-            i++;
             break ;
         }
     }
-    std::string response = std::string(_output_client.begin(), _output_client.begin() + i);
-    if (_output_client[i] == '\n' && _output_client[i + 1] == '\r')
-        i++;
-    _output_client.erase(_output_client.begin(), _output_client.begin() + i);  
+    if (i >=_output_client.size()) return false;
+    std::cout<<"i == "<<i<<std::endl;
+    std::string response = std::string(_output_client.begin(), _output_client.begin() + i + 1);
+    _output_client.erase(_output_client.begin(), _output_client.begin() + i + 1);  
     send(this->get_socket_client(), response.c_str(), response.size(), 0);
     std::cout<<"repsonse send : "<<response<<std::endl;
     return (true);

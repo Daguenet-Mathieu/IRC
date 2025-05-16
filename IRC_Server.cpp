@@ -57,8 +57,9 @@ void	IRC_Server::check_socket_server()
 		if (client_fd == -1)
 			return ;
 		client_ip = inet_ntoa(client_addr.sin_addr);
+		std::cout<<"ip client : "<<client_ip<<std::endl;
 		ip = ntohs(client_addr.sin_port);
-		IRC_Client client(client_fd);
+		IRC_Client client(client_fd, client_ip);
 		std::cout<<"Connexion acceptée de "<<client_ip<<" : "<<ntohs(client_addr.sin_port)<<std::endl;
 		this->_clients.push_back(client);
 	}
@@ -95,8 +96,10 @@ void	IRC_Server::check_socket_client()
 		if (FD_ISSET(this->_clients[i].get_socket_client(), &_writefds))
 		{
 			std::string line;
-			if (this->_clients[i].get_input_client(line))
-				this->launch_method(this->parse_data(line, this->_clients[i]), line, this->_clients[i], i);
+			if (this->_clients[i].get_input_client(line)){
+				if (this->launch_method(this->parse_data(line, this->_clients[i]), line, this->_clients[i], i) == false)
+					continue ;
+			}
 			bool res = this->_clients[i].send_output_client();
 			if (this->_clients[i].get_state() == ERROR && res == false)
 			{
@@ -189,8 +192,8 @@ struct input	IRC_Server::parse_data(const std::string &line, IRC_Client &)
 
 	const char *method[] = {
 		"CAP",
-		"NICK",
 		"PASS",
+		"NICK",
 		"USER",
 		"JOIN",
 		"KICK",
@@ -226,7 +229,6 @@ bool	IRC_Server::cap(const struct input &, IRC_Client &client, const std::string
 		return true;
 	std::string response = ":server CAP * LS :KICK INVITE TOPIC MODE\r\n";
 	client.set_output_client(response);
-	client.set_state(INSTANCE_CONNECT);//pour testester a degager
 	//cap end check si status client connected sinon le degager
 	// set negociating si ls
 	// terminer negociation si end envoyer la liste des infos manquqntes
@@ -283,15 +285,24 @@ bool	IRC_Server::cap(const struct input &, IRC_Client &client, const std::string
 	return true;
 }
 
-bool	IRC_Server::pass(const struct input &, IRC_Client &, const std::string &)
+bool	IRC_Server::pass(const struct input &, IRC_Client &client, const std::string &line)
 {
 	// if (_password != input.password)
 	// {
-	// 	std::string response = ":464 madaguen :Password incorrect\r\n";//mettre username
+	
+		std::string response = ":464 MADAGUENAUFERRANIRC :Password incorrect\r\n";//mettre username
+
 	// 	std::cout<<"\t\t\t wrong password"<<std::endl;
 	// 	client.set_output_client(response);
 	// 	client.set_state(ERROR);
 	// }
+	std::cout<<"in pssrd: "<<line<<std::endl;
+	if (get_word(line, 2)!= this->_password)
+	{
+		client.set_output_client(response);
+		return false;
+	}
+	//set passwd ok?
 	return true;
 }
 
@@ -299,7 +310,9 @@ bool	IRC_Server::nick(const struct input &, IRC_Client &c, const std::string &li
 {
 	std::cout<<"in nick"<<std::endl;
 	std::cout<<"line : "<<line<<std::endl;
-	c.set_nickname("");
+	//std::string IRC_Client::get_prefix() const {
+ //   return ":" + _nick + "!~" + _username + "@" + _ip;}//auser pouanement denic + autres trucs?
+	c.set_nickname(get_word(line, 2));
 	// 433 ERR_NICKNAMEINUSE
 	//chekc si le nick est deja utilise  sinon le changer
 	//:ancien_nick!user@host NICK :nouveau_nick
@@ -309,16 +322,55 @@ bool	IRC_Server::nick(const struct input &, IRC_Client &c, const std::string &li
 	return true;
 }
 
-bool	IRC_Server::user(const struct input &, IRC_Client &, const std::string &)
+bool	IRC_Server::user(const struct input &, IRC_Client &client, const std::string &line)
 {
 	std::cout<<"in user"<<std::endl;
+	//:nick!user@host prefix
+	// USER madaguen madaguen localhost :Mathieu DAGUENET
+	if (client.get_username().size() == 0)
+	{
+		std::string username = get_word(line, 2);
+		client.set_username(username);
+		client.set_state(INSTANCE_CONNECT);//pour testester a degager
+	}
 	return true;
 }
+/*:nick!user@host JOIN :#newchan
+:server 332 nick #newchan :       ; topic vide
+:server 353 nick = #newchan :nick
+:server 366 nick #newchan :End of /NAMES list.*/
 
-bool	IRC_Server::join(const struct input &, IRC_Client &, const std::string &line)
+/*403	Channel interdit/banni/invalide	:server 403 nick #badchan :No such channel
+405	L’utilisateur est déjà dans trop de channels	:server 405 nick #chan :You have joined too many channels
+471	Channel plein (si tu limites le nombre)	:server 471 nick #chan :Cannot join channel (+l)
+473	Channel sur invitation uniquement	:server 473 nick #chan :Cannot join channel (+i)
+474	L’utilisateur est banni	:server 474 nick #chan :Cannot join channel (+b)
+475	Mot de passe requis	:server 475 nick #chan :Cannot join channel (+k)*/
+
+bool	IRC_Server::join(const struct input &, IRC_Client &client, const std::string &line)
 {
 	std::cout<<"in join"<<std::endl;
 	std::cout << "line : " << line << std::endl;
+	std::string password = get_word(line, 3);
+	std::string channel = get_word(line, 2);
+	if (channel.size() == 0){
+		std::string response = ":MADAGUENAUFERRANIRC 461 " + client.get_nickname() + " JOIN :Not enough parameters\r\n";
+		client.set_output_client(response);
+		return true ;
+	}
+	if (_channels.find(channel) != _channels.end()) {
+		//ajouter le client au serveur
+		//cas password pas password
+	}
+	else{
+		//creer le channel //password si y a
+		/*:nick!user@host JOIN :#newchan
+		:server 332 nick #newchan :       ; topic vide
+		:server 353 nick = #newchan :nick
+		:server 366 nick #newchan :End of /NAMES list.*/
+
+	}
+
 	return true;
 }
 
@@ -346,10 +398,12 @@ bool	IRC_Server::mode(const struct input &, IRC_Client &, const std::string &)
 	return true;
 }
 
-bool	IRC_Server::privmsg(const struct input &input, IRC_Client &, const std::string &)
+bool	IRC_Server::privmsg(const struct input &input, IRC_Client &, const std::string &line)
 {
-	std::cout<<"in privmsg"<<std::endl;
+	std::cout<<"in privmsg : "<<line<<std::endl;
 	(void) input;
+
+	//:<nick_emetteur>!~<user_emetteur>@<host_emetteur> PRIVMSG <target> :<message> -> identifier le clent destinataire et set dans son output
 	return true;
 }
 
@@ -379,9 +433,12 @@ bool	IRC_Server::leave(const struct input &, IRC_Client &, const std::string &)
 	return true;
 }
 
-bool	IRC_Server::part(const struct input &, IRC_Client &, const std::string &)
+bool	IRC_Server::part(const struct input &, IRC_Client &client, const std::string &line)
 {
 	std::cout<<"in part"<<std::endl;
+	std::string response = client.get_prefix() + " PART " + get_word(line, 2) +" :bye\r\n";
+	client.set_output_client(response);
+
 	return true;
 }
 
@@ -404,25 +461,25 @@ bool	IRC_Server::list(const struct input &, IRC_Client &, const std::string &)
 
 } 
 
-void	IRC_Server::launch_method(const struct input &user_input, const std::string &line, IRC_Client &client, int i)
+bool	IRC_Server::launch_method(const struct input &user_input, const std::string &line, IRC_Client &client, int i)
 {
-
+	(void)i;
 	// if (client.get_state() == NOT_CONNECTED && (struct_input.method != PASS && struct_input.method != CAP))
 	// {
 	// 	//ERR_PASSWDMISMATCH (464)
 	// 	//reclamer le password
 	// 	;
 	// }
-	if (user_input.method > PASS && client.get_state() == NOT_CONNECTED)
-	{
-		client.set_output_client(":MADAGUENAUFERRAN 451 * PRIVMSG :You have not registered");
-		close(client.get_socket_client());
-		this->_clients.erase(this->_clients.begin() + i);
-		//envoyer le client se faire foutre 3.1.1 rfc
-		return ;
-	}
+	// if (user_input.method > PASS && client.get_state() == NOT_CONNECTED)//aadapter + nC ne seraas not connected
+	// {
+	// 	client.set_output_client(":MADAGUENAUFERRAN 451 * PRIVMSG :You have not registered");
+	// 	close(client.get_socket_client());
+	// 	this->_clients.erase(this->_clients.begin() + i);
+	// 	//envoyer le client se faire foutre 3.1.1 rfc
+	// 	return ;
+	// }
 	if (client.get_state() == INSTANCE_CONNECT){
-		std::string response = std::string(":server 001 ") + client.get_nickname() + "madaguen" + " :Welcome to the MADAGUENAUFERRANIRC SERVER\r\n";
+		std::string response = std::string(":server 001 ") + client.get_nickname() + " :Welcome to the MADAGUENAUFERRANIRC SERVER\r\n";
 		// 3. RPL_YOURHOST (002)
 		response += ":server 002 " + client.get_nickname() +  " :Your host is server MADAGUENAUFERRANIRC, running version 1.0\r\n";
 		// 4. RPL_CREATED (003)
@@ -474,6 +531,12 @@ bool (IRC_Server::*fun[])(const struct input&, IRC_Client&, const std::string &)
 	//  void (IRC_Server::*fun[])(const struct input&, IRC_Client&) = {&IRC_Server::cap,&IRC_Server::join ,&IRC_Server::nick, &IRC_Server::kick, &IRC_Server::invite, &IRC_Server::topic, &IRC_Server::mode, &IRC_Server::privmsg, \
 	// &IRC_Server::dcc, &IRC_Server::pong,  &IRC_Server::pass, &IRC_Server::user, &IRC_Server::whois, &IRC_Server::leave, NULL};
 	// MethodFunction fun = initializeFunctions();
-	if (user_input.method < END_METHOD)
-		(this->*fun[user_input.method])(user_input, client, line);
+	if (user_input.method < END_METHOD){
+		if ((this->*fun[user_input.method])(user_input, client, line) == false){
+			close(client.get_socket_client());
+			this->_clients.erase(this->_clients.begin() + i);
+			return (false);
+		}
+	}
+	return (true);
 }
