@@ -315,9 +315,10 @@ bool	IRC_Server::user(const struct input &, IRC_Client &, const std::string &)
 	return true;
 }
 
-bool	IRC_Server::join(const struct input &, IRC_Client &, const std::string &)
+bool	IRC_Server::join(const struct input &, IRC_Client &, const std::string &line)
 {
 	std::cout<<"in join"<<std::endl;
+	std::cout << "line : " << line << std::endl;
 	return true;
 }
 

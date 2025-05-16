@@ -7,7 +7,8 @@ IRC_Client::IRC_Client(int socket_client): _socket_client(socket_client), _clien
 }
 
 IRC_Client::IRC_Client(const IRC_Client &client): _socket_client(client._socket_client), _client_info(false), _state(NOT_CONNECTED)
-{}
+{
+}
 
 //DESCTRUCTOR
 

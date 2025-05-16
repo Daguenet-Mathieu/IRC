@@ -2,7 +2,8 @@ NAME = ircserv
 
 SRCS =	main.cpp 	\
 	IRC_Server.cpp	\
-	IRC_Client.cpp
+	IRC_Client.cpp	\
+	IRC_Channel.cpp
 
 OBJDIR = obj
 DEPDIR = dep

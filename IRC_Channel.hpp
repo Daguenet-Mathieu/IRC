@@ -1,21 +1,28 @@
 #ifndef IRC_CHANNEL
 #define IRC_CHANNEL
-#include <vector>
+
 #include "IRC_Server.hpp"
 #include "IRC_Client.hpp"
+
+#include <vector>
+#include <map>
 
 
 class IRC_Client;
 
-class IRC_Channel{
+class IRC_Channel
+{
     public:
 
+    IRC_Channel(const std::string& name, const std::string& password);
+    ~IRC_Channel();
+
     private:
-    //     bool                        _invite;
-    //     std::vector<std::string>    _operators;//operators name
-    //    // std::vector<IRC_Client &> _clients;
-    //     std::string                 _password;//si vide pas de mdp
-    //     std::string                 _topic;
+
+    std::map<IRC_Client &, int> _clients;
+    std::string                 _name;
+    std::string                 _password;
+    std::string                 _topic;
 };
 
 #endif

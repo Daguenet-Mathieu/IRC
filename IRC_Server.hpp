@@ -22,6 +22,7 @@
 #include <string>
 
 class IRC_Client;
+class IRC_Channel;
 
 struct input {
 	int			method;
@@ -88,6 +89,7 @@ class	IRC_Server
 		int							ip;
 		struct sockaddr_in			_server_addr;
 		std::vector<IRC_Client>		_clients;
+		std::vector<IRC_Channel>	_channels;
 
 		void						write_socket_client(int index_client);
 		void						read_socket_client(int index_client);
