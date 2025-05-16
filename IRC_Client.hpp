@@ -62,16 +62,16 @@ class IRC_Client
 
     private:
 
-        int             _socket_client;
-        bool            _client_info;
-        int             _state;
-        std::string     _username;
-        std::string     _nickname;
-        std::string     _host;
-        std::vector<std::string> _connected_channel;
-        std::vector<std::string> _invited_channel;
-        std::vector<char> _output_client;
-        std::vector<char> _input_client;
+        int				_socket_client;
+        bool				_client_info;
+        int				_state;
+        std::string			_username;
+        std::string			_nickname;
+        std::string			_host;
+        std::vector<std::string>	_connected_channel;
+        std::vector<std::string>	_invited_channel;
+        std::vector<char>		_output_client;
+        std::vector<char>		_input_client;
 };
 
 #endif

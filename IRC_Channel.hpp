@@ -24,10 +24,10 @@ class IRC_Channel
 
 
     private:
-        std::map<IRC_Client &, int> _clients;
-        std::string                 _name;
-        std::string                 _password;
-        std::string                 _topic;
+        std::map<IRC_Client, int>	_clients;
+        std::string                 	_name;
+        std::string                 	_password;
+        std::string                 	_topic;
 };
 
 #endif
