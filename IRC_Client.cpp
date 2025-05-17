@@ -76,8 +76,9 @@ int IRC_Client::get_state() const
 
 //FUNCTIONS
 
-std::string IRC_Client::get_prefix() const {
-	return ":" + _nickname + "!~" + _username + "@" + _host;
+std::string IRC_Client::get_prefix() const 
+{
+	return ":" + _nickname + "!" + _username + "@" + _host;
 }
 
 void    IRC_Client::close_socket() const

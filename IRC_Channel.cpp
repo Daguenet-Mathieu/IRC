@@ -12,6 +12,7 @@ IRC_Channel::~IRC_Channel()
 {
 }
 
+//FUNCTIONS
 
 std::string IRC_Channel::get_name() const{
     return (_name);
@@ -37,13 +38,12 @@ void        IRC_Channel::set_topic(const std::string &topic){
     _topic = topic;
 }
 
-bool IRC_Channel::in_channel(const std::string& client){
-	if (_clients.find(client) != _clients.end()) {
+bool IRC_Channel::in_channel(const std::string& name){
+	if (_clients.find(name) != _clients.end()) {
         return true;
     }
     return false;
 }
-
 
 std::vector<std::string>    IRC_Channel::get_channel_clients(){
     std::vector<std::string>    clients;
@@ -51,4 +51,15 @@ std::vector<std::string>    IRC_Channel::get_channel_clients(){
         clients.push_back(it->first);
     }
     return clients;
+}
+
+void    IRC_Channel::set_client_status(const std::string& name, int status)
+{
+    _clients[name] = status;
+}
+
+void    IRC_Channel::remove_client(const std::string& name)
+{
+    if (_clients.find(name) != _clients.end())
+        _clients.erase(name);
 }
