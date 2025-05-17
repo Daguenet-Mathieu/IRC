@@ -28,6 +28,16 @@ IRC_Server::~IRC_Server()
 
 //FUNCTIONS
 
+std::vector<std::string>	IRC_Server::get_client_channels(const std::string& client){
+	std::vector<std::string>	channels;
+
+	for (std::map<std::string, IRC_Channel>::iterator it = _channels.begin(); it != _channels.end(); it++){
+		if(it->second.in_channel(client))
+			channels.push_back(it->first);
+	}
+	return channels;
+}
+
 std::string IRC_Server::getCurrentDateTime() {
     time_t now = time(0);
     struct tm tstruct;

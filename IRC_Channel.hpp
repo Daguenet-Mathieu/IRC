@@ -21,10 +21,12 @@ class IRC_Channel
         void        set_password(const std::string&);
         std::string get_topic() const;
         void        set_topic(const std::string&);
-
+        bool        in_channel(const std::string&);
+        std::vector<std::string>    get_channel_clients();
+//execute action mode + client name bool
 
     private:
-        std::map<IRC_Client, int>	_clients;
+        std::map<std::string, int>      _clients;
         std::string                 	_name;
         std::string                 	_password;
         std::string                 	_topic;

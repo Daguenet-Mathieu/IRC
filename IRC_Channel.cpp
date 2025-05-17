@@ -36,3 +36,19 @@ std::string IRC_Channel::get_topic() const{
 void        IRC_Channel::set_topic(const std::string &topic){
     _topic = topic;
 }
+
+bool IRC_Channel::in_channel(const std::string& client){
+	if (_clients.find(client) != _clients.end()) {
+        return true;
+    }
+    return false;
+}
+
+
+std::vector<std::string>    IRC_Channel::get_channel_clients(){
+    std::vector<std::string>    clients;
+    for (std::map<std::string, int>::iterator it = _clients.begin(); it != _clients.end(); it++){
+        clients.push_back(it->first);
+    }
+    return clients;
+}

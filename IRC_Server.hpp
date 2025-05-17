@@ -90,14 +90,15 @@ class	IRC_Server
 		struct sockaddr_in			_server_addr;
 		std::vector<IRC_Client>			_clients;
 		std::map<std::string, IRC_Channel>	_channels;
-
+		
+		std::vector<std::string>	get_client_channels(const std::string&);
 		void					write_socket_client(int index_client);
 		void					read_socket_client(int index_client);
 		void					check_socket_client();
 		void					check_socket_server();
 		void					check_all_sockets();
 		void					manage_fdset();
-		int					get_nfds();
+		int						get_nfds();
 		std::string				getCurrentDateTime();
 		struct input				parse_data(const std::string &, IRC_Client &);
 		bool					launch_method(const struct input &, const std::string &, IRC_Client &, int);
