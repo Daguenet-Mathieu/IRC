@@ -53,6 +53,15 @@ std::vector<std::string>    IRC_Channel::get_channel_clients(){
     return clients;
 }
 
+std::vector<std::string>    IRC_Channel::get_formated_channel_clients(){
+    std::vector<std::string>    clients;
+    for (std::map<std::string, int>::iterator it = _clients.begin(); it != _clients.end(); it++){
+        std::string role = it->second == OPERATOR ? "@" : "";
+        clients.push_back(role + it->first);
+    }
+    return clients;
+}
+
 void    IRC_Channel::set_client_status(const std::string& name, int status)
 {
     _clients[name] = status;

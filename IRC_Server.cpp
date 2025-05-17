@@ -99,8 +99,8 @@ void	IRC_Server::check_socket_server()
 {
 	if (FD_ISSET(_socket, &_readfds))
 	{
-		int client_fd;
-		char *client_ip;
+		int		client_fd;
+		char	*client_ip;
 
 		struct sockaddr_in client_addr;
 		socklen_t addr_len = sizeof(client_addr);
@@ -110,7 +110,7 @@ void	IRC_Server::check_socket_server()
 		client_ip = inet_ntoa(client_addr.sin_addr);
 		std::cout<<"ip client : "<<client_ip<<std::endl;
 		ip = ntohs(client_addr.sin_port);
-		IRC_Client client(client_fd, client_ip);
+		IRC_Client *client = new IRC_Client(client_fd, client_ip);
 		std::cout<<"Connexion acceptée de "<<client_ip<<" : "<<ntohs(client_addr.sin_port)<<std::endl;
 		this->_clients.push_back(client);
 	}
@@ -121,17 +121,17 @@ void	IRC_Server::read_socket_client(int i)
 	char		buffer[2048];
 
 	memset(&buffer, 0, sizeof(buffer));
-	ssize_t	bytes_received = recv(this->_clients[i].get_socket_client(), buffer, sizeof(buffer), 0);
+	ssize_t	bytes_received = recv(this->_clients[i]->get_socket_client(), buffer, sizeof(buffer), 0);
 	if (bytes_received > 0)
 	{
 		std::cout << buffer << std::endl;
-		_clients[i].fill_input_client(buffer, bytes_received);
+		_clients[i]->fill_input_client(buffer, bytes_received);
 		std::string input(buffer);
 	}
 	else if (bytes_received == 0)
 	{
-		FD_CLR(this->_clients[i].get_socket_client(), &_readfds);
-		close(this->_clients[i].get_socket_client());
+		FD_CLR(this->_clients[i]->get_socket_client(), &_readfds);
+		delete(this->_clients[i]);
 		this->_clients.erase(this->_clients.begin() + i);
 	}
 	else
@@ -142,23 +142,23 @@ void	IRC_Server::check_socket_client()
 {
 	for (int i = 0; i < static_cast<int>(this->_clients.size()); i++)
 	{
-		if (FD_ISSET(this->_clients[i].get_socket_client(), &_exceptfds))
+		if (FD_ISSET(this->_clients[i]->get_socket_client(), &_exceptfds))
 			throw std::runtime_error("error in socket client");
-		if (FD_ISSET(this->_clients[i].get_socket_client(), &_writefds))
+		if (FD_ISSET(this->_clients[i]->get_socket_client(), &_writefds))
 		{
 			std::string line;
-			if (this->_clients[i].get_input_client(line)){
-				if (this->launch_method(this->parse_data(line, this->_clients[i]), line, this->_clients[i], i) == false)
+			if (this->_clients[i]->get_input_client(line)){
+				if (this->launch_method(this->parse_data(line, *this->_clients[i]), line, *this->_clients[i], i) == false)
 					continue ;
 			}
-			bool res = this->_clients[i].send_output_client();
-			if (this->_clients[i].get_state() == ERROR && res == false)
+			bool res = this->_clients[i]->send_output_client();
+			if (this->_clients[i]->get_state() == ERROR && res == false)
 			{
-				close(this->_clients[i].get_socket_client());
 				this->_clients.erase(this->_clients.begin() + i);
+				delete(this->_clients[i]);
 			}
 		}
-		if (FD_ISSET(this->_clients[i].get_socket_client(), &_readfds))
+		if (FD_ISSET(this->_clients[i]->get_socket_client(), &_readfds))
 			this->read_socket_client(i);
 	}
 
@@ -180,9 +180,9 @@ void	IRC_Server::manage_fdset()
     FD_SET(_socket, &_exceptfds);
 	for (int i = 0; i < static_cast<int>(this->_clients.size()); i++)
     {
-    	FD_SET(this->_clients[i].get_socket_client(), &_readfds);
-    	FD_SET(this->_clients[i].get_socket_client(), &_writefds);
-    	FD_SET(this->_clients[i].get_socket_client(), &_exceptfds);
+    	FD_SET(this->_clients[i]->get_socket_client(), &_readfds);
+    	FD_SET(this->_clients[i]->get_socket_client(), &_writefds);
+    	FD_SET(this->_clients[i]->get_socket_client(), &_exceptfds);
     }
 }
 
@@ -191,8 +191,8 @@ int	IRC_Server::get_nfds()
 	int	maxi_fds = _socket;
 	for (int i = 0; i < static_cast<int>(this->_clients.size()); i++)
 	{
-		if (this->_clients[i].get_socket_client() > maxi_fds)
-			maxi_fds = this->_clients[i].get_socket_client();
+		if (this->_clients[i]->get_socket_client() > maxi_fds)
+			maxi_fds = this->_clients[i]->get_socket_client();
 	}
 	return (maxi_fds);
 }
@@ -343,7 +343,12 @@ bool	IRC_Server::nick(const struct input &, IRC_Client &c, const std::string &li
 	std::cout<<"line : "<<line<<std::endl;
 	//std::string IRC_Client::get_prefix() const {
  //   return ":" + _nick + "!~" + _username + "@" + _ip;}//auser pouanement denic + autres trucs?
+ //verifier le nick aussi !!!
+	std::string response = c.get_prefix() + " NICK " + get_word(line, 2) + "\r\n";
+	std::cout<<"nick res[ponse === " << response << std::endl;
+	c.set_output_client(response);
 	c.set_nickname(get_word(line, 2));
+	std::cout <<"new nick == "<<c.get_nickname()<<std::endl;
 	// 433 ERR_NICKNAMEINUSE
 	//chekc si le nick est deja utilise  sinon le changer
 	//:ancien_nick!user@host NICK :nouveau_nick
@@ -416,9 +421,21 @@ bool	IRC_Server::join(const struct input &, IRC_Client &client, const std::strin
 				return true;
 			}
 		}
+		std::vector<std::string> clients_nicks =  _channels[channel]->get_formated_channel_clients();
+		std::string all_nicks = "";
+		for (size_t i = 0; i < clients_nicks.size(); i++) {
+			all_nicks += clients_nicks[i] + " ";
+		}
+		std::cout<<"all nicks == "<<all_nicks<<std::endl;
+		// if (!all_nicks.empty())
+		// 	all_nicks.pop_back(); // retirer le dernier espace
+
 		std::string response = client.get_prefix() + " JOIN :" + *it + "\r\n"
-					+ ":server 353 " + client.get_nickname() + " = " + *it + " :" + client.get_nickname() + "\r\n"
-					+ ":server 366 " + client.get_nickname() + " " + *it + " :End of NAMES list\r\n";
+    		+ ":server 353 " + client.get_nickname() + " = " + *it + " :" + all_nicks + "\r\n"
+    		+ ":server 366 " + client.get_nickname() + " " + *it + " :End of NAMES list\r\n";
+		// std::string response = client.get_prefix() + " JOIN :" + *it + "\r\n"
+		// 			+ ":server 353 " + client.get_nickname() + " = " + *it + " :" + client.get_nickname() + "\r\n"
+		// 			+ ":server 366 " + client.get_nickname() + " " + *it + " :End of NAMES list\r\n";
 		client.set_output_client(response);
 	}
 	return true;
@@ -522,7 +539,9 @@ bool	IRC_Server::quit(const struct input &, IRC_Client& client, const std::strin
 
 	for (std::map<std::string, IRC_Channel*>::iterator it = _channels.begin(); it != _channels.end(); it++)
 	{
-		response = ":" + client.get_prefix() + " PART " + it->first + " :" + get_word(line, 3);
+		std::cout<<"user "<<client.get_nickname()<<" quitte le channel : "<<it->first;
+		std::string arg = get_word(line, 3).size() == 0 ? "exited" : get_word(line, 3);
+		response = client.get_prefix() + " QUIT " + it->first + " :" + arg + "\r\n";
 		if (it->second->in_channel(client.get_nickname()))
 		{
 			std::vector<std::string>	current_channel_clients = it->second->get_channel_clients();
@@ -531,8 +550,12 @@ bool	IRC_Server::quit(const struct input &, IRC_Client& client, const std::strin
 			{
 				for (size_t j = 0; j < _clients.size(); j++)
 				{
-					if (_clients[j].get_nickname() == current_channel_clients[i])
-						_clients[j].set_output_client(response);
+					std::cout<<"client de j == "<< _clients[j]->get_nickname()<<std::endl;
+					if (_clients[j]->get_nickname() == current_channel_clients[i])
+					{
+						_clients[j]->set_output_client(response);
+						std::cout<<"leave meessage : "<<response<<std::endl;
+					}
 				}				
 			}
 		}
@@ -599,36 +622,37 @@ bool	IRC_Server::launch_method(const struct input &user_input, const std::string
 	//si cap et nego over ignorer
 
 	//si different de cap nick ou user et pas tout set envoyer erreur doner les infos manquqntes dans le message
-bool (IRC_Server::*fun[])(const struct input&, IRC_Client&, const std::string &) = {
-   &IRC_Server::cap,       // Négociation des capacités
-   &IRC_Server::pass,      // Vérification du mot de passe
-   &IRC_Server::nick,      // Gestion du nickname
-   &IRC_Server::user,      // Configuration username/realname
-   &IRC_Server::join,      // Rejoindre un channel
-   &IRC_Server::kick,      // Éjecter un user (op)
-   &IRC_Server::invite,    // Inviter un user (op)
-   &IRC_Server::topic,     // Gérer le sujet (op)
-   &IRC_Server::mode,      // Gérer les modes (op)
-   &IRC_Server::privmsg,   // Messages privés/channel
-   &IRC_Server::dcc,       // Transfert de fichiers
-   &IRC_Server::ping,      // Gestion du ping
-   &IRC_Server::whois,     // Info sur un user
-   &IRC_Server::leave,     // Quitter un channel
-   &IRC_Server::part,      // Alternative à leave
-   &IRC_Server::quit,      // Déconnexion
-   &IRC_Server::names,     // Liste des users
-   &IRC_Server::list,      // Liste des channels
-   NULL                    // Fin du tableau
-};
+	bool (IRC_Server::*fun[])(const struct input&, IRC_Client&, const std::string &) = {
+	&IRC_Server::cap,       // Négociation des capacités
+	&IRC_Server::pass,      // Vérification du mot de passe
+	&IRC_Server::nick,      // Gestion du nickname
+	&IRC_Server::user,      // Configuration username/realname
+	&IRC_Server::join,      // Rejoindre un channel
+	&IRC_Server::kick,      // Éjecter un user (op)
+	&IRC_Server::invite,    // Inviter un user (op)
+	&IRC_Server::topic,     // Gérer le sujet (op)
+	&IRC_Server::mode,      // Gérer les modes (op)
+	&IRC_Server::privmsg,   // Messages privés/channel
+	&IRC_Server::dcc,       // Transfert de fichiers
+	&IRC_Server::ping,      // Gestion du ping
+	&IRC_Server::whois,     // Info sur un user
+	&IRC_Server::leave,     // Quitter un channel
+	&IRC_Server::part,      // Alternative à leave
+	&IRC_Server::quit,      // Déconnexion
+	&IRC_Server::names,     // Liste des users
+	&IRC_Server::list,      // Liste des channels
+	NULL                    // Fin du tableau
+	};
 	//  void (IRC_Server::*fun[])(const struct input&, IRC_Client&) = {&IRC_Server::cap,&IRC_Server::join ,&IRC_Server::nick, &IRC_Server::kick, &IRC_Server::invite, &IRC_Server::topic, &IRC_Server::mode, &IRC_Server::privmsg,
 	// &IRC_Server::dcc, &IRC_Server::pong,  &IRC_Server::pass, &IRC_Server::user, &IRC_Server::whois, &IRC_Server::leave, NULL};
 	// MethodFunction fun = initializeFunctions();
 	if (user_input.method < END_METHOD){
 		if ((this->*fun[user_input.method])(user_input, client, line) == false){
-			close(client.get_socket_client());
 			this->_clients.erase(this->_clients.begin() + i);
+			delete(_clients[i]);
 			return (false);
 		}
 	}
+	std::cout<<"aprres method nickname == "<< client.get_nickname()<<std::endl;
 	return (true);
 }

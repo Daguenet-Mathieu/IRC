@@ -88,7 +88,7 @@ class	IRC_Server
 		int					_socket;
 		int					ip;
 		struct sockaddr_in			_server_addr;
-		std::vector<IRC_Client>			_clients;
+		std::vector<IRC_Client*>			_clients;
 		std::map<std::string, IRC_Channel*>	_channels;
 		
 		std::vector<std::string>	split_channels(const std::string& line);

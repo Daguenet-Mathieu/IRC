@@ -28,6 +28,7 @@ class IRC_Channel
         void        set_topic(const std::string&);
         bool        in_channel(const std::string&);
         std::vector<std::string>    get_channel_clients();
+        std::vector<std::string>    get_formated_channel_clients();
         void                        set_client_status(const std::string&, int);
         void                        remove_client(const std::string&);
 //execute action mode + client name bool

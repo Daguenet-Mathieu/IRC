@@ -18,6 +18,7 @@ IRC_Client::IRC_Client(const IRC_Client &client): _socket_client(client._socket_
 
 IRC_Client::~IRC_Client()
 {
+    close(_socket_client);
 }
 
 //GETTER/SETTER
@@ -128,6 +129,6 @@ bool    IRC_Client::send_output_client()
     std::string response = std::string(_output_client.begin(), _output_client.begin() + i + 1);
     _output_client.erase(_output_client.begin(), _output_client.begin() + i + 1);  
     send(this->get_socket_client(), response.c_str(), response.size(), 0);
-    std::cout<<"repsonse send : "<<response<<std::endl;
+    std::cout<<"repsonse send to "<<_nickname<<" : |"<<response<<"|"<<std::endl;
     return (true);
 }
