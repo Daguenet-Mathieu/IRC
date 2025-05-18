@@ -1,10 +1,11 @@
-#ifndef IRC_CLIENT
-#define IRC_CLIENT
+#ifndef IRC_CLIENT_HPP
+#define IRC_CLIENT_HPP
 #include <vector>
 #include "IRC_Server.hpp"
 // #include "IRC_Channel.hpp"??
 
-#define BUFFER_SIZE 2048;
+#define BUFFER_SIZE 2048
+#define SUPERUSER "ADMIN"
 
 enum nego{
 	NOT_CONNECTED,
@@ -42,6 +43,8 @@ class IRC_Client
         void            set_nickname(const std::string &);
         void            set_host(const std::string &);
         std::string     get_prefix() const;
+        int             get_role() const;
+        void            set_role(int);
 
         class	ThrowException : public std::exception
 	    {
@@ -65,6 +68,7 @@ class IRC_Client
         int				_socket_client;
         bool				_client_info;
         int				_state;
+        int             _role;
         std::string			_username;
         std::string			_nickname;
         std::string			_host;

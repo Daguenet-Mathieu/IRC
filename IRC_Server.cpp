@@ -30,7 +30,7 @@ IRC_Server::~IRC_Server()
 
 //FUNCTIONS
 
-std::string get_word(const std::string &line, int word_index)
+std::string IRC_Server::get_word(const std::string &line, int word_index)
 {
 	size_t start_word = 0;
 	size_t end_word = 0;
@@ -253,7 +253,7 @@ struct input	IRC_Server::parse_data(const std::string &line, IRC_Client &)
 
 //COMMANDS
 
-bool	IRC_Server::cap(const struct input &, IRC_Client &client, const std::string &line)
+bool	IRC_Server::cap(IRC_Client &client, const std::string &line)
 {
 	std::cout<<"iun cap"<<std::endl;//check que nego est bien fini toutes les infos set et user connecte
 	if (get_word(line, 2) == "END")
@@ -316,7 +316,7 @@ bool	IRC_Server::cap(const struct input &, IRC_Client &client, const std::string
 	return true;
 }
 
-bool	IRC_Server::pass(const struct input &, IRC_Client &client, const std::string &line)
+bool	IRC_Server::pass(IRC_Client &client, const std::string &line)
 {
 	// if (_password != input.password)
 	// {
@@ -328,6 +328,11 @@ bool	IRC_Server::pass(const struct input &, IRC_Client &client, const std::strin
 	// 	client.set_state(ERROR);
 	// }
 	std::cout<<"in pssrd: "<<line<<std::endl;
+	if (get_word(line, 2) == std::string(SUPERUSER))
+	{
+		client.set_role(SUPER_OPERATEUR);
+		return true;
+	}
 	if (get_word(line, 2)!= this->_password)
 	{
 		client.set_output_client(response);
@@ -337,7 +342,7 @@ bool	IRC_Server::pass(const struct input &, IRC_Client &client, const std::strin
 	return true;
 }
 
-bool	IRC_Server::nick(const struct input &, IRC_Client &c, const std::string &line)
+bool	IRC_Server::nick(IRC_Client &c, const std::string &line)
 {
 	std::cout<<"in nick"<<std::endl;
 	std::cout<<"line : "<<line<<std::endl;
@@ -358,7 +363,7 @@ bool	IRC_Server::nick(const struct input &, IRC_Client &c, const std::string &li
 	return true;
 }
 
-bool	IRC_Server::user(const struct input &, IRC_Client &client, const std::string &line)
+bool	IRC_Server::user(IRC_Client &client, const std::string &line)
 {
 	std::cout<<"in user"<<std::endl;
 	//:nick!user@host prefix
@@ -383,7 +388,18 @@ bool	IRC_Server::user(const struct input &, IRC_Client &client, const std::strin
 474	L’utilisateur est banni	:server 474 nick #chan :Cannot join channel (+b)
 475	Mot de passe requis	:server 475 nick #chan :Cannot join channel (+k)*/
 
-bool	IRC_Server::join(const struct input &, IRC_Client &client, const std::string &line)
+std::string	IRC_Server::get_users_channel(const std::string &channel)
+{
+	std::vector<std::string> clients_nicks = _channels[channel]->get_formated_channel_clients();
+	std::string all_nicks = "";
+	for (size_t i = 0; i < clients_nicks.size(); i++)
+	{
+			all_nicks += clients_nicks[i] + " ";
+	}
+	return all_nicks;
+} 
+
+bool	IRC_Server::join(IRC_Client &client, const std::string &line)
 {
 	std::cout<<"in join"<<std::endl;
 	std::cout << "line : " << line << std::endl;
@@ -412,7 +428,24 @@ bool	IRC_Server::join(const struct input &, IRC_Client &client, const std::strin
 		}
 		else
 		{
-			if (password == _channels[channel]->get_password()) 
+			int	role = client.get_role();
+			if (role == SUPER_OPERATEUR)
+				_channels[channel]->set_client_status(client.get_nickname(), SUPER_OPERATEUR);
+			if (role != SUPER_OPERATEUR && !(_channels[channel]->get_invite() == false || _channels[channel]->is_invited(client.get_nickname())))
+			{
+				std::string response = std::string(":") + "MADAGUENAUFERRANIRC" + " 473 " + client.get_nickname() + " " + channel + " :Cannot join channel (+i)\r\n";
+				client.set_output_client(response);
+				return true;
+			}
+			int	limit = _channels[channel]->get_limit();
+			std::cout << "channel limit == " << limit << "channle nb user == " << _channels[channel]->get_nb_user()<<std::endl;
+			if (role != SUPER_OPERATEUR && !(limit == -1 || _channels[channel]->get_nb_user() < limit))
+			{
+				std::string response = std::string(":") + "MADAGUENAUFERRANIRC" + " 471 " + client.get_nickname() + " " + channel + " :Cannot join channel (+l)\r\n";
+				client.set_output_client(response);
+				return true;
+			}
+			if ((password.size() == 0 && _channels[channel]->get_password().size() == 0) || password == _channels[channel]->get_password())
 				_channels[channel]->set_client_status(client.get_nickname(), MEMBER);
 			else
 			{
@@ -421,17 +454,8 @@ bool	IRC_Server::join(const struct input &, IRC_Client &client, const std::strin
 				return true;
 			}
 		}
-		std::vector<std::string> clients_nicks =  _channels[channel]->get_formated_channel_clients();
-		std::string all_nicks = "";
-		for (size_t i = 0; i < clients_nicks.size(); i++) {
-			all_nicks += clients_nicks[i] + " ";
-		}
-		std::cout<<"all nicks == "<<all_nicks<<std::endl;
-		// if (!all_nicks.empty())
-		// 	all_nicks.pop_back(); // retirer le dernier espace
-
 		std::string response = client.get_prefix() + " JOIN :" + *it + "\r\n"
-    		+ ":server 353 " + client.get_nickname() + " = " + *it + " :" + all_nicks + "\r\n"
+    		+ ":server 353 " + client.get_nickname() + " = " + *it + " :" + get_users_channel(channel) + "\r\n"
     		+ ":server 366 " + client.get_nickname() + " " + *it + " :End of NAMES list\r\n";
 		// std::string response = client.get_prefix() + " JOIN :" + *it + "\r\n"
 		// 			+ ":server 353 " + client.get_nickname() + " = " + *it + " :" + client.get_nickname() + "\r\n"
@@ -441,66 +465,139 @@ bool	IRC_Server::join(const struct input &, IRC_Client &client, const std::strin
 	return true;
 }
 
-bool	IRC_Server::kick(const struct input &, IRC_Client &, const std::string &)
+bool	IRC_Server::kick(IRC_Client &, const std::string &)
 {
 	std::cout<<"in kick"<<std::endl;
 	return true;
 }
 
-bool	IRC_Server::invite(const struct input &, IRC_Client &, const std::string &)
+bool	IRC_Server::invite(IRC_Client &, const std::string &)
 {
 	std::cout<<"in invit"<<std::endl;
 	return true;
 }
 
-bool	IRC_Server::topic(const struct input &, IRC_Client &, const std::string &)
+bool	IRC_Server::topic(IRC_Client &, const std::string &)
 {
 	std::cout<<"in topic"<<std::endl;
 	return true;
 }
 
-bool	IRC_Server::mode(const struct input &, IRC_Client &, const std::string &)
+bool	IRC_Server::mode(IRC_Client& client, const std::string& line)
 {
 	std::cout<<"in mode"<<std::endl;
+
+	std::string	channel = get_word(line, 2);
+	std::string	arg = get_word(line, 3);
+
+	if (channel.size() == 0 || arg.size() == 0)
+	{
+		std::string response = std::string(":") + "MADAGUENAUFERRANIRC" + " 461 " + client.get_nickname() + " MODE :Not enough parameters\r\n";
+		client.set_output_client(response);
+		return true;
+	}
+	if (channel[0] == '#' || channel[0] == '&')
+		channel.erase(0, 1);
+	std::cout << "in mode : arg == " << arg << " channel == "<< channel << std::endl;
+
+	if (arg == "+i" || arg == "-i"){
+
+		if (_channels.find(channel) == _channels.end())
+		{
+			client.set_output_client("MODE " + client.get_username() + " +i\r\n");
+			return (true);
+		}
+		_channels[channel]->mode_i(client.get_nickname(), arg);
+	}
+	if (arg == "+t" || arg == "-t")
+		_channels[channel]->mode_t(client.get_nickname(), arg);
+	if (arg == "+k" || arg == "-k")
+	{
+		std::string	password = get_word(line, 4);
+		if (password.size() == 0)
+		{
+			std::string response = std::string(":") + "MADAGUENAUFERRANIRC" + " 461 " + client.get_nickname() + " MODE :Not enough parameters\r\n";
+			client.set_output_client(response);
+			return true;
+		}
+
+		_channels[channel]->mode_k(client.get_nickname(), arg, password);
+	}
+	if (arg == "+o" || arg == "-o")
+	{
+		std::string	target = get_word(line, 4);
+		if (target.size() == 0)
+		{
+			std::string response = std::string(":") + "MADAGUENAUFERRANIRC" + " 461 " + client.get_nickname() + " MODE :Not enough parameters\r\n";
+			client.set_output_client(response);
+			return true;
+		}
+
+		_channels[channel]->mode_o(client.get_nickname(), arg, target);
+	}
+	if (arg == "+l" || arg == "-l")
+	{
+		std::string	nb = get_word(line, 4); //si vide need more params
+		if (nb.size() == 0)
+		{
+			std::string response = std::string(":") + "MADAGUENAUFERRANIRC" + " 461 " + client.get_nickname() + " MODE :Not enough parameters\r\n";
+			client.set_output_client(response);
+			return true;
+		}
+		char*		ptr;
+		long	l = strtol(nb.c_str(), &ptr, 10);
+
+		if (ptr - nb.c_str() > 9 || l > INT_MAX || l < 0 || *ptr != 0)
+		{
+			std::string	response = 
+				std::string(":") + "MADAGUENAUFERRANIRC" + " 696 " + client.get_nickname() + " #" + channel + " +l " +  get_word(line, 4) + ":Invalid mode parameter\r\n";
+			client.set_output_client(response);
+			return true;
+		}
+		else
+			_channels[channel]->mode_l(client.get_nickname(), arg, l);
+	}
+	std::string response = "MODE " + client.get_username() + " " + arg + "\r\n";
+
 	return true;
 }
 
-bool	IRC_Server::privmsg(const struct input &input, IRC_Client &, const std::string &line)
+bool	IRC_Server::privmsg(IRC_Client &, const std::string &line)
 {
 	std::cout<<"in privmsg : "<<line<<std::endl;
-	(void) input;
+	(void) line;
 
 	//:<nick_emetteur>!~<user_emetteur>@<host_emetteur> PRIVMSG <target> :<message> -> identifier le clent destinataire et set dans son output
 	return true;
 }
 
-bool	IRC_Server::dcc(const struct input &, IRC_Client &, const std::string &)
+bool	IRC_Server::dcc(IRC_Client &, const std::string &)
 {
 	std::cout<<"in dcc"<<std::endl;
 	//file transfert?
 	return true;
 }
 
-bool	IRC_Server::ping(const struct input &, IRC_Client &client, const std::string &line)
+bool	IRC_Server::ping(IRC_Client &client, const std::string &line)
 {
 	std::string response = "PONG " + get_word(line, 2) + "\r\n";
 	client.set_output_client(response);
 	return true;
 }
 
-bool	IRC_Server::whois(const struct input &, IRC_Client &, const std::string &)
+bool	IRC_Server::whois(IRC_Client &, const std::string &)
 {
 	std::cout<<"in whois"<<std::endl;
 	return true;
 }
 
-bool	IRC_Server::leave(const struct input &, IRC_Client &, const std::string &)
+bool	IRC_Server::leave(IRC_Client &, const std::string &)
 {
 	std::cout<<"in leave"<<std::endl;
 	return true;
 }
 
-bool	IRC_Server::part(const struct input &, IRC_Client &client, const std::string &line)
+bool	IRC_Server::part(IRC_Client &client, const std::string &line)
 {
 	std::vector<std::string>	channel_list = split_channels(line);
 	std::string channel = get_word(line, 2);
@@ -522,6 +619,7 @@ bool	IRC_Server::part(const struct input &, IRC_Client &client, const std::strin
 		std::string message = get_word(line, 3);
 		std::string response = client.get_prefix() + " PART " + *it +" :" + message + "\r\n";
 		client.set_output_client(response);
+		send_to_channel(*_channels[channel], response, client);
 		_channels[channel]->remove_client(client.get_nickname());
 		if (_channels[channel]->get_channel_clients().size() == 0)
 		{
@@ -532,7 +630,28 @@ bool	IRC_Server::part(const struct input &, IRC_Client &client, const std::strin
 	return true;
 }
 
-bool	IRC_Server::quit(const struct input &, IRC_Client& client, const std::string& line)
+void IRC_Server::send_to_channel(const IRC_Channel& channel, const std::string& response, IRC_Client& client)
+{
+	if (channel.in_channel(client.get_nickname()))
+	{
+		std::vector<std::string>	current_channel_clients = channel.get_channel_clients();
+	
+		for (size_t i = 0; i < current_channel_clients.size(); i++)
+		{
+			for (size_t j = 0; j < _clients.size(); j++)
+			{
+				std::cout<<"client de j == "<< _clients[j]->get_nickname()<<std::endl;
+				if (_clients[j]->get_nickname() == current_channel_clients[i])
+				{
+					_clients[j]->set_output_client(response);
+					std::cout<<"leave meessage : "<<response<<std::endl;
+				}
+			}				
+		}
+	}
+}
+
+bool	IRC_Server::quit(IRC_Client& client, const std::string& line)
 {
 	std::cout<<"in quit"<<std::endl;
 	std::string	response;
@@ -542,34 +661,20 @@ bool	IRC_Server::quit(const struct input &, IRC_Client& client, const std::strin
 		std::cout<<"user "<<client.get_nickname()<<" quitte le channel : "<<it->first;
 		std::string arg = get_word(line, 3).size() == 0 ? "exited" : get_word(line, 3);
 		response = client.get_prefix() + " QUIT " + it->first + " :" + arg + "\r\n";
-		if (it->second->in_channel(client.get_nickname()))
-		{
-			std::vector<std::string>	current_channel_clients = it->second->get_channel_clients();
-
-			for (size_t i = 0; i < current_channel_clients.size(); i++)
-			{
-				for (size_t j = 0; j < _clients.size(); j++)
-				{
-					std::cout<<"client de j == "<< _clients[j]->get_nickname()<<std::endl;
-					if (_clients[j]->get_nickname() == current_channel_clients[i])
-					{
-						_clients[j]->set_output_client(response);
-						std::cout<<"leave meessage : "<<response<<std::endl;
-					}
-				}				
-			}
-		}
+		send_to_channel(*it->second, response, client);
+		it->second->remove_client(client.get_nickname());
+		//quit maintenant ou attendre que IRC close sa socket ?
 	}
 	return true;
 } 
 
-bool	IRC_Server::names(const struct input &, IRC_Client &, const std::string &)
+bool	IRC_Server::names(IRC_Client &, const std::string &)
 {
 	std::cout<<"in names"<<std::endl;
 	return true;
 }
 
-bool	IRC_Server::list(const struct input &, IRC_Client &, const std::string &)
+bool	IRC_Server::list(IRC_Client &, const std::string &)
 {
 	std::cout<<"in list"<<std::endl;
 	return true;
@@ -622,7 +727,7 @@ bool	IRC_Server::launch_method(const struct input &user_input, const std::string
 	//si cap et nego over ignorer
 
 	//si different de cap nick ou user et pas tout set envoyer erreur doner les infos manquqntes dans le message
-	bool (IRC_Server::*fun[])(const struct input&, IRC_Client&, const std::string &) = {
+	bool (IRC_Server::*fun[])(IRC_Client&, const std::string &) = {
 	&IRC_Server::cap,       // Négociation des capacités
 	&IRC_Server::pass,      // Vérification du mot de passe
 	&IRC_Server::nick,      // Gestion du nickname
@@ -647,12 +752,11 @@ bool	IRC_Server::launch_method(const struct input &user_input, const std::string
 	// &IRC_Server::dcc, &IRC_Server::pong,  &IRC_Server::pass, &IRC_Server::user, &IRC_Server::whois, &IRC_Server::leave, NULL};
 	// MethodFunction fun = initializeFunctions();
 	if (user_input.method < END_METHOD){
-		if ((this->*fun[user_input.method])(user_input, client, line) == false){
+		if ((this->*fun[user_input.method])(client, line) == false){
 			this->_clients.erase(this->_clients.begin() + i);
 			delete(_clients[i]);
 			return (false);
 		}
 	}
-	std::cout<<"aprres method nickname == "<< client.get_nickname()<<std::endl;
 	return (true);
 }

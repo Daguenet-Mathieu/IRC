@@ -2,15 +2,15 @@
 
 //CONSTRUCTOR
 
-IRC_Client::IRC_Client(int socket_client): _socket_client(socket_client), _client_info(false), _state(NOT_CONNECTED)
+IRC_Client::IRC_Client(int socket_client): _socket_client(socket_client), _client_info(false), _state(NOT_CONNECTED), _role(MEMBER)
 {
 }
 
-IRC_Client::IRC_Client(int socket_client, const std::string &host): _socket_client(socket_client), _client_info(false), _state(NOT_CONNECTED), _host(host)
+IRC_Client::IRC_Client(int socket_client, const std::string &host): _socket_client(socket_client), _client_info(false), _state(NOT_CONNECTED), _role(MEMBER),  _host(host)
 {
 }
 
-IRC_Client::IRC_Client(const IRC_Client &client): _socket_client(client._socket_client), _client_info(false), _state(NOT_CONNECTED), _host(client._host)
+IRC_Client::IRC_Client(const IRC_Client &client): _socket_client(client._socket_client), _client_info(false), _state(NOT_CONNECTED), _role(client._role),  _host(client._host)
 {
 }
 
@@ -22,6 +22,17 @@ IRC_Client::~IRC_Client()
 }
 
 //GETTER/SETTER
+
+int     IRC_Client::get_role() const
+{
+    return _role;
+}
+
+void    IRC_Client::set_role(int role)
+{
+    _role = role;
+}
+
 
 int     IRC_Client::get_socket_client(void) const
 {
