@@ -2,11 +2,11 @@
 
 //CONSTRUCTOR
 
-IRC_Client::IRC_Client(int socket_client): _socket_client(socket_client), _client_info(false), _state(NOT_CONNECTED), _role(MEMBER)
+IRC_Client::IRC_Client(int socket_client): _socket_client(socket_client), _client_info(false), _state(NOT_CONNECTED), _role(NONE)
 {
 }
 
-IRC_Client::IRC_Client(int socket_client, const std::string &host): _socket_client(socket_client), _client_info(false), _state(NOT_CONNECTED), _role(MEMBER),  _host(host)
+IRC_Client::IRC_Client(int socket_client, const std::string &host): _socket_client(socket_client), _client_info(false), _state(NOT_CONNECTED), _role(NONE),  _host(host)
 {
 }
 
@@ -108,11 +108,14 @@ void    IRC_Client::fill_input_client(char *buffer, ssize_t size)
 bool    IRC_Client::get_input_client(std::string &line)
 {
     size_t i = 0;
+    int     r = 0;
 
     for (; i < _input_client.size() && _input_client[i] != '\n'; i++);
     if (i >= _input_client.size())
         return (false);
-    line = std::string(_input_client.begin(), _input_client.begin() + i - 1);
+    if (*(_input_client.begin() + (i - 1)) == '\r')
+        r = 1;
+    line = std::string(_input_client.begin(), _input_client.begin() + i - r);
     _input_client.erase(_input_client.begin(), _input_client.begin() + i + 1);//\r
     if (*_input_client.begin() == '\r')
         _input_client.erase(_input_client.begin(), _input_client.begin() + 1);
@@ -131,15 +134,11 @@ bool    IRC_Client::send_output_client()
     for (; i < _output_client.size(); i++)
     {
         if (_output_client[i] == '\n')
-        {
             break ;
-        }
     }
     if (i >=_output_client.size()) return false;
-    std::cout<<"i == "<<i<<std::endl;
     std::string response = std::string(_output_client.begin(), _output_client.begin() + i + 1);
     _output_client.erase(_output_client.begin(), _output_client.begin() + i + 1);  
     send(this->get_socket_client(), response.c_str(), response.size(), 0);
-    std::cout<<"repsonse send to "<<_nickname<<" : |"<<response<<"|"<<std::endl;
     return (true);
 }

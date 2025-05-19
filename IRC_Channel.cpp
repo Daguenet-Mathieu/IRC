@@ -13,28 +13,42 @@ IRC_Channel::~IRC_Channel()
 }
 
 
-std::string IRC_Channel::get_name() const{
+std::string IRC_Channel::get_name() const
+{
     return (_name);
 }
 
-void        IRC_Channel::set_name(const std::string &name){
+void        IRC_Channel::set_name(const std::string &name)
+{
     _name = name;
 }
 
-std::string IRC_Channel::get_password() const{
+std::string IRC_Channel::get_password() const
+{
     return (_password);
 }
 
-void        IRC_Channel::set_password(const std::string &password){
+void        IRC_Channel::set_password(const std::string &password)
+{
     _password = password;
 }
 
-std::string IRC_Channel::get_topic() const{
+std::string IRC_Channel::get_topic() const
+{
     return _topic;
 }
 
-void        IRC_Channel::set_topic(const std::string &topic){
-    _topic = topic;
+bool        IRC_Channel::set_topic(const std::string &topic, const std::string& username)
+{
+    if (_clients.find(username) != _clients.end())
+    {
+        if (_t == false || _clients[username] <= OPERATOR)
+        {
+            _topic = topic;
+            return true;
+        }
+    }
+    return false;
 }
 
 bool    IRC_Channel::get_invite() const
@@ -65,6 +79,15 @@ int IRC_Channel::get_nb_user() const
 void    IRC_Channel::set_client_status(const std::string& name, int status)
 {
     _clients[name] = status;
+}
+
+
+int IRC_Channel::get_client_status(const std::string& username) const
+{
+    if (_clients.find(username) == _clients.end())
+        return NONE;
+    // std::cout << "client status" <<_clients.at(username) <<std::endl;
+    return _clients.at(username);
 }
 
 std::vector<std::string>    IRC_Channel::get_channel_clients() const{
@@ -195,4 +218,13 @@ bool    IRC_Channel::mode_l(const std::string& client, const std::string& arg, c
     else
         return false;
     return true;
+}
+
+void    IRC_Channel::update_nick(const std::string& old_nick, const std::string& new_nick)
+{
+    if (_clients.find(old_nick) == _clients.end())
+        return ;
+    _clients[new_nick] = _clients.at(old_nick);
+    _clients.erase(old_nick);
+
 }

@@ -124,7 +124,7 @@ void	IRC_Server::read_socket_client(int i)
 	ssize_t	bytes_received = recv(this->_clients[i]->get_socket_client(), buffer, sizeof(buffer), 0);
 	if (bytes_received > 0)
 	{
-		std::cout << buffer << std::endl;
+		std::cout << "|" <<buffer <<"|"<< std::endl;
 		_clients[i]->fill_input_client(buffer, bytes_received);
 		std::string input(buffer);
 	}
@@ -253,138 +253,96 @@ struct input	IRC_Server::parse_data(const std::string &line, IRC_Client &)
 
 bool	IRC_Server::cap(IRC_Client &client, const std::string &line)
 {
-	std::cout<<"iun cap"<<std::endl;//check que nego est bien fini toutes les infos set et user connecte
+	if (get_word(line, 2) != "END"&& get_word(line, 2) != "LS")
+	{
+		client.set_output_client(error_unknown_command(client.get_nickname(), get_word(line, 2)));
+		return (false);
+	}
 	if (get_word(line, 2) == "END")
-		return true;
+	{
+		if (client.get_username().size() == 0 || client.get_nickname().size() == 0)
+			return false;
+		return true;	
+	}
 	std::string response = ":server CAP * LS :KICK INVITE TOPIC MODE\r\n";
 	client.set_output_client(response);
-	//cap end check si status client connected sinon le degager
-	// set negociating si ls
-	// terminer negociation si end envoyer la liste des infos manquqntes
-	// quitter si nego == over
-	// std::string response = ":server CAP * LS :\n\n: Welcome to the IRC Network \n\n";
-	// response += client.get_username();
-	// response += '!';
-	// response += client.get_nickname();
-	// response += "@madaguen_auferran" + client.get_url() + "\n KICK\n INVITE\n TOPIC\n MODE [-i -t -k -o -l]\n";
-	// std::string response = ":server CAP * LS :KICK INVITE TOPIC MODE\r\n";
-	// response += ":server 001 " + client.get_nickname() + " :Welcome to the IRC Network\r\n";
-	// response += ":" + client.get_nickname() + "!" + client.get_username() + "@" + client.get_url() + " ";
-	// if (client.get_state() == END_NEGO)
-	// 	return ;
-	// if (struct_input.content == "END")
-	// {
-	// 	client.set_state(END_NEGO);
-	// 	return ;
-	// }
-	// if (struct_input.content == "LS")
-	// {
-	// 	client.set_state(NEGOCIATING);
-
-	// 	std::string response;
-
-	// 	// 1. CAP LS
-	// 	response = ":server CAP * LS :KICK INVITE TOPIC MODE\r\n";
-
-	// 	// 2. RPL_WELCOME (001)
-	// 	response += std::string(":server 001 ") + client.get_nickname() + "madaguen" + " :Welcome to the MADAGUENAUFERRANIRC SERVER\r\n";
-
-	// 	// 3. RPL_YOURHOST (002)
-	// 	response += ":server 002 " + client.get_nickname() +  " :Your host is server MADAGUENAUFERRANIRC, running version 1.0\r\n";
-
-	// 	// 4. RPL_CREATED (003)
-	// 	response += ":server 003 " + client.get_nickname() + " :This server was created " + get_create_time() + "\r\n";
-
-	// 	// 5. RPL_MYINFO (004) - Format corrigé : ne pas mettre le ":" avant le message
-	// 	response += ":server 004 " + client.get_nickname() + " localhost 1.0 o itklo\r\n";
-
-	// 	// 6. Mode utilisateur
-	// 	response += ":server MODE " + client.get_nickname() + " +i\r\n";
-	return true;
-	// 	// Pour la commande WHOIS, vous devez répondre avec :
-	// 	// RPL_WHOISUSER (311)
-	// 	// response += ":server 311 " + nickname + " " + target + " " + username + " " + hostname + " * :" + realname + "\r\n";
-	// 	// RPL_ENDOFWHOIS (318)
-	// 	// response += ":server 318 " + target + " :End of /WHOIS list\r\n";
-	// 	std::cout<<"je print ici la reponse:"<<response<<std::endl;
-	// 	client.set_output_client(response);
-	// }
-	
-	// send(client.get_socket_client(), response.c_str(), response.size(), 0);
 	return true;
 }
 
 bool	IRC_Server::pass(IRC_Client &client, const std::string &line)
 {
-	// if (_password != input.password)
-	// {
-	
-		std::string response = ":464 MADAGUENAUFERRANIRC :Password incorrect\r\n";//mettre username
-
-	// 	std::cout<<"\t\t\t wrong password"<<std::endl;
-	// 	client.set_output_client(response);
-	// 	client.set_state(ERROR);
-	// }
-	std::cout<<"in pssrd: "<<line<<std::endl;
+	std::string response = ":464 MADAGUENAUFERRANIRC :Password incorrect\r\n";
+	if (client.get_state() == CONNECTED)
+		return (true);
 	if (get_word(line, 2) == std::string(SUPERUSER))
 	{
 		client.set_role(SUPER_OPERATEUR);
 		return true;
 	}
-	if (get_word(line, 2)!= this->_password)
+	if (get_word(line, 2) != this->_password)
 	{
 		client.set_output_client(response);
 		return false;
 	}
-	//set passwd ok?
+	client.set_role(MEMBER);
 	return true;
 }
 
 bool	IRC_Server::nick(IRC_Client &c, const std::string &line)
 {
-	std::cout<<"in nick"<<std::endl;
-	std::cout<<"line : "<<line<<std::endl;
-	//std::string IRC_Client::get_prefix() const {
- //   return ":" + _nick + "!~" + _username + "@" + _ip;}//auser pouanement denic + autres trucs?
- //verifier le nick aussi !!!
-	std::string response = c.get_prefix() + " NICK " + get_word(line, 2) + "\r\n";
-	std::cout<<"nick res[ponse === " << response << std::endl;
+	std::string	nickname = get_word(line, 2);
+
+	if (nickname.size() == 0)
+	{
+		c.set_output_client(error_not_enough_parameters(c.get_nickname(), "NICK"));
+		return true;
+	}
+	for (size_t i = 0; i < nickname.size(); i++)
+	{
+		if (!isdigit(nickname[i]) && !isupper(nickname[i]) && !islower(nickname[i]))
+		{
+			c.set_output_client(error_nickname(nickname));
+			return true;
+		}
+	}
+	for (size_t i = 0; i < _clients.size(); i++)
+	{
+		if (nickname == _clients[i]->get_nickname())
+		{
+			c.set_output_client(error_nick_already_used(nickname));
+			return true;
+		}
+	}
+	if (c.get_role() != NONE && c.get_username().size() > 0 && c.get_nickname().size() > 0 && c.get_state() != CONNECTED)
+		c.set_state(INSTANCE_CONNECT);
+	std::string response = c.get_prefix() + " NICK " + nickname + "\r\n";
+	std::cout<<"nick response === " << response << std::endl;
+	for (std::map<std::string, IRC_Channel*>::iterator it = _channels.begin(); it != _channels.end(); it++)
+	{
+		it->second->update_nick(c.get_nickname(), nickname);
+	}
+	c.set_nickname(nickname);
 	c.set_output_client(response);
-	c.set_nickname(get_word(line, 2));
 	std::cout <<"new nick == "<<c.get_nickname()<<std::endl;
-	// 433 ERR_NICKNAMEINUSE
-	//chekc si le nick est deja utilise  sinon le changer
-	//:ancien_nick!user@host NICK :nouveau_nick
-	// :irc.example.com 433 * nouveau_nick :Nickname is already in use
-	// :irc.example.com 432 * mauvais_nick :Erroneous nickname
-//si choix invalide ? char interdit?
 	return true;
 }
 
 bool	IRC_Server::user(IRC_Client &client, const std::string &line)
 {
-	std::cout<<"in user"<<std::endl;
 	//:nick!user@host prefix
 	// USER madaguen madaguen localhost :Mathieu DAGUENET
 	if (client.get_username().size() == 0)
 	{
 		std::string username = get_word(line, 2);
 		client.set_username(username);
-		client.set_state(INSTANCE_CONNECT);//pour testester a degager
+		std::cout << "role == " << client.get_role() << " username " << client.get_username() << " nickname " << client.get_nickname() <<" state == " << client.get_state() << std::endl;  
+		if (client.get_role() != NONE && client.get_username().size() > 0 && client.get_nickname().size() > 0 && client.get_state() != CONNECTED)
+			client.set_state(INSTANCE_CONNECT);
+		std::cout << "role == " << client.get_role() << " username " << client.get_username() << " nickname " << client.get_nickname() <<" state == " << client.get_state() << std::endl;  
+
 	}
 	return true;
 }
-/*:nick!user@host JOIN :#newchan
-:server 332 nick #newchan :       ; topic vide
-:server 353 nick = #newchan :nick
-:server 366 nick #newchan :End of /NAMES list.*/
-
-/*403	Channel interdit/banni/invalide	:server 403 nick #badchan :No such channel
-405	L’utilisateur est déjà dans trop de channels	:server 405 nick #chan :You have joined too many channels
-471	Channel plein (si tu limites le nombre)	:server 471 nick #chan :Cannot join channel (+l)
-473	Channel sur invitation uniquement	:server 473 nick #chan :Cannot join channel (+i)
-474	L’utilisateur est banni	:server 474 nick #chan :Cannot join channel (+b)
-475	Mot de passe requis	:server 475 nick #chan :Cannot join channel (+k)*/
 
 std::string	IRC_Server::get_users_channel(const std::string &channel)
 {
@@ -399,16 +357,14 @@ std::string	IRC_Server::get_users_channel(const std::string &channel)
 
 bool	IRC_Server::join(IRC_Client &client, const std::string &line)
 {
-	std::cout<<"in join"<<std::endl;
-	std::cout << "line : " << line << std::endl;
 	std::vector<std::string>	channel_list = split_channels(line);
 	std::string 				password = get_word(line, 3);
 	std::string 				channel = get_word(line, 2);
 
 	if (channel.size() == 0)
 	{
-		std::string response = ":MADAGUENAUFERRANIRC 461 " + client.get_nickname() + " JOIN :Not enough parameters\r\n";
-		client.set_output_client(response);
+		client.set_output_client(error_not_enough_parameters(client.get_nickname(), "JOIN"));
+		return true;
 	}
 	for (std::vector<std::string>::iterator it = channel_list.begin(); it != channel_list.end(); it++)
 	{
@@ -416,6 +372,11 @@ bool	IRC_Server::join(IRC_Client &client, const std::string &line)
 		std::cout<<"channel avant : "<<channel<<std::endl;
 		if (channel.size() >= 1 && (channel[0] == '#' || channel[0] == '&'))
 			channel.erase(0, 1);
+		else
+		{
+			client.set_output_client(error_no_nick_channel(client.get_nickname(), channel));
+			continue ;
+		}
 		std::cout << "channel name :" << channel << std::endl;
 		if (_channels.find(channel) == _channels.end()) 
 		{
@@ -429,35 +390,32 @@ bool	IRC_Server::join(IRC_Client &client, const std::string &line)
 			int	role = client.get_role();
 			if (role == SUPER_OPERATEUR)
 				_channels[channel]->set_client_status(client.get_nickname(), SUPER_OPERATEUR);
-			if (role != SUPER_OPERATEUR && !(_channels[channel]->get_invite() == false || _channels[channel]->is_invited(client.get_nickname())))
-			{
-				std::string response = std::string(":") + "MADAGUENAUFERRANIRC" + " 473 " + client.get_nickname() + " " + channel + " :Cannot join channel (+i)\r\n";
-				client.set_output_client(response);
-				return true;
-			}
-			int	limit = _channels[channel]->get_limit();
-			std::cout << "channel limit == " << limit << "channle nb user == " << _channels[channel]->get_nb_user()<<std::endl;
-			if (role != SUPER_OPERATEUR && !(limit == -1 || _channels[channel]->get_nb_user() < limit))
-			{
-				std::string response = std::string(":") + "MADAGUENAUFERRANIRC" + " 471 " + client.get_nickname() + " " + channel + " :Cannot join channel (+l)\r\n";
-				client.set_output_client(response);
-				return true;
-			}
-			if ((password.size() == 0 && _channels[channel]->get_password().size() == 0) || password == _channels[channel]->get_password())
-				_channels[channel]->set_client_status(client.get_nickname(), MEMBER);
 			else
 			{
-				std::string response = std::string(":") + " 475 " + client.get_nickname() + " " + *it + " :Cannot join channel (+k)\r\n";
-				client.set_output_client(response);
-				return true;
+				if (!(_channels[channel]->get_invite() == false || _channels[channel]->is_invited(client.get_nickname())))
+				{
+					client.set_output_client(error_cannot_join_channel("473", client.get_nickname(), channel, "i"));
+					return true;
+				}
+				int	limit = _channels[channel]->get_limit();
+				std::cout << "channel limit == " << limit << "channle nb user == " << _channels[channel]->get_nb_user()<<std::endl;
+				if (!(limit == -1 || _channels[channel]->get_nb_user() < limit))
+				{
+					client.set_output_client(error_cannot_join_channel("471", client.get_nickname(), channel, "l"));
+					return true;
+				}
+				if ((password.size() == 0 && _channels[channel]->get_password().size() == 0) || password == _channels[channel]->get_password())
+					_channels[channel]->set_client_status(client.get_nickname(), MEMBER);
+				else
+				{
+					client.set_output_client(error_cannot_join_channel("475", client.get_nickname(), *it, "k"));
+					return true;
+				}
 			}
 		}
 		std::string response = client.get_prefix() + " JOIN :" + *it + "\r\n"
     		+ ":server 353 " + client.get_nickname() + " = " + *it + " :" + get_users_channel(channel) + "\r\n"
     		+ ":server 366 " + client.get_nickname() + " " + *it + " :End of NAMES list\r\n";
-		// std::string response = client.get_prefix() + " JOIN :" + *it + "\r\n"
-		// 			+ ":server 353 " + client.get_nickname() + " = " + *it + " :" + client.get_nickname() + "\r\n"
-		// 			+ ":server 366 " + client.get_nickname() + " " + *it + " :End of NAMES list\r\n";
 		client.set_output_client(response);
 	}
 	return true;
@@ -465,14 +423,12 @@ bool	IRC_Server::join(IRC_Client &client, const std::string &line)
 
 bool	IRC_Server::kick(IRC_Client& client, const std::string& line)
 {
-	std::cout<<"in kick"<<std::endl;
 	std::string username = get_word(line, 3);
 	std::string channel = get_word(line, 2);
 
 	if (username.size() == 0 || channel.size() == 0)
 	{
-		std::string response = std::string(":") + "MADAGUENAUFERRANIRC" + " 461 " + client.get_nickname() + " KICK :Not enough parameters\r\n";
-		client.set_output_client(response);
+		client.set_output_client(error_not_enough_parameters(client.get_nickname(), "KICK"));
 		return true;
 	}
 	size_t i;
@@ -483,42 +439,44 @@ bool	IRC_Server::kick(IRC_Client& client, const std::string& line)
 	}
 	if (i >= _clients.size())
 	{
-		std::string	response = std::string(":MADAGUENAUFERRANIRC 401 ") + client.get_nickname() + " " + username + " :No such nick/channel\r\n";
-		client.set_output_client(response);
+		client.set_output_client(error_no_nick_channel(client.get_nickname(), username));
 		return true;
 	}
 	if (channel[0] == '#' || channel[0] == '&')
 		channel.erase(0, 1);
 	if (_channels.find(channel) == _channels.end())
 	{
-		std::string	response = std::string(":MADAGUENAUFERRANIRC 401 ") + client.get_nickname() + " #" + channel + " :No such nick/channel\r\n";
-		client.set_output_client(response);
+		client.set_output_client(error_no_nick_channel(client.get_nickname(), " #" + channel));
 		return true;
 	}
 	if (_channels[channel]->in_channel(client.get_nickname()) == false)
 	{
-		std::string	response = ":MADAGUENAUFERRANIRC 442 " + client.get_username() + " #" + channel + " :You're not on that channel\r\n";
-		client.set_output_client(response);
+		client.set_output_client(error_not_on_channel(client.get_username(), " #" + channel));
 		return true;
 	}
-	//check si operator
+	if (_channels[channel]->get_client_status(client.get_nickname()) > OPERATOR)
+	{
+		client.set_output_client(error_not_operator(client.get_nickname(), "#" + channel));
+		return true;
+	}
 	_channels[channel]->remove_client(username);
 	std::string response = client.get_prefix() + " KICK " + " #" + channel + " " + username + "\r\n";
 	_clients[i]->set_output_client(response);
 	client.set_output_client(response);
+	//ne pas se kick soi nen ou si plus d'user detruire le channel
+	//kick plusieurs user?
+	//proteger le superoperateur
 	return true;
 }
 
 bool	IRC_Server::invite(IRC_Client &client, const std::string &line)
 {
-	std::cout<<"in invit"<<std::endl;
 	std::string username = get_word(line, 2);
 	std::string channel = get_word(line, 3);
 
 	if (username.size() == 0 || channel.size() == 0)
 	{
-		std::string response = std::string(":") + "MADAGUENAUFERRANIRC" + " 461 " + client.get_nickname() + " INVITE :Not enough parameters\r\n";
-		client.set_output_client(response);
+		client.set_output_client(error_not_enough_parameters(client.get_nickname(), "INVITE"));
 		return true;
 	}
 	size_t i;
@@ -529,22 +487,19 @@ bool	IRC_Server::invite(IRC_Client &client, const std::string &line)
 	}
 	if (i >= _clients.size())
 	{
-		std::string	response = std::string(":MADAGUENAUFERRANIRC 401 ") + client.get_nickname() + " " + username + " :No such nick/channel\r\n";
-		client.set_output_client(response);
+		client.set_output_client(error_no_nick_channel(client.get_nickname(), username));
 		return true;
 	}
 	if (channel[0] == '#' || channel[0] == '&')
 		channel.erase(0, 1);
 	if (_channels.find(channel) == _channels.end())
 	{
-		std::string	response = std::string(":MADAGUENAUFERRANIRC 401 ") + client.get_nickname() + " #" + channel + " :No such nick/channel\r\n";
-		client.set_output_client(response);
+		client.set_output_client(error_no_nick_channel(client.get_nickname(), " #" + channel));
 		return true;
 	}
 	if (_channels[channel]->in_channel(client.get_nickname()) == false)
 	{
-		std::string	response = ":MADAGUENAUFERRANIRC 442 " + client.get_username() + " #" + channel + " :You're not on that channel\r\n";
-		client.set_output_client(response);
+		client.set_output_client(error_not_on_channel(client.get_username(), " #" + channel));
 		return true;
 	}
 	_channels[channel]->set_invite(username);
@@ -554,27 +509,46 @@ bool	IRC_Server::invite(IRC_Client &client, const std::string &line)
 	return true;
 }
 
-bool	IRC_Server::topic(IRC_Client &, const std::string &)
+bool	IRC_Server::topic(IRC_Client& client, const std::string& line)
 {
-	std::cout<<"in topic"<<std::endl;
+	std::string	channel = get_word(line, 2);
+	std::string	topic = get_word(line, 3);
 
-	//verifier si mode +t false sinon verifier qu'on est operator, si ok set le novueau topic et send a tout les users
-	//TOPIC #coucou :coucouoipu
-	//:<nick>!<user>@<host> TOPIC <channel> :<nouveau_topic>
+	if (channel.size() == 0 || topic.size() == 0)
+	{
+		client.set_output_client(error_not_enough_parameters(client.get_nickname(), "TOPIC"));
+		return true;
+	}
+	if (channel.size() >= 1 && (channel[0] == '#' || channel[0] == '&'))
+		channel.erase(0, 1);
+	else
+	{
+		client.set_output_client(error_no_nick_channel(client.get_nickname(), channel));
+		return true;
+	}
+	if (_channels.find(channel) == _channels.end())
+	{
+		client.set_output_client(error_no_nick_channel(client.get_nickname(), " #" + channel));
+		return true;
+	}
+	if (_channels[channel]->set_topic(topic, client.get_nickname()) == true)
+	{
+		std::string response = std::string("TOPIC ") + "#" + channel + " " + topic + "\r\n";
+		send_to_channel(*_channels[channel], response, client);
+	}
+	else
+		client.set_output_client(error_not_operator(client.get_nickname(), "#" + channel));
 	return true;
 }
 
 bool	IRC_Server::mode(IRC_Client& client, const std::string& line)
 {
-	std::cout<<"in mode"<<std::endl;
-
 	std::string	channel = get_word(line, 2);
 	std::string	arg = get_word(line, 3);
 
 	if (channel.size() == 0 || arg.size() == 0)
 	{
-		std::string response = std::string(":") + "MADAGUENAUFERRANIRC" + " 461 " + client.get_nickname() + " MODE :Not enough parameters\r\n";
-		client.set_output_client(response);
+		client.set_output_client(error_not_enough_parameters(client.get_nickname(), "MODE"));
 		return true;
 	}
 	if (channel[0] == '#' || channel[0] == '&')
@@ -597,8 +571,7 @@ bool	IRC_Server::mode(IRC_Client& client, const std::string& line)
 		std::string	password = get_word(line, 4);
 		if (password.size() == 0)
 		{
-			std::string response = std::string(":") + "MADAGUENAUFERRANIRC" + " 461 " + client.get_nickname() + " MODE :Not enough parameters\r\n";
-			client.set_output_client(response);
+			client.set_output_client(error_not_enough_parameters(client.get_nickname(), "MODE"));
 			return true;
 		}
 
@@ -609,8 +582,7 @@ bool	IRC_Server::mode(IRC_Client& client, const std::string& line)
 		std::string	target = get_word(line, 4);
 		if (target.size() == 0)
 		{
-			std::string response = std::string(":") + "MADAGUENAUFERRANIRC" + " 461 " + client.get_nickname() + " MODE :Not enough parameters\r\n";
-			client.set_output_client(response);
+			client.set_output_client(error_not_enough_parameters(client.get_nickname(), "MODE"));
 			return true;
 		}
 
@@ -621,8 +593,7 @@ bool	IRC_Server::mode(IRC_Client& client, const std::string& line)
 		std::string	nb = get_word(line, 4); //si vide need more params
 		if (nb.size() == 0)
 		{
-			std::string response = std::string(":") + "MADAGUENAUFERRANIRC" + " 461 " + client.get_nickname() + " MODE :Not enough parameters\r\n";
-			client.set_output_client(response);
+			client.set_output_client(error_not_enough_parameters(client.get_nickname(), "MODE"));
 			return true;
 		}
 		char*		ptr;
@@ -630,23 +601,19 @@ bool	IRC_Server::mode(IRC_Client& client, const std::string& line)
 
 		if (ptr - nb.c_str() > 9 || l > INT_MAX || l < 0 || *ptr != 0)
 		{
-			std::string	response = 
-				std::string(":") + "MADAGUENAUFERRANIRC" + " 696 " + client.get_nickname() + " #" + channel + " +l " +  get_word(line, 4) + ":Invalid mode parameter\r\n";
-			client.set_output_client(response);
+			client.set_output_client(error_invalid_mode_param(client.get_nickname(), "#" + channel, nb));
 			return true;
 		}
 		else
 			_channels[channel]->mode_l(client.get_nickname(), arg, l);
 	}
-	std::string response = "MODE " + client.get_username() + " " + arg + "\r\n";
+	std::string response = "MODE " + client.get_nickname() + " " + arg + "\r\n";
 
 	return true;
 }
 
 bool	IRC_Server::privmsg(IRC_Client& client, const std::string& line)
 {
-	std::cout<<"in privmsg : "<<line<<std::endl;
-
 	std::string	receiver = get_word(line, 2);
 	std::string	response;
 	std::string tmp;
@@ -657,8 +624,7 @@ bool	IRC_Server::privmsg(IRC_Client& client, const std::string& line)
 
 	if (receiver.size() == 0 || message.size() == 0)
 	{
-		response = std::string(":") + "MADAGUENAUFERRANIRC" + " 461 " + client.get_nickname() + " PRIVMSG :Not enough parameters\r\n";
-		client.set_output_client(response);
+		client.set_output_client(error_not_enough_parameters(client.get_nickname(), "PRIVMSG"));
 		return true;
 	}
 	if (message[0] == ':')
@@ -669,15 +635,13 @@ bool	IRC_Server::privmsg(IRC_Client& client, const std::string& line)
 		receiver.erase(0, 1);
 		if (_channels.find(receiver) == _channels.end())
 		{
-			response = std::string(":MADAGUENAUFERRANIRC 401 ") + client.get_nickname() + " " + receiver + " :No such nick/channel\r\n";
-			client.set_output_client(response);
+			client.set_output_client(error_no_nick_channel(client.get_nickname(), receiver));
 			return true;
 
 		}
 		if (_channels[receiver]->in_channel(client.get_nickname()) == false)
 		{
-			response = ":MADAGUENAUFERRANIRC 442 " + client.get_username() + " #" + receiver + " :You're not on that channel\r\n";
-			client.set_output_client(response);
+			client.set_output_client(error_not_on_channel(client.get_username(), receiver));
 			return true;
 		}
 		response = client.get_prefix() + " PRIVMSG " + receiver + " :" + message + "\r\n";
@@ -693,8 +657,7 @@ bool	IRC_Server::privmsg(IRC_Client& client, const std::string& line)
 		}
 		if (i >= _clients.size())
 		{
-			response = std::string(":MADAGUENAUFERRANIRC 401 ") + client.get_nickname() + " " + receiver + " :No such nick/channel\r\n";
-			client.set_output_client(response);
+			client.set_output_client(error_no_nick_channel(client.get_nickname(), receiver));
 			return true;
 		}
 		else
@@ -720,7 +683,6 @@ bool	IRC_Server::ping(IRC_Client &client, const std::string &line)
 
 bool	IRC_Server::whois(IRC_Client &, const std::string &)
 {
-	std::cout<<"in whois"<<std::endl;
 	return true;
 }
 
@@ -738,8 +700,7 @@ bool	IRC_Server::part(IRC_Client &client, const std::string &line)
 		std::cout<<"channel apres : "<<channel<<std::endl;
 		if (channel.size() == 0 || _channels.find(channel) == _channels.end())
 		{
-			std::string response = ": 403 " + client.get_nickname() + " " + *it + " :No such channel\r\n";
-			client.set_output_client(response);
+			client.set_output_client(error_no_nick_channel(client.get_nickname(), *it));
 			continue;
 		}
 		std::cout<<"in part"<<std::endl;
@@ -767,12 +728,8 @@ void IRC_Server::send_to_channel(const IRC_Channel& channel, const std::string& 
 		{
 			for (size_t j = 0; j < _clients.size(); j++)
 			{
-				std::cout<<"client de j == "<< _clients[j]->get_nickname()<<std::endl;
 				if (_clients[j]->get_nickname() == current_channel_clients[i])
-				{
 					_clients[j]->set_output_client(response);
-					std::cout<<"leave meessage : "<<response<<std::endl;
-				}
 			}				
 		}
 	}
@@ -780,7 +737,6 @@ void IRC_Server::send_to_channel(const IRC_Channel& channel, const std::string& 
 
 bool	IRC_Server::quit(IRC_Client& client, const std::string& line)
 {
-	std::cout<<"in quit"<<std::endl;
 	std::string	response;
 
 	for (std::map<std::string, IRC_Channel*>::iterator it = _channels.begin(); it != _channels.end(); it++)
@@ -797,13 +753,11 @@ bool	IRC_Server::quit(IRC_Client& client, const std::string& line)
 
 bool	IRC_Server::names(IRC_Client &, const std::string &)
 {
-	std::cout<<"in names"<<std::endl;
 	return true;
 }
 
 bool	IRC_Server::list(IRC_Client &, const std::string &)
 {
-	std::cout<<"in list"<<std::endl;
 	return true;
 
 } 
@@ -873,9 +827,7 @@ bool	IRC_Server::launch_method(const struct input &user_input, const std::string
 	&IRC_Server::list,      // Liste des channels
 	NULL                    // Fin du tableau
 	};
-	//  void (IRC_Server::*fun[])(const struct input&, IRC_Client&) = {&IRC_Server::cap,&IRC_Server::join ,&IRC_Server::nick, &IRC_Server::kick, &IRC_Server::invite, &IRC_Server::topic, &IRC_Server::mode, &IRC_Server::privmsg,
-	// &IRC_Server::dcc, &IRC_Server::pong,  &IRC_Server::pass, &IRC_Server::user, &IRC_Server::whois, &IRC_Server::leave, NULL};
-	// MethodFunction fun = initializeFunctions();
+
 	if (user_input.method < END_METHOD)
 	{
 		if ((this->*fun[user_input.method])(client, line) == false){
@@ -885,9 +837,53 @@ bool	IRC_Server::launch_method(const struct input &user_input, const std::string
 		}
 	}
 	else
-	{
-		std::string	response = ":MADAGUENAUFERRANIRC 421 " + client.get_nickname() + " " + get_word(line, 1) +  " :Unknown command\r\n";
-		client.set_output_client(response);
-	}
+		client.set_output_client(error_unknown_command(client.get_nickname(), get_word(line, 1)));
 	return (true);
+}
+
+//ERRORS
+
+std::string	IRC_Server::error_nickname(const std::string& nickname) const
+{
+	return std::string(":MADAGUENAUFERRANIRC 432 ") +  nickname + " :Erroneous nickname\r\n";
+}
+
+std::string	IRC_Server::error_nick_already_used(const std::string& nickname) const
+{
+	return std::string(":MADAGUENAUFERRANIRC 433 ") +  nickname + " :Nickname is already in use\r\n";
+}
+
+std::string	IRC_Server::error_not_enough_parameters(const std::string& nickname, const std::string& command) const
+{
+	return std::string(":") + "MADAGUENAUFERRANIRC" + " 461 " + nickname + " " + command + " :Not enough parameters\r\n";
+}
+
+std::string	IRC_Server::error_no_nick_channel(const std::string& nickname, const std::string& target) const
+{
+	return std::string(":MADAGUENAUFERRANIRC 401 ") + nickname + " " + target + " :No such nick/channel\r\n";
+}
+
+std::string	IRC_Server::error_not_on_channel(const std::string& username, const std::string& receiver) const
+{
+	return std::string(":MADAGUENAUFERRANIRC 442 ") + username + " " + receiver + " :You're not on that channel\r\n";
+}
+
+std::string	IRC_Server::error_cannot_join_channel(const std::string& code, const std::string& nickname, const std::string& target, const std::string& arg) const
+{
+	return std::string(":") + " " + code + " " + nickname + " " + target + " :Cannot join channel (+" + arg + ")\r\n";
+}
+
+std::string	IRC_Server::error_invalid_mode_param(const std::string& nickname, const std::string& channel, const std::string& word) const
+{
+	return std::string(":") + "MADAGUENAUFERRANIRC" + " 696 " + nickname + " " + channel + " +l " +  word + ":Invalid mode parameter\r\n";
+}
+
+std::string	IRC_Server::error_not_operator(const std::string& nickname, const std::string& channel) const
+{
+	return std::string(":MADAGUENAUFERRANIRC 482 ") + nickname + " " + channel + " :You're not channel operator\r\n";
+}
+
+std::string	IRC_Server::error_unknown_command(const std::string& nickname, const std::string& word) const
+{
+	return std::string(":MADAGUENAUFERRANIRC 421 ") + nickname + " " + word +  " :Unknown command\r\n";
 }

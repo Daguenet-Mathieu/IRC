@@ -10,7 +10,8 @@
 enum channel_role {
     SUPER_OPERATEUR,
     OPERATOR,
-    MEMBER
+    MEMBER,
+    NONE
 };
 
 
@@ -27,7 +28,7 @@ class IRC_Channel
         std::string                 get_password() const;
         void                        set_password(const std::string&);
         std::string                 get_topic() const;
-        void                        set_topic(const std::string&);
+        bool                        set_topic(const std::string&, const std::string&);
         std::vector<std::string>    get_channel_clients() const;
         std::vector<std::string>    get_formated_channel_clients() const;
         bool                        get_invite() const;
@@ -37,8 +38,10 @@ class IRC_Channel
         int                         get_nb_user() const;
         bool                        is_invited(const std::string& client) const;
         void                        set_client_status(const std::string&, int);
+        int                         get_client_status(const std::string&) const;
         bool                        in_channel(const std::string&) const;
         void                        remove_client(const std::string&);
+        void                        update_nick(const std::string&, const std::string&);
         bool                        mode_i(const std::string&, const std::string&);
         bool                        mode_t(const std::string&, const std::string&);
         bool                        mode_k(const std::string&, const std::string&, const std::string&);
