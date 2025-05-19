@@ -138,6 +138,7 @@ bool    IRC_Client::send_output_client()
     }
     if (i >=_output_client.size()) return false;
     std::string response = std::string(_output_client.begin(), _output_client.begin() + i + 1);
+    std::cout<<"est envoye au client : |"<<response<<"|"<<std::endl;
     _output_client.erase(_output_client.begin(), _output_client.begin() + i + 1);  
     send(this->get_socket_client(), response.c_str(), response.size(), 0);
     return (true);

@@ -778,7 +778,100 @@ bool	IRC_Server::list(IRC_Client &, const std::string &)
 
 } 
 
-bool	IRC_Server::launch_method(const struct input &user_input, const std::string &line, IRC_Client &client, int i)
+
+// void	IRC_Server::cmd_help(std::string& line)
+// {
+// 	std::cout <<"HHHHHHHHHHHHHEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLPPPPPPPPPPP"<<std::endl;
+// 		// "Availlable command:",
+// 		// "?help, /help, !help : display bot options.",
+// 		// "?log : display your session logtime.",
+// 		// "?ping : check bot activity.",
+// 		// "?dice <size=6> : launch dice with optional dice size (default: 6).",
+// 		// "?seen <utilisateur> : show in second last user activity.";
+// 		// std::cout<<"line : "<<line <<std::endl;
+
+		
+// }
+
+void IRC_Server::cmd_help(std::string& line, const std::string& prefix)
+{
+	line += prefix + "Available commands: ";
+	line += "?help, !help : display bot options, ";
+	line += "?log : display your session logtime, ";
+	line += "?ping : check bot activity, ";
+	line += "?dice <size=6> : launch dice, ";
+	line += "?seen <user> : show last activity of a user.\r\n";
+
+	// line += prefix + "Available commands:\r\n";
+	// line += prefix + "?help, /help, !help : display bot options.\r\n";
+	// line += prefix + "?log : display your session logtime.\r\n";
+	// line += prefix + "?ping : check bot activity.\r\n";
+	// line += prefix + "?dice <size=6> : launch dice (optional size argument, default: 6).\r\n";
+	// line += prefix + "?seen <user> : show last activity of a user.\r\n";
+}
+
+void	IRC_Server::cmd_log(std::string&, const std::string&)
+{
+
+}
+
+void	IRC_Server::cmd_ping(std::string&, const std::string&)
+{
+
+}
+
+void	IRC_Server::cmd_dice(std::string&, const std::string&)
+{
+
+}
+
+void	IRC_Server::cmd_seen(std::string&, const std::string&)
+{
+
+}
+
+
+
+void IRC_Server::do_bot_actions(int input, std::string &line, IRC_Client &client)
+{
+    void (IRC_Server::*const bot_functions[])(std::string&, const std::string&) = {
+        &IRC_Server::cmd_help,
+        &IRC_Server::cmd_help,
+        &IRC_Server::cmd_help,
+        &IRC_Server::cmd_log,
+        &IRC_Server::cmd_ping,
+        &IRC_Server::cmd_dice,
+        &IRC_Server::cmd_seen
+    };
+
+    if (input != PRIVMSG)
+        return ;
+
+    size_t i;
+    std::string word = get_word(line, 3);
+	std::string channel = get_word(line, 2);
+	//add le channel au prefix sauf a la 1ere ligne erase la ligne
+	if (word[0] == ':')
+	{
+		word.erase(0, 1);
+	}
+    for (i = 0; BOT_ACTIONS[i]; i++)
+    {
+        if (word == BOT_ACTIONS[i])
+            break;
+    }
+
+    if (BOT_ACTIONS[i] == NULL)
+        return ;
+
+    std::string prefix = "PRIVMSG " + client.get_username() + " :";
+
+    (this->*bot_functions[i])(line, prefix);
+	std::cout<<"line : "<<line <<std::endl;
+
+}
+
+bool	IRC_Server::launch_method(const struct input &user_input, std::string &line, IRC_Client &client, int i)
 {
 	(void)i;
 	// if (client.get_state() == NOT_CONNECTED && (struct_input.method != PASS && struct_input.method != CAP))
@@ -795,6 +888,7 @@ bool	IRC_Server::launch_method(const struct input &user_input, const std::string
 	// 	//envoyer le client se faire foutre 3.1.1 rfc
 	// 	return ;
 	// }
+	int method = user_input.method;
 	if (client.get_state() == INSTANCE_CONNECT){
 		std::string response = std::string(":server 001 ") + client.get_nickname() + " :Welcome to the MADAGUENAUFERRANIRC SERVER\r\n";
 		// 3. RPL_YOURHOST (002)
@@ -808,7 +902,12 @@ bool	IRC_Server::launch_method(const struct input &user_input, const std::string
 		client.set_output_client(response);
 		client.set_state(CONNECTED);
 	}
-	// std::cout<<"!= CAP:"<<(struct_input.method != CAP)<<"!= UESER:"<<(struct_input.method != USER)<<"!= NICK:"<<(struct_input.method != NICK)<<std::endl;
+	if (client.get_state() == CONNECTED)
+	{
+		do_bot_actions(user_input.method, line, client);
+	}
+	std::cout<<"line : "<<line <<std::endl;
+		// std::cout<<"!= CAP:"<<(struct_input.method != CAP)<<"!= UESER:"<<(struct_input.method != USER)<<"!= NICK:"<<(struct_input.method != NICK)<<std::endl;
 	// std::cout<<"method:"<<struct_input.method<<std::endl;
 	// if (client.get_state() != CONNECTED && (struct_input.method != CAP && struct_input.method != USER && struct_input.method != NICK))
 	// {
@@ -844,9 +943,9 @@ bool	IRC_Server::launch_method(const struct input &user_input, const std::string
 	NULL                    // Fin du tableau
 	};
 
-	if (user_input.method < END_METHOD)
+	if (method < END_METHOD)
 	{
-		if ((this->*fun[user_input.method])(client, line) == false){
+		if ((this->*fun[method])(client, line) == false){
 			this->_clients.erase(this->_clients.begin() + i);
 			delete(_clients[i]);
 			return (false);

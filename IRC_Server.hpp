@@ -25,6 +25,8 @@
 class IRC_Client;
 class IRC_Channel;
 
+#define BOT_ACTIONS (const char*[]){"?help", "/help", "!help",  "?log", "?ping", "?dice", "?seen",NULL}
+
 struct input {
 	int			method;
 };
@@ -104,7 +106,7 @@ class	IRC_Server
 		int									get_nfds();
 		std::string							getCurrentDateTime();
 		struct input						parse_data(const std::string &, IRC_Client &);
-		bool								launch_method(const struct input &, const std::string &, IRC_Client &, int);
+		bool								launch_method(const struct input &, std::string &, IRC_Client &, int);
 		bool 								cap(IRC_Client &, const std::string &);
 		bool								join(IRC_Client &, const std::string &);
 		bool								nick(IRC_Client &, const std::string &);
@@ -130,6 +132,12 @@ class	IRC_Server
 		std::string							error_invalid_mode_param(const std::string&, const std::string&, const std::string&) const;
 		std::string							error_not_operator(const std::string&, const std::string&) const;
 		std::string							error_unknown_command(const std::string&, const std::string&) const;				
+		void								do_bot_actions(int, std::string&, IRC_Client&);
+		void								cmd_help(std::string&, const std::string&);
+		void								cmd_log(std::string&, const std::string&);
+		void								cmd_ping(std::string&, const std::string&);
+		void								cmd_dice(std::string&, const std::string&);
+		void								cmd_seen(std::string&, const std::string&);
 };
 
 #endif
