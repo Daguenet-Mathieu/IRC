@@ -20,6 +20,7 @@
 #include "IRC_Channel.hpp"
 #include <ctime>
 #include <string>
+#include <algorithm>
 
 class IRC_Client;
 class IRC_Channel;
@@ -39,10 +40,8 @@ enum cmds {
    TOPIC,      // Définir/voir le sujet d'un channel (opérateur)
    MODE,       // Modifier les modes du channel (i,t,k,o,l) (opérateur)
    PRIVMSG,    // Envoyer un message privé à un utilisateur ou channel
-   DCC,        // Transfert direct de fichiers entre clients (bonus)
    PING,       // Serveur ping le client qui doit répondre PONG
    WHOIS,      // Obtenir des informations sur un utilisateur
-   LEAVE,      // Quitter un channel
    PART,       // Quitter un channel (alternative standard à LEAVE)
    QUIT,       // Déconnexion du serveur
    NAMES,      // Lister les utilisateurs d'un channel
@@ -107,7 +106,6 @@ class	IRC_Server
 		struct input				parse_data(const std::string &, IRC_Client &);
 		bool						launch_method(const struct input &, const std::string &, IRC_Client &, int);
 		bool 						cap(IRC_Client &, const std::string &);
-		bool 						dcc(IRC_Client &, const std::string &);
 		bool						join(IRC_Client &, const std::string &);
 		bool						nick(IRC_Client &, const std::string &);
 		bool						kick(IRC_Client &, const std::string &);
@@ -119,7 +117,6 @@ class	IRC_Server
 		bool						pass(IRC_Client &, const std::string &);
 		bool						user(IRC_Client &, const std::string &);
 		bool						whois(IRC_Client &, const std::string &);
-		bool						leave(IRC_Client &, const std::string &);
 		bool						part(IRC_Client &, const std::string &);
 		bool						quit(IRC_Client &, const std::string &); 
 		bool						names(IRC_Client &, const std::string &);

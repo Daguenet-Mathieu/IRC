@@ -42,6 +42,11 @@ bool    IRC_Channel::get_invite() const
     return _invite;
 }
 
+void    IRC_Channel::set_invite(const std::string& client)
+{
+    _invited.push_back(client);
+}
+
 bool    IRC_Channel::get_t() const
 {
     return _t;

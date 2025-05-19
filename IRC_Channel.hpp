@@ -19,6 +19,7 @@ class IRC_Client;
 class IRC_Channel
 {
     public:
+
         IRC_Channel(const std::string& name, const std::string& password);
         ~IRC_Channel();
         std::string                 get_name() const;
@@ -30,6 +31,7 @@ class IRC_Channel
         std::vector<std::string>    get_channel_clients() const;
         std::vector<std::string>    get_formated_channel_clients() const;
         bool                        get_invite() const;
+        void                        set_invite(const std::string&);
         bool                        get_t() const;
         int                         get_limit() const;
         int                         get_nb_user() const;
@@ -45,6 +47,7 @@ class IRC_Channel
 //execute ation mode + client name bool
 
     private:
+
         std::map<std::string, int>      _clients;
         std::vector<std::string>        _invited;
         std::string                 	_name;
