@@ -454,7 +454,8 @@ bool	IRC_Server::kick(IRC_Client& client, const std::string& line)
 		client.set_output_client(error_not_on_channel(client.get_username(), " #" + channel));
 		return true;
 	}
-	if (_channels[channel]->get_client_status(client.get_nickname()) > OPERATOR)
+	int level = _channels[channel]->get_client_status(client.get_nickname());
+	if (level > OPERATOR || _channels[channel]->get_client_status(username) == SUPER_OPERATEUR)
 	{
 		client.set_output_client(error_not_operator(client.get_nickname(), "#" + channel));
 		return true;
@@ -463,6 +464,12 @@ bool	IRC_Server::kick(IRC_Client& client, const std::string& line)
 	std::string response = client.get_prefix() + " KICK " + " #" + channel + " " + username + "\r\n";
 	_clients[i]->set_output_client(response);
 	client.set_output_client(response);
+	if (_channels[channel]->get_channel_clients().size() == 0)
+	{
+		delete _channels[channel];
+		_channels.erase(channel);
+	}
+
 	//ne pas se kick soi nen ou si plus d'user detruire le channel
 	//kick plusieurs user?
 	//proteger le superoperateur
@@ -741,11 +748,20 @@ bool	IRC_Server::quit(IRC_Client& client, const std::string& line)
 
 	for (std::map<std::string, IRC_Channel*>::iterator it = _channels.begin(); it != _channels.end(); it++)
 	{
-		std::cout<<"user "<<client.get_nickname()<<" quitte le channel : "<<it->first;
-		std::string arg = get_word(line, 3).size() == 0 ? "exited" : get_word(line, 3);
-		response = client.get_prefix() + " QUIT " + it->first + " :" + arg + "\r\n";
-		send_to_channel(*it->second, response, client);
-		it->second->remove_client(client.get_nickname());
+		if (it->second->in_channel(client.get_nickname()))
+		{
+			std::cout<<"user "<<client.get_nickname()<<" quitte le channel : "<<it->first;
+			std::string arg = get_word(line, 3).size() == 0 ? "exited" : get_word(line, 3);
+			response = client.get_prefix() + " QUIT " + it->first + " :" + arg + "\r\n";
+			send_to_channel(*it->second, response, client);
+			it->second->remove_client(client.get_nickname());
+			if (_channels[it->first]->get_channel_clients().size() == 0)
+			{
+				delete _channels[it->first];
+				_channels.erase(it->first);
+			}
+		}
+
 		//quit maintenant ou attendre que IRC close sa socket ?
 	}
 	return true;
