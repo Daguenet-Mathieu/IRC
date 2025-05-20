@@ -7,15 +7,14 @@
 //CONSTRUCTOR
 
 IRC_Server::IRC_Server(int port, const std::string& password) :_password(password),  _port(port){
-	_create_time = getCurrentDateTime();
-    _socket = socket(AF_INET, SOCK_STREAM, 0);
+	_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (_socket == -1)
-        throw ThrowException("ERROR SOCKET");
-    memset(&_server_addr, 0, sizeof(_server_addr));
-    _server_addr.sin_family = AF_INET;
-    _server_addr.sin_addr.s_addr = INADDR_ANY;
-    _server_addr.sin_port = htons(_port);
-    std::cout << "Creation time: " << _create_time << std::endl;
+		throw ThrowException("ERROR SOCKET");
+	memset(&_server_addr, 0, sizeof(_server_addr));
+	_server_addr.sin_family = AF_INET;
+	_server_addr.sin_addr.s_addr = INADDR_ANY;
+	_server_addr.sin_port = htons(_port);
+	_create_time = getCurrentDateTime();
 }
 
 //DESTRUCTOR
@@ -26,6 +25,10 @@ IRC_Server::~IRC_Server()
 		close(_socket);
 	for (std::map<std::string, IRC_Channel*>::iterator it = _channels.begin(); it != _channels.end(); it++)
 		delete it->second;
+	for (size_t i = 0; i < _clients.size(); i++)
+	{
+		delete(_clients[i]);
+	}
 }
 
 //FUNCTIONS
@@ -54,17 +57,14 @@ std::string IRC_Server::get_word(const std::string &line, int word_index)
 std::vector<std::string>	IRC_Server::split_channels(const std::string& line)
 {
 	std::vector<std::string>	channels;
-	std::string channel_list = get_word(line, 2);
+	std::string channel_list = line;
 	size_t comma_index = 0;
 
-	std::cout << "split_channels channel_list = " << channel_list << std::endl;
 	while ((comma_index = channel_list.find_first_of(',')) != std::string::npos)
 	{
-		std::cout << "split_channels channel_list = " << channel_list << std::endl;
 		channels.push_back(channel_list.substr(0, comma_index));
 		channel_list.erase(0, comma_index + 1);
 	}
-	std::cout << "split_channels channel_list = " << channel_list << std::endl;
 	channels.push_back(channel_list);
 	return channels;
 }
@@ -79,6 +79,17 @@ std::vector<std::string>	IRC_Server::get_client_channels(const std::string& clie
 	return channels;
 }
 
+// std::string IRC_Server::getCurrentDateTime() {
+//     time_t now = time(0);
+//     struct tm tstruct;
+//     char buffer[80];
+
+//     tstruct = *localtime(&now);
+
+//     strftime(buffer, sizeof(buffer), "%d %B %Y", &tstruct);
+//     return std::string(buffer);
+// }
+
 std::string IRC_Server::getCurrentDateTime() {
     time_t now = time(0);
     struct tm tstruct;
@@ -86,7 +97,8 @@ std::string IRC_Server::getCurrentDateTime() {
 
     tstruct = *localtime(&now);
 
-    strftime(buffer, sizeof(buffer), "%d %B %Y", &tstruct);
+    // Format : jour mois année heure:minute:seconde
+    strftime(buffer, sizeof(buffer), "%d %B %Y %H:%M:%S", &tstruct);
     return std::string(buffer);
 }
 
@@ -108,10 +120,8 @@ void	IRC_Server::check_socket_server()
 		if (client_fd == -1)
 			return ;
 		client_ip = inet_ntoa(client_addr.sin_addr);
-		std::cout<<"ip client : "<<client_ip<<std::endl;
 		ip = ntohs(client_addr.sin_port);
 		IRC_Client *client = new IRC_Client(client_fd, client_ip);
-		std::cout<<"Connexion acceptée de "<<client_ip<<" : "<<ntohs(client_addr.sin_port)<<std::endl;
 		this->_clients.push_back(client);
 	}
 }
@@ -124,7 +134,6 @@ void	IRC_Server::read_socket_client(int i)
 	ssize_t	bytes_received = recv(this->_clients[i]->get_socket_client(), buffer, sizeof(buffer), 0);
 	if (bytes_received > 0)
 	{
-		std::cout << "|" <<buffer <<"|"<< std::endl;
 		_clients[i]->fill_input_client(buffer, bytes_received);
 		std::string input(buffer);
 	}
@@ -138,31 +147,69 @@ void	IRC_Server::read_socket_client(int i)
 		throw ThrowException("RECV ERROR");
 }
 
-void	IRC_Server::check_socket_client()
+// void	IRC_Server::check_socket_client()
+// {
+// 	for (int i = 0; i < static_cast<int>(this->_clients.size());)
+// 	{
+// 		if (FD_ISSET(this->_clients[i]->get_socket_client(), &_exceptfds))
+// 			throw std::runtime_error("error in socket client");
+// 		if (FD_ISSET(this->_clients[i]->get_socket_client(), &_writefds))
+// 		{
+// 			std::string line;
+// 			if (this->_clients[i]->get_input_client(line)){
+// 				if (this->launch_method(this->parse_data(line, *this->_clients[i]), line, *this->_clients[i]) == false)
+// 					continue ;
+// 			}
+// 			bool res = this->_clients[i]->send_output_client();
+// 			if (this->_clients[i]->get_state() == ERROR && res == false)
+// 			{
+// 				delete(this->_clients[i]);
+// 				this->_clients.erase(this->_clients.begin() + i);
+// 				i--;
+// 				continue ;
+// 			}
+// 		}
+// 		if (FD_ISSET(this->_clients[i]->get_socket_client(), &_readfds))
+// 			this->read_socket_client(i);
+// 		i++;
+// 	}
+// }
+
+void IRC_Server::check_socket_client()
 {
 	for (int i = 0; i < static_cast<int>(this->_clients.size()); i++)
 	{
 		if (FD_ISSET(this->_clients[i]->get_socket_client(), &_exceptfds))
 			throw std::runtime_error("error in socket client");
+
 		if (FD_ISSET(this->_clients[i]->get_socket_client(), &_writefds))
 		{
 			std::string line;
-			if (this->_clients[i]->get_input_client(line)){
-				if (this->launch_method(this->parse_data(line, *this->_clients[i]), line, *this->_clients[i], i) == false)
-					continue ;
+			if (this->_clients[i]->get_input_client(line))
+			{
+				if (this->launch_method(this->parse_data(line, *this->_clients[i]), line, *this->_clients[i]) == false)
+				{
+					i++;
+					continue;
+				}
 			}
 			bool res = this->_clients[i]->send_output_client();
 			if (this->_clients[i]->get_state() == ERROR && res == false)
 			{
+				IRC_Client* tmp = this->_clients[i];
 				this->_clients.erase(this->_clients.begin() + i);
-				delete(this->_clients[i]);
+				delete tmp;
+				continue;
 			}
 		}
+
 		if (FD_ISSET(this->_clients[i]->get_socket_client(), &_readfds))
 			this->read_socket_client(i);
-	}
 
+	}
 }
+
+
 
 void	IRC_Server::check_all_sockets()
 {
@@ -244,7 +291,6 @@ struct input	IRC_Server::parse_data(const std::string &line, IRC_Client &)
 	word = get_word(line, 1);
 	int i = 0;
 	for (; method[i] != NULL && word != method[i]; i++);
-	std::cout<<"found method : "<<i<<" word == |"<<word<<"|"<<std::endl;
 	request_info.method = i;
 	return (request_info);
 }
@@ -315,15 +361,15 @@ bool	IRC_Server::nick(IRC_Client &c, const std::string &line)
 	}
 	if (c.get_role() != NONE && c.get_username().size() > 0 && c.get_nickname().size() > 0 && c.get_state() != CONNECTED)
 		c.set_state(INSTANCE_CONNECT);
-	std::string response = c.get_prefix() + " NICK " + nickname + "\r\n";
-	std::cout<<"nick response === " << response << std::endl;
+	std::string old_nick = c.get_nickname();
+	std::string prefix = c.get_prefix();
+	c.set_nickname(nickname);
+	std::string response = prefix + " NICK " + nickname + "\r\n";
 	for (std::map<std::string, IRC_Channel*>::iterator it = _channels.begin(); it != _channels.end(); it++)
 	{
-		it->second->update_nick(c.get_nickname(), nickname);
+		it->second->update_nick(old_nick, nickname);
 	}
-	c.set_nickname(nickname);
 	c.set_output_client(response);
-	std::cout <<"new nick == "<<c.get_nickname()<<std::endl;
 	return true;
 }
 
@@ -335,11 +381,8 @@ bool	IRC_Server::user(IRC_Client &client, const std::string &line)
 	{
 		std::string username = get_word(line, 2);
 		client.set_username(username);
-		std::cout << "role == " << client.get_role() << " username " << client.get_username() << " nickname " << client.get_nickname() <<" state == " << client.get_state() << std::endl;  
 		if (client.get_role() != NONE && client.get_username().size() > 0 && client.get_nickname().size() > 0 && client.get_state() != CONNECTED)
 			client.set_state(INSTANCE_CONNECT);
-		std::cout << "role == " << client.get_role() << " username " << client.get_username() << " nickname " << client.get_nickname() <<" state == " << client.get_state() << std::endl;  
-
 	}
 	return true;
 }
@@ -357,7 +400,7 @@ std::string	IRC_Server::get_users_channel(const std::string &channel)
 
 bool	IRC_Server::join(IRC_Client &client, const std::string &line)
 {
-	std::vector<std::string>	channel_list = split_channels(line);
+	std::vector<std::string>	channel_list = split_channels(get_word(line, 2));
 	std::string 				password = get_word(line, 3);
 	std::string 				channel = get_word(line, 2);
 
@@ -369,7 +412,6 @@ bool	IRC_Server::join(IRC_Client &client, const std::string &line)
 	for (std::vector<std::string>::iterator it = channel_list.begin(); it != channel_list.end(); it++)
 	{
 		channel = *it;
-		std::cout<<"channel avant : "<<channel<<std::endl;
 		if (channel.size() >= 1 && (channel[0] == '#' || channel[0] == '&'))
 			channel.erase(0, 1);
 		else
@@ -377,7 +419,6 @@ bool	IRC_Server::join(IRC_Client &client, const std::string &line)
 			client.set_output_client(error_no_nick_channel(client.get_nickname(), channel));
 			continue ;
 		}
-		std::cout << "channel name :" << channel << std::endl;
 		if (_channels.find(channel) == _channels.end()) 
 		{
 			IRC_Channel* new_channel = new IRC_Channel(channel, password);
@@ -398,8 +439,7 @@ bool	IRC_Server::join(IRC_Client &client, const std::string &line)
 					return true;
 				}
 				int	limit = _channels[channel]->get_limit();
-				std::cout << "channel limit == " << limit << "channle nb user == " << _channels[channel]->get_nb_user()<<std::endl;
-				if (!(limit == -1 || _channels[channel]->get_nb_user() < limit))
+				if (limit != -1 && _channels[channel]->get_nb_user() >= limit)
 				{
 					client.set_output_client(error_cannot_join_channel("471", client.get_nickname(), channel, "l"));
 					return true;
@@ -423,56 +463,65 @@ bool	IRC_Server::join(IRC_Client &client, const std::string &line)
 
 bool	IRC_Server::kick(IRC_Client& client, const std::string& line)
 {
-	std::string username = get_word(line, 3);
 	std::string channel = get_word(line, 2);
-
-	if (username.size() == 0 || channel.size() == 0)
+	std::vector<std::string>	usernames = split_channels(get_word(line, 3));
+	
+	if (usernames.size() == 0 || channel.size() == 0)
 	{
 		client.set_output_client(error_not_enough_parameters(client.get_nickname(), "KICK"));
 		return true;
 	}
+	std::string	reason = get_word(line, 4);
+	if (reason.size() == 0)
+		reason = "bye bye kicked user";
+	else
+	{
+		size_t		pos = line.find(reason);
+		std::string	message = line.substr(pos, line.size());
+		reason = message;
+	}
 	size_t i;
-	for (i = 0; i < _clients.size(); i++)
+	for (size_t j = 0; j < usernames.size(); j++)
 	{
-		if (_clients[i]->get_nickname() == username)
-			break;
+		std::string username = usernames[j];
+		for (i = 0; i < _clients.size(); i++)
+		{
+			if (_clients[i]->get_nickname() == username)
+				break;
+		}
+		if (i >= _clients.size())
+		{
+			client.set_output_client(error_no_nick_channel(client.get_nickname(), username));
+			return true;
+		}
+		if (channel[0] == '#' || channel[0] == '&')
+			channel.erase(0, 1);
+		if (_channels.find(channel) == _channels.end())
+		{
+			client.set_output_client(error_no_nick_channel(client.get_nickname(), " #" + channel));
+			return true;
+		}
+		if (_channels[channel]->in_channel(client.get_nickname()) == false)
+		{
+			client.set_output_client(error_not_on_channel(client.get_username(), " #" + channel));
+			return true;
+		}
+		int level = _channels[channel]->get_client_status(client.get_nickname());
+		if (level > OPERATOR || _channels[channel]->get_client_status(username) == SUPER_OPERATEUR)
+		{
+			client.set_output_client(error_not_operator(client.get_nickname(), "#" + channel));
+			return true;
+		}
+		_channels[channel]->remove_client(username);
+		std::string response = client.get_prefix() + " KICK " + " #" + channel + " " + username + " " + reason + "\r\n";
+		_clients[i]->set_output_client(response);
+		client.set_output_client(response);
+		if (_channels[channel]->get_channel_clients().size() == 0)
+		{
+			delete _channels[channel];
+			_channels.erase(channel);
+		}
 	}
-	if (i >= _clients.size())
-	{
-		client.set_output_client(error_no_nick_channel(client.get_nickname(), username));
-		return true;
-	}
-	if (channel[0] == '#' || channel[0] == '&')
-		channel.erase(0, 1);
-	if (_channels.find(channel) == _channels.end())
-	{
-		client.set_output_client(error_no_nick_channel(client.get_nickname(), " #" + channel));
-		return true;
-	}
-	if (_channels[channel]->in_channel(client.get_nickname()) == false)
-	{
-		client.set_output_client(error_not_on_channel(client.get_username(), " #" + channel));
-		return true;
-	}
-	int level = _channels[channel]->get_client_status(client.get_nickname());
-	if (level > OPERATOR || _channels[channel]->get_client_status(username) == SUPER_OPERATEUR)
-	{
-		client.set_output_client(error_not_operator(client.get_nickname(), "#" + channel));
-		return true;
-	}
-	_channels[channel]->remove_client(username);
-	std::string response = client.get_prefix() + " KICK " + " #" + channel + " " + username + "\r\n";
-	_clients[i]->set_output_client(response);
-	client.set_output_client(response);
-	if (_channels[channel]->get_channel_clients().size() == 0)
-	{
-		delete _channels[channel];
-		_channels.erase(channel);
-	}
-
-	//ne pas se kick soi nen ou si plus d'user detruire le channel
-	//kick plusieurs user?
-	//proteger le superoperateur
 	return true;
 }
 
@@ -506,8 +555,13 @@ bool	IRC_Server::invite(IRC_Client &client, const std::string &line)
 	}
 	if (_channels[channel]->in_channel(client.get_nickname()) == false)
 	{
-		client.set_output_client(error_not_on_channel(client.get_username(), " #" + channel));
+		client.set_output_client(error_not_on_channel(client.get_nickname(), " #" + channel));
 		return true;
+	}
+	if (_channels[channel]->get_invite() == true && _channels[channel]->get_client_status(client.get_nickname()) > OPERATOR)
+	{
+		client.set_output_client(error_not_operator(client.get_nickname(), " #" + channel));
+		return true ;
 	}
 	_channels[channel]->set_invite(username);
 	std::string response = client.get_prefix() + " INVITE " + username + " #" + channel + "\r\n";
@@ -540,8 +594,8 @@ bool	IRC_Server::topic(IRC_Client& client, const std::string& line)
 	}
 	if (_channels[channel]->set_topic(topic, client.get_nickname()) == true)
 	{
-		std::string response = std::string("TOPIC ") + "#" + channel + " " + topic + "\r\n";
-		send_to_channel(*_channels[channel], response, client);
+		std::string response = client.get_prefix() + std::string(" TOPIC ") + "#" + channel + " " + topic + "\r\n";
+		send_to_channel(*_channels[channel], response, client, false);//ou true a tester
 	}
 	else
 		client.set_output_client(error_not_operator(client.get_nickname(), "#" + channel));
@@ -552,23 +606,41 @@ bool	IRC_Server::mode(IRC_Client& client, const std::string& line)
 {
 	std::string	channel = get_word(line, 2);
 	std::string	arg = get_word(line, 3);
-
+	std::string target = channel;
+	std::string	nb;
 	if (channel.size() == 0 || arg.size() == 0)
 	{
 		client.set_output_client(error_not_enough_parameters(client.get_nickname(), "MODE"));
 		return true;
 	}
 	if (channel[0] == '#' || channel[0] == '&')
+	{
 		channel.erase(0, 1);
-	std::cout << "in mode : arg == " << arg << " channel == "<< channel << std::endl;
-
-	if (arg == "+i" || arg == "-i"){
-
+		if (_channels.find(channel) == _channels.end())
+		{
+			client.set_output_client(error_no_nick_channel(client.get_nickname(), " #" + channel));
+			return true;
+		}
+	}
+	else
+	{
 		if (_channels.find(channel) == _channels.end())
 		{
 			client.set_output_client("MODE " + client.get_username() + " +i\r\n");
 			return (true);
 		}
+	}
+	if (_channels[channel]->in_channel(client.get_nickname()) == false)
+	{
+		client.set_output_client(error_not_on_channel(client.get_nickname(), " #" + channel));
+		return true;
+	}
+	if (_channels[channel]->get_client_status(client.get_nickname()) > OPERATOR)
+	{
+		client.set_output_client(error_not_operator(client.get_nickname(), "#" + channel));
+		return true;
+	} 
+	if (arg == "+i" || arg == "-i"){
 		_channels[channel]->mode_i(client.get_nickname(), arg);
 	}
 	if (arg == "+t" || arg == "-t")
@@ -581,12 +653,13 @@ bool	IRC_Server::mode(IRC_Client& client, const std::string& line)
 			client.set_output_client(error_not_enough_parameters(client.get_nickname(), "MODE"));
 			return true;
 		}
-
+		std::cout << "password : " << _channels[channel]->get_password() << std::endl;
 		_channels[channel]->mode_k(client.get_nickname(), arg, password);
+		std::cout << "password : " << _channels[channel]->get_password() << std::endl;
 	}
 	if (arg == "+o" || arg == "-o")
 	{
-		std::string	target = get_word(line, 4);
+		target = get_word(line, 4);
 		if (target.size() == 0)
 		{
 			client.set_output_client(error_not_enough_parameters(client.get_nickname(), "MODE"));
@@ -597,25 +670,31 @@ bool	IRC_Server::mode(IRC_Client& client, const std::string& line)
 	}
 	if (arg == "+l" || arg == "-l")
 	{
-		std::string	nb = get_word(line, 4); //si vide need more params
-		if (nb.size() == 0)
-		{
-			client.set_output_client(error_not_enough_parameters(client.get_nickname(), "MODE"));
-			return true;
-		}
-		char*		ptr;
-		long	l = strtol(nb.c_str(), &ptr, 10);
+		nb = get_word(line, 4);
+		long	l = -1;
 
-		if (ptr - nb.c_str() > 9 || l > INT_MAX || l < 0 || *ptr != 0)
+		if (arg == "+l")
 		{
-			client.set_output_client(error_invalid_mode_param(client.get_nickname(), "#" + channel, nb));
-			return true;
+			if (nb.size() == 0)
+			{
+				client.set_output_client(error_not_enough_parameters(client.get_nickname(), "MODE"));
+				return true;
+			}
+			char*		ptr;
+			l = strtol(nb.c_str(), &ptr, 10);
+
+			if (ptr - nb.c_str() > 9 || l > INT_MAX || l < 0 || *ptr != 0)
+			{
+				client.set_output_client(error_invalid_mode_param(client.get_nickname(), "#" + channel, nb));
+				return true;
+			}
+			_channels[channel]->mode_l(client.get_nickname(), arg, l);
 		}
 		else
 			_channels[channel]->mode_l(client.get_nickname(), arg, l);
 	}
-	std::string response = "MODE " + client.get_nickname() + " " + arg + "\r\n";
-
+	std::string response = client.get_prefix() + " MODE " + target + " " + arg + " " + nb + "\r\n";
+	send_to_channel(*_channels[channel], response, client, true);
 	return true;
 }
 
@@ -638,7 +717,6 @@ bool	IRC_Server::privmsg(IRC_Client& client, const std::string& line)
 		message.erase(0, 1);
 	if (receiver[0] == '#' || receiver[0] == '&')
 	{
-		std::cout << "receiver = " << receiver << std::endl;
 		receiver.erase(0, 1);
 		if (_channels.find(receiver) == _channels.end())
 		{
@@ -648,11 +726,11 @@ bool	IRC_Server::privmsg(IRC_Client& client, const std::string& line)
 		}
 		if (_channels[receiver]->in_channel(client.get_nickname()) == false)
 		{
-			client.set_output_client(error_not_on_channel(client.get_username(), receiver));
+			client.set_output_client(error_not_on_channel(client.get_username(), " #" + receiver));
 			return true;
 		}
-		response = client.get_prefix() + " PRIVMSG " + receiver + " :" + message + "\r\n";
-		send_to_channel(*_channels[receiver], response, client);
+		response = client.get_prefix() + " PRIVMSG #" + receiver + " :" + message + "\r\n";
+		send_to_channel(*_channels[receiver], response, client, false);
 	}
 	else
 	{
@@ -675,8 +753,6 @@ bool	IRC_Server::privmsg(IRC_Client& client, const std::string& line)
 		}
 
 	}
-
-	//:<nick_emetteur>!~<user_emetteur>@<host_emetteur> PRIVMSG <target> :<message> -> identifier le clent destinataire et set dans son output
 	return true;
 }
 
@@ -695,26 +771,23 @@ bool	IRC_Server::whois(IRC_Client &, const std::string &)
 
 bool	IRC_Server::part(IRC_Client &client, const std::string &line)
 {
-	std::vector<std::string>	channel_list = split_channels(line);
+	std::vector<std::string>	channel_list = split_channels(get_word(line, 2));
 	std::string channel = get_word(line, 2);
 
 	for(std::vector<std::string>::iterator it = channel_list.begin(); it != channel_list.end(); it++)
 	{
 		channel = *it;
-		std::cout<<"channel avant : "<<channel<<std::endl;
 		if (channel.size() >= 1 && (channel[0] == '#' || channel[0] == '&'))
 			channel.erase(0, 1);
-		std::cout<<"channel apres : "<<channel<<std::endl;
 		if (channel.size() == 0 || _channels.find(channel) == _channels.end())
 		{
 			client.set_output_client(error_no_nick_channel(client.get_nickname(), *it));
 			continue;
 		}
-		std::cout<<"in part"<<std::endl;
 		std::string message = get_word(line, 3);
-		std::string response = client.get_prefix() + " PART " + *it +" :" + message + "\r\n";
+		std::string response = client.get_prefix() + " PART #" + channel +" :" + message + "\r\n";
 		client.set_output_client(response);
-		send_to_channel(*_channels[channel], response, client);
+		send_to_channel(*_channels[channel], response, client, true);
 		_channels[channel]->remove_client(client.get_nickname());
 		if (_channels[channel]->get_channel_clients().size() == 0)
 		{
@@ -725,7 +798,7 @@ bool	IRC_Server::part(IRC_Client &client, const std::string &line)
 	return true;
 }
 
-void IRC_Server::send_to_channel(const IRC_Channel& channel, const std::string& response, IRC_Client& client)
+void IRC_Server::send_to_channel(const IRC_Channel& channel, const std::string& response, IRC_Client& client, bool include_sender)
 {
 	if (channel.in_channel(client.get_nickname()))
 	{
@@ -735,9 +808,11 @@ void IRC_Server::send_to_channel(const IRC_Channel& channel, const std::string& 
 		{
 			for (size_t j = 0; j < _clients.size(); j++)
 			{
+				if (client.get_nickname() == _clients[j]->get_nickname() && include_sender == false)
+					continue ;
 				if (_clients[j]->get_nickname() == current_channel_clients[i])
 					_clients[j]->set_output_client(response);
-			}				
+			}
 		}
 	}
 }
@@ -746,25 +821,28 @@ bool	IRC_Server::quit(IRC_Client& client, const std::string& line)
 {
 	std::string	response;
 
-	for (std::map<std::string, IRC_Channel*>::iterator it = _channels.begin(); it != _channels.end(); it++)
+	for (std::map<std::string, IRC_Channel*>::iterator it = _channels.begin(); it != _channels.end(); )
 	{
+		//manque des protections
 		if (it->second->in_channel(client.get_nickname()))
 		{
-			std::cout<<"user "<<client.get_nickname()<<" quitte le channel : "<<it->first;
 			std::string arg = get_word(line, 3).size() == 0 ? "exited" : get_word(line, 3);
-			response = client.get_prefix() + " QUIT " + it->first + " :" + arg + "\r\n";
-			send_to_channel(*it->second, response, client);
+			response = client.get_prefix() + " QUIT " + "#" + it->first + " :" + arg + "\r\n";
+			send_to_channel(*it->second, response, client, true);
 			it->second->remove_client(client.get_nickname());
 			if (_channels[it->first]->get_channel_clients().size() == 0)
 			{
+				std::map<std::string, IRC_Channel*>::iterator next = it;
+				next++;
 				delete _channels[it->first];
-				_channels.erase(it->first);
+				_channels.erase(it);
+				it = next;
 			}
 		}
-
+		it++;
 		//quit maintenant ou attendre que IRC close sa socket ?
 	}
-	return true;
+	return false;
 } 
 
 bool	IRC_Server::names(IRC_Client &, const std::string &)
@@ -778,29 +856,14 @@ bool	IRC_Server::list(IRC_Client &, const std::string &)
 
 } 
 
-
-// void	IRC_Server::cmd_help(std::string& line)
-// {
-// 	std::cout <<"HHHHHHHHHHHHHEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLPPPPPPPPPPP"<<std::endl;
-// 		// "Availlable command:",
-// 		// "?help, /help, !help : display bot options.",
-// 		// "?log : display your session logtime.",
-// 		// "?ping : check bot activity.",
-// 		// "?dice <size=6> : launch dice with optional dice size (default: 6).",
-// 		// "?seen <utilisateur> : show in second last user activity.";
-// 		// std::cout<<"line : "<<line <<std::endl;
-
-		
-// }
-
-void IRC_Server::cmd_help(std::string& line, const std::string& prefix)
+void IRC_Server::bot_help(std::string& line, const std::string& prefix, const IRC_Client&)
 {
-	line += prefix + "Available commands: ";
-	line += "?help, !help : display bot options, ";
-	line += "?log : display your session logtime, ";
-	line += "?ping : check bot activity, ";
-	line += "?dice <size=6> : launch dice, ";
-	line += "?seen <user> : show last activity of a user.\r\n";
+	line = prefix + "Available commands: \r\n";
+	line += prefix + "?help, !help : display bot options, \r\n";
+	line += prefix + "?log : display your session logtime, \r\n";
+	line += prefix + "?ping : check bot activity, \r\n";
+	line += prefix + "?dice <size=6> : launch dice, \r\n";
+	line += prefix + "?seen <user> : show last activity of a user.\r\n";
 
 	// line += prefix + "Available commands:\r\n";
 	// line += prefix + "?help, /help, !help : display bot options.\r\n";
@@ -810,46 +873,79 @@ void IRC_Server::cmd_help(std::string& line, const std::string& prefix)
 	// line += prefix + "?seen <user> : show last activity of a user.\r\n";
 }
 
-void	IRC_Server::cmd_log(std::string&, const std::string&)
+void	IRC_Server::bot_log(std::string& line, const std::string& prefix, const IRC_Client& c)
 {
-
-}
-
-void	IRC_Server::cmd_ping(std::string&, const std::string&)
-{
-
-}
-
-void	IRC_Server::cmd_dice(std::string&, const std::string&)
-{
-
-}
-
-void	IRC_Server::cmd_seen(std::string&, const std::string&)
-{
-
+	line = prefix + " you are log since : " + c.get_connect_time() + "\r\n";
 }
 
 
-
-void IRC_Server::do_bot_actions(int input, std::string &line, IRC_Client &client)
+void	IRC_Server::bot_ping(std::string& line, const std::string&prefix, const IRC_Client&)
 {
-    void (IRC_Server::*const bot_functions[])(std::string&, const std::string&) = {
-        &IRC_Server::cmd_help,
-        &IRC_Server::cmd_help,
-        &IRC_Server::cmd_help,
-        &IRC_Server::cmd_log,
-        &IRC_Server::cmd_ping,
-        &IRC_Server::cmd_dice,
-        &IRC_Server::cmd_seen
+	line = prefix + "pong?\r\n";
+	line += prefix + "rdv upf2!\r\n";
+}
+
+void	IRC_Server::bot_dice(std::string&line, const std::string&prefix, const IRC_Client&)
+{
+	char	*ptr;
+	std::string nb = get_word(line, 4);
+	long int dice = 6;
+	if (nb.size() > 0)
+	{
+		dice = strtol(nb.c_str(), &ptr, 10);
+		if (ptr - nb.c_str() > 9 || dice > 100 || dice < 0 || *ptr != 0)
+		{
+			dice = 42;
+		}
+	}
+	int result = (rand() % dice) + 1;
+	std::ostringstream oss;
+	oss << prefix << "dice of " << dice << " result : " << result << "\r\n";
+	line = oss.str();
+}
+
+void	IRC_Server::bot_seen(std::string&line, const std::string&prefix, const IRC_Client&client)
+{
+	std::string target = get_word(line, 4);
+	size_t i;
+	for (i = 0; i < _clients.size(); i++)
+	{
+			if (_clients[i]->get_nickname() == target)
+			break ;
+	}
+	if (i >= _clients.size())
+	{
+		line = prefix + error_no_nick_channel("BOT", target);
+		return ;
+	}
+
+	std::ostringstream oss;
+	oss << prefix << target << "last activity : " << size_t(client.get_time() -_clients[i]->get_last_activity()) << "seconds\r\n";
+	line = oss.str();
+	
+}
+
+// response = client.get_prefix() + " PRIVMSG " + receiver + " :" + message + "\r\n";
+
+bool IRC_Server::do_bot_actions(int input, std::string &line, IRC_Client &client)
+{
+	const char *bot_prefix = ":BOT!BOT@bot.com PRIVMSG #";
+    void (IRC_Server::*const bot_functions[])(std::string&, const std::string&, const IRC_Client&) = {
+        &IRC_Server::bot_help,
+        &IRC_Server::bot_help,
+        &IRC_Server::bot_log,
+        &IRC_Server::bot_ping,
+        &IRC_Server::bot_dice,
+        &IRC_Server::bot_seen
     };
 
     if (input != PRIVMSG)
-        return ;
+        return false;
 
     size_t i;
     std::string word = get_word(line, 3);
 	std::string channel = get_word(line, 2);
+	//check channel exite et user dans channel
 	//add le channel au prefix sauf a la 1ere ligne erase la ligne
 	if (word[0] == ':')
 	{
@@ -857,37 +953,23 @@ void IRC_Server::do_bot_actions(int input, std::string &line, IRC_Client &client
 	}
     for (i = 0; BOT_ACTIONS[i]; i++)
     {
-        if (word == BOT_ACTIONS[i])
-            break;
-    }
-
-    if (BOT_ACTIONS[i] == NULL)
-        return ;
-
-    std::string prefix = "PRIVMSG " + client.get_username() + " :";
-
-    (this->*bot_functions[i])(line, prefix);
-	std::cout<<"line : "<<line <<std::endl;
-
+		if (word == BOT_ACTIONS[i])
+		break;
 }
 
-bool	IRC_Server::launch_method(const struct input &user_input, std::string &line, IRC_Client &client, int i)
+	if (BOT_ACTIONS[i] == NULL)
+		return false;
+
+	if (channel[0] == '#' || channel[0] == '&')
+		channel.erase(0, 1);
+    std::string prefix = std::string(bot_prefix) + channel + " :";
+    (this->*bot_functions[i])(line, prefix, client);
+	client.set_output_client(line);
+	return true;
+}
+
+bool	IRC_Server::launch_method(const struct input &user_input, std::string &line, IRC_Client &client)
 {
-	(void)i;
-	// if (client.get_state() == NOT_CONNECTED && (struct_input.method != PASS && struct_input.method != CAP))
-	// {
-	// 	//ERR_PASSWDMISMATCH (464)
-	// 	//reclamer le password
-	// 	;
-	// }
-	// if (user_input.method > PASS && client.get_state() == NOT_CONNECTED)//aadapter + nC ne seraas not connected
-	// {
-	// 	client.set_output_client(":MADAGUENAUFERRAN 451 * PRIVMSG :You have not registered");
-	// 	close(client.get_socket_client());
-	// 	this->_clients.erase(this->_clients.begin() + i);
-	// 	//envoyer le client se faire foutre 3.1.1 rfc
-	// 	return ;
-	// }
 	int method = user_input.method;
 	if (client.get_state() == INSTANCE_CONNECT){
 		std::string response = std::string(":server 001 ") + client.get_nickname() + " :Welcome to the MADAGUENAUFERRANIRC SERVER\r\n";
@@ -904,25 +986,9 @@ bool	IRC_Server::launch_method(const struct input &user_input, std::string &line
 	}
 	if (client.get_state() == CONNECTED)
 	{
-		do_bot_actions(user_input.method, line, client);
+		if (do_bot_actions(user_input.method, line, client))
+			return true;
 	}
-	std::cout<<"line : "<<line <<std::endl;
-		// std::cout<<"!= CAP:"<<(struct_input.method != CAP)<<"!= UESER:"<<(struct_input.method != USER)<<"!= NICK:"<<(struct_input.method != NICK)<<std::endl;
-	// std::cout<<"method:"<<struct_input.method<<std::endl;
-	// if (client.get_state() != CONNECTED && (struct_input.method != CAP && struct_input.method != USER && struct_input.method != NICK))
-	// {
-	// 	//send missing info message 
-	// 	// :MonSrv 431 ERR_NICKREQ Vous devez fournir un nom de surnom (NICK) avant de vous connecter.
-	// 	//nick?
-	// 	// :MonSrv ERR_USERREQ Vous devez fournir des informations utilisateur (USER) avant de vous connecter.
-	// 	// :MonSrv 461 ERR_NEEDMOREPARAMS  Vous devez fournir un username (USER) avant de vous connecter.
-	// 	//user?
-	// 	std::cout<<"on rentre la dedans meme si on veut pas"<<std::endl;
-	// 	return ;
-	// }
-	//si cap et nego over ignorer
-
-	//si different de cap nick ou user et pas tout set envoyer erreur doner les infos manquqntes dans le message
 	bool (IRC_Server::*fun[])(IRC_Client&, const std::string &) = {
 	&IRC_Server::cap,       // Négociation des capacités
 	&IRC_Server::pass,      // Vérification du mot de passe
@@ -946,9 +1012,10 @@ bool	IRC_Server::launch_method(const struct input &user_input, std::string &line
 	if (method < END_METHOD)
 	{
 		if ((this->*fun[method])(client, line) == false){
-			this->_clients.erase(this->_clients.begin() + i);
-			delete(_clients[i]);
-			return (false);
+			// this->_clients.erase(this->_clients.begin() + i);
+			// delete(_clients[i]);
+			client.set_state(ERROR);
+			return (true);
 		}
 	}
 	else

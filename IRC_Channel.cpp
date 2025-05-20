@@ -86,7 +86,6 @@ int IRC_Channel::get_client_status(const std::string& username) const
 {
     if (_clients.find(username) == _clients.end())
         return NONE;
-    // std::cout << "client status" <<_clients.at(username) <<std::endl;
     return _clients.at(username);
 }
 
@@ -128,10 +127,8 @@ bool IRC_Channel::in_channel(const std::string& name) const{
 
 void    IRC_Channel::remove_client(const std::string& name)
 {
-    std::cout << "nb_client avant : " << _clients.size() << std::endl;
     if (_clients.find(name) != _clients.end())
         _clients.erase(name);
-    std::cout << "nb_client apres : " << _clients.size() << std::endl;
 }
 
 bool    IRC_Channel::mode_i(const std::string& client, const std::string& arg)
@@ -172,7 +169,7 @@ bool    IRC_Channel::mode_k(const std::string& client, const std::string& arg, c
 
     if (it != _clients.end() && it->second <= OPERATOR)
     {
-        if (arg == "+k" && _password.size() == 0)
+        if (arg == "+k")
             _password = password;
         else
         {

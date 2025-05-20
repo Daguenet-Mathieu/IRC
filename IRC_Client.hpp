@@ -2,10 +2,15 @@
 #define IRC_CLIENT_HPP
 #include <vector>
 #include "IRC_Server.hpp"
+#include <ctime>
+# include <sys/time.h>
+
+
 // #include "IRC_Channel.hpp"??
 
 #define BUFFER_SIZE 2048
 #define SUPERUSER "ADMIN"
+typedef struct timeval	t_time;
 
 enum nego
 {
@@ -45,6 +50,10 @@ class IRC_Client
         std::string     get_prefix() const;
         int             get_role() const;
         void            set_role(int);
+        size_t          get_time() const;
+        size_t          get_last_activity() const;
+        std::string     get_connect_time() const;
+
 
         class	ThrowException : public std::exception
 	    {
@@ -69,6 +78,8 @@ class IRC_Client
         bool				        _client_info;
         int				            _state;
         int                         _role;
+        std::string                      _connect_time;
+        size_t                      _last_activity;
         std::string			        _username;
         std::string			        _nickname;
         std::string			        _host;
@@ -76,6 +87,7 @@ class IRC_Client
         std::vector<std::string>	_invited_channel;
         std::vector<char>		    _output_client;
         std::vector<char>		    _input_client;
+        std::string                 getCurrentDateTime();
 };
 
 #endif

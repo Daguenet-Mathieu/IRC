@@ -4,14 +4,20 @@
 
 IRC_Client::IRC_Client(int socket_client): _socket_client(socket_client), _client_info(false), _state(NOT_CONNECTED), _role(NONE)
 {
+    _connect_time = getCurrentDateTime();
+    _last_activity = get_time();
 }
 
 IRC_Client::IRC_Client(int socket_client, const std::string &host): _socket_client(socket_client), _client_info(false), _state(NOT_CONNECTED), _role(NONE),  _host(host)
 {
+    _connect_time = getCurrentDateTime();
+    _last_activity = get_time();
 }
 
 IRC_Client::IRC_Client(const IRC_Client &client): _socket_client(client._socket_client), _client_info(false), _state(NOT_CONNECTED), _role(client._role),  _host(client._host)
 {
+    _connect_time = getCurrentDateTime();
+    _last_activity = get_time();
 }
 
 //DESCTRUCTOR
@@ -46,9 +52,7 @@ void    IRC_Client::set_socket_client(int socket_client)
 
 void    IRC_Client::set_username(const std::string &username)
 {
-    std::cout<<"old user name == "<<_username<<std::endl;
     _username = username;
-    std::cout<<"newuser name == "<<_username<<std::endl;
 }
 
 std::string    IRC_Client::get_username() const
@@ -86,7 +90,31 @@ int IRC_Client::get_state() const
     return (_state);
 }
 
+size_t  IRC_Client::get_last_activity() const
+{
+    return _last_activity;
+}
+
+std::string  IRC_Client::get_connect_time() const
+{
+    return _connect_time;
+}
+
+
 //FUNCTIONS
+
+
+std::string IRC_Client::getCurrentDateTime() {
+    time_t now = time(0);
+    struct tm tstruct;
+    char buffer[80];
+
+    tstruct = *localtime(&now);
+
+    // Format : jour mois année heure:minute:seconde
+    strftime(buffer, sizeof(buffer), "%d %B %Y %H:%M:%S", &tstruct);
+    return std::string(buffer);
+}
 
 std::string IRC_Client::get_prefix() const 
 {
@@ -138,8 +166,19 @@ bool    IRC_Client::send_output_client()
     }
     if (i >=_output_client.size()) return false;
     std::string response = std::string(_output_client.begin(), _output_client.begin() + i + 1);
-    std::cout<<"est envoye au client : |"<<response<<"|"<<std::endl;
     _output_client.erase(_output_client.begin(), _output_client.begin() + i + 1);  
     send(this->get_socket_client(), response.c_str(), response.size(), 0);
+    if (response.find("PONG"))
+        _last_activity = get_time();
     return (true);
+}
+
+size_t	IRC_Client::get_time() const
+{
+	t_time			time;
+	size_t			now;
+
+	gettimeofday(&time, NULL);
+	now = time.tv_sec;
+	return (now);
 }
