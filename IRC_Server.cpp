@@ -79,17 +79,6 @@ std::vector<std::string>	IRC_Server::get_client_channels(const std::string& clie
 	return channels;
 }
 
-// std::string IRC_Server::getCurrentDateTime() {
-//     time_t now = time(0);
-//     struct tm tstruct;
-//     char buffer[80];
-
-//     tstruct = *localtime(&now);
-
-//     strftime(buffer, sizeof(buffer), "%d %B %Y", &tstruct);
-//     return std::string(buffer);
-// }
-
 std::string IRC_Server::getCurrentDateTime() {
     time_t now = time(0);
     struct tm tstruct;
@@ -97,7 +86,6 @@ std::string IRC_Server::getCurrentDateTime() {
 
     tstruct = *localtime(&now);
 
-    // Format : jour mois année heure:minute:seconde
     strftime(buffer, sizeof(buffer), "%d %B %Y %H:%M:%S", &tstruct);
     return std::string(buffer);
 }
@@ -147,34 +135,6 @@ void	IRC_Server::read_socket_client(int i)
 		throw ThrowException("RECV ERROR");
 }
 
-// void	IRC_Server::check_socket_client()
-// {
-// 	for (int i = 0; i < static_cast<int>(this->_clients.size());)
-// 	{
-// 		if (FD_ISSET(this->_clients[i]->get_socket_client(), &_exceptfds))
-// 			throw std::runtime_error("error in socket client");
-// 		if (FD_ISSET(this->_clients[i]->get_socket_client(), &_writefds))
-// 		{
-// 			std::string line;
-// 			if (this->_clients[i]->get_input_client(line)){
-// 				if (this->launch_method(this->parse_data(line, *this->_clients[i]), line, *this->_clients[i]) == false)
-// 					continue ;
-// 			}
-// 			bool res = this->_clients[i]->send_output_client();
-// 			if (this->_clients[i]->get_state() == ERROR && res == false)
-// 			{
-// 				delete(this->_clients[i]);
-// 				this->_clients.erase(this->_clients.begin() + i);
-// 				i--;
-// 				continue ;
-// 			}
-// 		}
-// 		if (FD_ISSET(this->_clients[i]->get_socket_client(), &_readfds))
-// 			this->read_socket_client(i);
-// 		i++;
-// 	}
-// }
-
 void IRC_Server::check_socket_client()
 {
 	for (int i = 0; i < static_cast<int>(this->_clients.size()); i++)
@@ -208,8 +168,6 @@ void IRC_Server::check_socket_client()
 
 	}
 }
-
-
 
 void	IRC_Server::check_all_sockets()
 {
@@ -261,7 +219,6 @@ void	IRC_Server::manage()
 		this->check_all_sockets();
 	}
 }
-
 
 struct input	IRC_Server::parse_data(const std::string &line, IRC_Client &)
 {
@@ -375,8 +332,6 @@ bool	IRC_Server::nick(IRC_Client &c, const std::string &line)
 
 bool	IRC_Server::user(IRC_Client &client, const std::string &line)
 {
-	//:nick!user@host prefix
-	// USER madaguen madaguen localhost :Mathieu DAGUENET
 	if (client.get_username().size() == 0)
 	{
 		std::string username = get_word(line, 2);
@@ -823,7 +778,6 @@ bool	IRC_Server::quit(IRC_Client& client, const std::string& line)
 
 	for (std::map<std::string, IRC_Channel*>::iterator it = _channels.begin(); it != _channels.end(); )
 	{
-		//manque des protections
 		if (it->second->in_channel(client.get_nickname()))
 		{
 			std::string arg = get_word(line, 3).size() == 0 ? "exited" : get_word(line, 3);
@@ -840,7 +794,6 @@ bool	IRC_Server::quit(IRC_Client& client, const std::string& line)
 			}
 		}
 		it++;
-		//quit maintenant ou attendre que IRC close sa socket ?
 	}
 	return false;
 } 
@@ -864,13 +817,6 @@ void IRC_Server::bot_help(std::string& line, const std::string& prefix, const IR
 	line += prefix + "?ping : check bot activity, \r\n";
 	line += prefix + "?dice <size=6> : launch dice, \r\n";
 	line += prefix + "?seen <user> : show last activity of a user.\r\n";
-
-	// line += prefix + "Available commands:\r\n";
-	// line += prefix + "?help, /help, !help : display bot options.\r\n";
-	// line += prefix + "?log : display your session logtime.\r\n";
-	// line += prefix + "?ping : check bot activity.\r\n";
-	// line += prefix + "?dice <size=6> : launch dice (optional size argument, default: 6).\r\n";
-	// line += prefix + "?seen <user> : show last activity of a user.\r\n";
 }
 
 void	IRC_Server::bot_log(std::string& line, const std::string& prefix, const IRC_Client& c)
@@ -925,7 +871,6 @@ void	IRC_Server::bot_seen(std::string&line, const std::string&prefix, const IRC_
 	
 }
 
-// response = client.get_prefix() + " PRIVMSG " + receiver + " :" + message + "\r\n";
 
 bool IRC_Server::do_bot_actions(int input, std::string &line, IRC_Client &client)
 {
@@ -945,6 +890,7 @@ bool IRC_Server::do_bot_actions(int input, std::string &line, IRC_Client &client
     size_t i;
     std::string word = get_word(line, 3);
 	std::string channel = get_word(line, 2);
+	
 	//check channel exite et user dans channel
 	//add le channel au prefix sauf a la 1ere ligne erase la ligne
 	if (word[0] == ':')
@@ -962,6 +908,8 @@ bool IRC_Server::do_bot_actions(int input, std::string &line, IRC_Client &client
 
 	if (channel[0] == '#' || channel[0] == '&')
 		channel.erase(0, 1);
+	if (_channels.find(channel) == _channels.end() || _channels[channel]->in_channel(client.get_username()) == false)
+		return false;
     std::string prefix = std::string(bot_prefix) + channel + " :";
     (this->*bot_functions[i])(line, prefix, client);
 	client.set_output_client(line);

@@ -5,9 +5,6 @@
 #include <ctime>
 # include <sys/time.h>
 
-
-// #include "IRC_Channel.hpp"??
-
 #define BUFFER_SIZE 2048
 #define SUPERUSER "ADMIN"
 typedef struct timeval	t_time;

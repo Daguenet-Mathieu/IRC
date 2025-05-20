@@ -111,7 +111,6 @@ std::string IRC_Client::getCurrentDateTime() {
 
     tstruct = *localtime(&now);
 
-    // Format : jour mois année heure:minute:seconde
     strftime(buffer, sizeof(buffer), "%d %B %Y %H:%M:%S", &tstruct);
     return std::string(buffer);
 }
@@ -144,7 +143,7 @@ bool    IRC_Client::get_input_client(std::string &line)
     if (*(_input_client.begin() + (i - 1)) == '\r')
         r = 1;
     line = std::string(_input_client.begin(), _input_client.begin() + i - r);
-    _input_client.erase(_input_client.begin(), _input_client.begin() + i + 1);//\r
+    _input_client.erase(_input_client.begin(), _input_client.begin() + i + 1);
     if (*_input_client.begin() == '\r')
         _input_client.erase(_input_client.begin(), _input_client.begin() + 1);
     return (true);

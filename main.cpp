@@ -2,7 +2,7 @@
 
 void signalHandler(int signal) {
     std::cout << "Signal " << signal << " received.\n";
-    throw std::bad_exception();  // Lancer l'exception lorsqu'un signal est reçu
+    throw std::bad_exception();
 }
 
 int	check_arg_port(char* argument)
